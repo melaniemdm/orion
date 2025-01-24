@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("article")
+@RequestMapping("post")
 public class ArticleController {
 @Autowired
 private ArticleService articleService;
@@ -26,45 +26,50 @@ private ArticleService articleService;
     public ResponseEntity<Map<String, List<ArticleDTO>>> getAllArticle() {
         List<ArticleDTO> articleDTOS = articleService.getAllArticle();
 
-        return ResponseEntity.ok(Map.of("article", articleDTOS));
+        return ResponseEntity.ok(Map.of("post", articleDTOS));
     }
 
     @PostMapping
-    public ResponseEntity<ArticleDTO> createArticle(@RequestBody ArticleDTO articleDTO) {
-
+    public ResponseEntity<Map<String, ArticleDTO>> createArticle(@RequestBody ArticleDTO articleDTO) {
         ArticleDTO createdDTO = articleService.createArticle(articleDTO);
 
-        return new ResponseEntity<>(createdDTO, HttpStatus.CREATED);
+        return new ResponseEntity<>(Map.of("post", createdDTO), HttpStatus.CREATED);
     }
+
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<ArticleDTO>getArticleById(@PathVariable Long id){
-        Optional <ArticleDTO> article = articleService.getArticleById(id);
-        if(article.isPresent()){
-            return ResponseEntity.ok(article.get());
+    public ResponseEntity<Map<String, ArticleDTO>> getArticleById(@PathVariable Long id) {
+        Optional<ArticleDTO> articleOpt = articleService.getArticleById(id);
+
+        if (articleOpt.isPresent()) {
+            // On renvoie {"article": articleDTO}
+            return ResponseEntity.ok(Map.of("post", articleOpt.get()));
+        } else {
+            return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.notFound().build();
     }
 
+
     @PutMapping("/{id}")
-    public ResponseEntity<Optional<ArticleDTO>> updateArticle(
+    public ResponseEntity<Map<String, ArticleDTO>> updateArticle(
             @PathVariable Long id,
             @RequestBody ArticleDTO articleDTO
     ) {
-        // On passe bien deux paramètres : l’ID et le DTO
-        Optional<ArticleDTO> updated = articleService.updateArticle(id, articleDTO);
+        Optional<ArticleDTO> updatedOpt = articleService.updateArticle(id, articleDTO);
 
-        if (updated.isEmpty()) {
+        if (updatedOpt.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(updated);
+
+        return ResponseEntity.ok(Map.of("post", updatedOpt.get()));
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, String>> deleteArticle(@PathVariable Long id){
         articleService.deleteArticle(id);
 
-        return ResponseEntity.ok(Map.of("message", "article deleted"));
+        return ResponseEntity.ok(Map.of("message", "post deleted"));
     }
 }
