@@ -1,13 +1,17 @@
 package com.openclassrooms.mddapi.controller;
 
-import com.openclassrooms.mddapi.model.Article;
+import com.openclassrooms.mddapi.dto.ArticleDTO;
+
 import com.openclassrooms.mddapi.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -21,45 +25,60 @@ public class ArticleController {
     }
 
     @GetMapping
-    public ResponseEntity <List<Article>> getAllArticle(){
-       return new ResponseEntity<>(articleService.getAllArticle(), HttpStatus.OK);
+    public Map<String,List<ArticleDTO>> getAllArticle(){
+        List<ArticleDTO> articleDTOS = articleService.getAllArticle();
+       return Map.of("articles", articleDTOS);
     }
+
     @PostMapping
-    public ResponseEntity<Article> createArticle(@RequestBody Article article){
-        Article articleCreated = articleService.createArticle(article);
-        return new ResponseEntity<>(articleCreated, HttpStatus.CREATED);
+    public ResponseEntity<Map<String, Object>> createArticle(
+            @RequestParam("title") String title,
+            @RequestParam("description") String description,
+            @RequestParam("auteur_id") Integer auteur_id,
+            @RequestParam("theme_id") Integer theme_id,
+            HttpServletRequest request){
+        ArticleDTO articleDTO = new ArticleDTO();
+        articleDTO.setTitle(title);
+        articleDTO.setDescription(description);
+        articleDTO.setAuteur_id(auteur_id);
+        articleDTO.setTheme_id(theme_id);
+        return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("message", "failed to create article"));
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Article>getArticleById(@PathVariable Long id){
-        Optional <Article> article = articleService.getArticleById(id);
-        if(article.isPresent()){
-            return new ResponseEntity<>(article.get(), HttpStatus.OK);
+    public ResponseEntity getArticleById(@PathVariable Long id){
+        Optional<ArticleDTO> articleDTO = articleService.getArticleById(id);
+        if(articleDTO.isPresent()){
+            return ResponseEntity.ok(articleDTO.get());
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return ResponseEntity.notFound().build();
     }
     @PutMapping("/{id}")
-    public ResponseEntity <Article> updateArticle(@PathVariable Long id, @RequestBody Article articleDetail){
-        Optional <Article> article = articleService.updateArticle(id);
-        if(article.isPresent()){
-            Article existingArticle = article.get();
-            existingArticle.setAuteur_id(articleDetail.getAuteur_id());
-            existingArticle.setCreate_date(articleDetail.getCreate_date());
-            existingArticle.setTitle(articleDetail.getTitle());
-            existingArticle.setDescription(articleDetail.getDescription());
-            existingArticle.setTheme_id(articleDetail.getTheme_id());
+    public ResponseEntity<Map<String, Object>> updateArticle(@PathVariable Long id,
+                                                             @RequestParam("title") String title,
+                                                             @RequestParam("description") String description,
+                                                             @RequestParam("auteur_id") Integer auteur_id,
+                                                             @RequestParam("theme_id") Integer theme_id,
+                                                             HttpServletRequest request){
 
-            Article updateArticle=articleService.updateArticle(existingArticle);
-            return new ResponseEntity<>(HttpStatus.OK);
+        ArticleDTO articleDTO = new ArticleDTO();
+        articleDTO.setId(id);
+        articleDTO.setTitle(title);
+        articleDTO.setDescription(description);
+        articleDTO.setAuteur_id(auteur_id);
+        articleDTO.setTheme_id(theme_id);
+
+        Optional <ArticleDTO> updateArticle = articleService.updateArticle(id, articleDTO);
+        if(updateArticle.isPresent()){
+           Map<String, Object> response = new HashMap<>();
+           response.put("message", "article updated");
+            return ResponseEntity.ok(response);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteArticle(@PathVariable Long id){
-        Optional <Article> article = articleService.deleteArticle(id);
-    if (article.isPresent()){
-        articleService.deleteArticle(article.get().getId());
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<String> deleteArticle(@PathVariable Long id){
+        articleService.deleteArticle(id);
+
+    return ResponseEntity.ok("article delete");
     }
 }
