@@ -11,7 +11,8 @@ CREATE TABLE `ARTICLES` (
   `title` VARCHAR(50),
   `description` VARCHAR(2000),
   `auteur_id` int,
-  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `created_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `theme_id` int
 );
 
