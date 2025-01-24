@@ -4,96 +4,120 @@ import com.openclassrooms.mddapi.dto.ArticleDTO;
 import com.openclassrooms.mddapi.model.Article;
 import com.openclassrooms.mddapi.repository.ArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class ArticleService {
     @Autowired
- private ArticleRepository articleRepository;
+    private ArticleRepository articleRepository;
 
-    public List<ArticleDTO> getAllArticle(){
-        List<Article> articles=(List<Article>) articleRepository.findAll();
-        List<ArticleDTO> articleDTOS =  new ArrayList<>();
-        for(Article article: articles){
-            articleDTOS.add(entityToDto(article));
-        }
-        return articleDTOS;
-    }
-    public void updateArticle(ArticleDTO articleDTO){
-        articleRepository.save(dtoToEntity(articleDTO));
+    public  ArticleService(ArticleRepository articleRepository){
+        this.articleRepository=articleRepository;
     }
 
-    public void createArticle(ArticleDTO articleDTO) throws IOException {
-       Article article = dtoToEntity(articleDTO);
-       article.setCreate_date(LocalDateTime.now());
-       article.setUpdated_at(LocalDateTime.now());
-       articleRepository.save(article);
+    public ArticleDTO createArticle(ArticleDTO dto) {
+
+        Article article = new Article();
+        article.setTitle(dto.getTitle());
+        article.setDescription(dto.getDescription());
+        article.setAuteur_id(dto.getAuteur_id());
+        article.setTheme_id(dto.getTheme_id());
+
+
+        Article savedArticle = articleRepository.save(article);
+
+
+        ArticleDTO articleDTO = new ArticleDTO();
+        articleDTO.setId(savedArticle.getId());
+        articleDTO.setTitle(savedArticle.getTitle());
+        articleDTO.setDescription(savedArticle.getDescription());
+        articleDTO.setAuteur_id(savedArticle.getAuteur_id());
+        articleDTO.setTheme_id(savedArticle.getTheme_id());
+
+        return articleDTO;
     }
 
+    public Optional<ArticleDTO> updateArticle(Long id, ArticleDTO articleDTO) {
 
-    public Optional<ArticleDTO> getArticleById(Long id){
-        Optional<Article> article = articleRepository.findById(id);
-        if (article.isPresent()){
-            ArticleDTO articleDTO = entityToDto(article.get());
-            return Optional.of(articleDTO);
-        }else {
-            return Optional.empty();
-        }
-
-    }
-
-
-    public void  deleteArticle(Long id){
-         articleRepository.deleteById(id);
-    }
-    public Optional<ArticleDTO> updateArticle(Long id, ArticleDTO articleDTO){
         Optional<Article> articleOptional = articleRepository.findById(id);
-        if (articleOptional.isPresent()){
+
+        if (articleOptional.isPresent()) {
             Article article = articleOptional.get();
-            article.setId(articleDTO.getId());
+
             article.setTitle(articleDTO.getTitle());
             article.setDescription(articleDTO.getDescription());
             article.setAuteur_id(articleDTO.getAuteur_id());
             article.setTheme_id(articleDTO.getTheme_id());
+
+
             Article updatedArticle = articleRepository.save(article);
+
             return Optional.of(entityToDto(updatedArticle));
-        }else{
+        } else {
+
             return Optional.empty();
         }
     }
 
-    public ArticleDTO entityToDto(Article article) {
+    public List<ArticleDTO> getAllArticle() {
 
-        ArticleDTO ArticleDTO = new ArticleDTO();
+        List<Article> articles = (List<Article>) articleRepository.findAll();
 
-        ArticleDTO.setId(article.getId());
-        ArticleDTO.setTheme_id(article.getTheme_id());
-        ArticleDTO.setDescription(article.getDescription());
-        ArticleDTO.setCreate_date(article.getCreate_date());
-        ArticleDTO.setUpdated_date(article.getUpdated_at());
-        ArticleDTO.setTitle(article.getTitle());
-        ArticleDTO.setAuteur_id(article.getAuteur_id());
+        List<ArticleDTO> articleDTOs = new ArrayList<>();
 
-        return ArticleDTO;
+        for (Article article : articles) {
+            articleDTOs.add(entityToDto(article));
+        }
+
+        return articleDTOs;
     }
 
-    // Converts a Data Transfer Object (DTO) to an entity
-public Article dtoToEntity(ArticleDTO articleDTO) {
+    public Optional<ArticleDTO> getArticleById(Long id){
+        // Fetch the rental entity by its ID from the repository
+        Optional<Article> article = articleRepository.findById(id);
+        // If the rental exists, convert it to a DTO and return it
+        if (article.isPresent()) {
+            ArticleDTO articleDTO = entityToDto(article.get());
+            return Optional.of(articleDTO);
+        } else {
+            return Optional.empty();
+        }
+    }
+    public Optional<ArticleDTO> deleteArticle(Long id){
+        articleRepository.deleteById(id);
+        return Optional.empty();
+    }
+
+    private ArticleDTO entityToDto(Article article) {
+
+        ArticleDTO articleDTO = new ArticleDTO();
+
+        articleDTO.setId(article.getId());
+        articleDTO.setTitle(article.getTitle());
+        articleDTO.setDescription(article.getDescription());
+        articleDTO.setAuteur_id(article.getAuteur_id());
+        articleDTO.setTheme_id(article.getTheme_id());
+        articleDTO.setCreated_date(article.getCreated_date());
+        articleDTO.setUpdated_date(article.getUpdated_date());
+        return articleDTO;
+    }
+
+
+    private Article dtoToEntity(ArticleDTO articleDTO) {
 
         Article article = new Article();
 
         article.setId(articleDTO.getId());
-        article.setTheme_id(articleDTO.getTheme_id());
+        article.setTitle(articleDTO.getTitle());
         article.setDescription(articleDTO.getDescription());
-        article.setCreate_date(articleDTO.getCreate_date());
-        article.setUpdated_at(articleDTO.getUpdated_date());
-        article.setTitle(articleDTO.getTitle());
-        article.setTitle(articleDTO.getTitle());
-
+        article.setAuteur_id(articleDTO.getAuteur_id());
+        article.setTheme_id(articleDTO.getTheme_id());
+        article.setCreated_date(articleDTO.getCreated_date());
+        article.setUpdated_date(articleDTO.getUpdated_date());
         return article;
     }
 

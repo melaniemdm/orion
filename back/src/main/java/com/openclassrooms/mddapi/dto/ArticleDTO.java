@@ -7,18 +7,18 @@ import java.time.LocalDateTime;
 
 public class ArticleDTO {
     private Long id;
+    @JsonProperty("title")
+    private String title;
     @JsonProperty("description")
     private String description;
     @JsonProperty("auteur_id")
     private Integer auteur_id;
-    @JsonProperty("create_date")
-    private LocalDateTime create_date;
-    @JsonProperty("create_date")
+    @JsonProperty("created_date")
+    private LocalDateTime created_date;
+    @JsonProperty("updated_date")
     private LocalDateTime updated_date;
-    @JsonProperty("theme_date")
+    @JsonProperty("theme_id")
     private Integer theme_id;
-    @JsonProperty("title")
-    private String title;
 
     public Long getId() {
         return id;
@@ -52,12 +52,12 @@ public class ArticleDTO {
         this.auteur_id = auteur_id;
     }
 
-    public LocalDateTime getCreate_date() {
-        return create_date;
+    public LocalDateTime getCreated_date() {
+        return created_date;
     }
 
-    public void setCreate_date(LocalDateTime create_date) {
-        this.create_date = create_date;
+    public void setCreated_date(LocalDateTime created_date) {
+        this.created_date = created_date;
     }
 
     public LocalDateTime getUpdated_date() {
@@ -75,9 +75,4 @@ public class ArticleDTO {
     public void setTheme_id(Integer theme_id) {
         this.theme_id = theme_id;
     }
-
-
-
-
-
 }

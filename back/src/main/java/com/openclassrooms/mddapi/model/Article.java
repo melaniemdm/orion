@@ -7,16 +7,16 @@ import java.time.LocalDateTime;
 @Table(name = "ARTICLES")
 public class Article {
     @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Column(name = "title", nullable = false)
-  private String title;
+    private String title;
     @Column(name = "description", nullable = false)
-  private String description;
+    private String description;
     @Column(name = "auteur_id", nullable = false)
-  private Integer auteur_id;
-    @Column(name = "create_date", nullable = false)
-  private LocalDateTime create_date;
+    private Integer auteur_id;
+    @Column(name = "created_date", nullable = false)
+    private LocalDateTime created_date;
     @Column(name = "updated_date", nullable = false)
     private LocalDateTime updated_date;
     @Column(name = "theme_id", nullable = false)
@@ -24,7 +24,7 @@ public class Article {
 
     @PrePersist
     public void prePersist(){
-        create_date = LocalDateTime.now();
+        created_date = LocalDateTime.now();
         updated_date = LocalDateTime.now();
     }
     @PreUpdate
@@ -64,20 +64,20 @@ public class Article {
         this.auteur_id = auteur_id;
     }
 
-    public LocalDateTime getCreate_date() {
-        return create_date;
+    public LocalDateTime getCreated_date() {
+        return created_date;
     }
 
-    public void setCreate_date(LocalDateTime create_date) {
-        this.create_date = create_date;
+    public void setCreated_date(LocalDateTime created_date) {
+        this.created_date = created_date;
     }
 
-    public LocalDateTime getUpdated_at() {
+    public LocalDateTime getUpdated_date() {
         return updated_date;
     }
 
-    public void setUpdated_at(LocalDateTime updated_at) {
-        this.updated_date = updated_at;
+    public void setUpdated_date(LocalDateTime updated_date) {
+        this.updated_date = updated_date;
     }
 
     public Integer getTheme_id() {
