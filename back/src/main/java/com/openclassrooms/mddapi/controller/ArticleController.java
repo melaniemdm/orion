@@ -23,11 +23,10 @@ private ArticleService articleService;
 
 
     @GetMapping
-    public Map<String, List<ArticleDTO>> getAllArticle() {
-
+    public ResponseEntity<Map<String, List<ArticleDTO>>> getAllArticle() {
         List<ArticleDTO> articleDTOS = articleService.getAllArticle();
 
-        return Map.of("article", articleDTOS);
+        return ResponseEntity.ok(Map.of("article", articleDTOS));
     }
 
     @PostMapping
@@ -63,9 +62,9 @@ private ArticleService articleService;
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteArticle(@PathVariable Long id){
+    public ResponseEntity<Map<String, String>> deleteArticle(@PathVariable Long id){
         articleService.deleteArticle(id);
 
-        return ResponseEntity.ok("article delete");
+        return ResponseEntity.ok(Map.of("message", "article deleted"));
     }
 }
