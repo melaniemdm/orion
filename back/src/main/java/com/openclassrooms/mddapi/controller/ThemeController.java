@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("theme")
+@RequestMapping("subject")
 public class ThemeController {
     @Autowired
     private ThemeService themeService;
@@ -27,14 +27,14 @@ public class ThemeController {
     public ResponseEntity<Map<String, List<ThemeDTO>>> getAllTheme() {
         List<ThemeDTO> themeDTOS = themeService.getAllTheme();
 
-        return ResponseEntity.ok(Map.of("post", themeDTOS));
+        return ResponseEntity.ok(Map.of("subject", themeDTOS));
     }
 
     @PostMapping
     public ResponseEntity<Map<String, ThemeDTO>> createTheme(@RequestBody ThemeDTO themeDTO) {
         ThemeDTO createdDTO = themeService.createTheme(themeDTO);
 
-        return new ResponseEntity<>(Map.of("post", createdDTO), HttpStatus.CREATED);
+        return new ResponseEntity<>(Map.of("subject", createdDTO), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
@@ -43,7 +43,7 @@ public class ThemeController {
 
         if (themeOpt.isPresent()) {
             // On renvoie {"theme": themeDTO}
-            return ResponseEntity.ok(Map.of("post", themeOpt.get()));
+            return ResponseEntity.ok(Map.of("subject", themeOpt.get()));
         } else {
             return ResponseEntity.notFound().build();
         }

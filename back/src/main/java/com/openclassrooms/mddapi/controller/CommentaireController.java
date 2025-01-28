@@ -1,9 +1,7 @@
 package com.openclassrooms.mddapi.controller;
 
 import com.openclassrooms.mddapi.dto.CommentaireDTO;
-import com.openclassrooms.mddapi.dto.ThemeDTO;
-import com.openclassrooms.mddapi.model.Commentaire;
-import com.openclassrooms.mddapi.repository.CommentaireRepository;
+
 import com.openclassrooms.mddapi.service.CommentaireService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
