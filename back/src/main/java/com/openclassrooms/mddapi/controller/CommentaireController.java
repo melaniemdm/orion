@@ -1,33 +1,41 @@
 package com.openclassrooms.mddapi.controller;
 
+import com.openclassrooms.mddapi.dto.CommentaireDTO;
+import com.openclassrooms.mddapi.dto.ThemeDTO;
 import com.openclassrooms.mddapi.model.Commentaire;
 import com.openclassrooms.mddapi.repository.CommentaireRepository;
+import com.openclassrooms.mddapi.service.CommentaireService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/article/{id}/commentaire")
 public class CommentaireController {
 @Autowired
-    CommentaireRepository commentaireRepository;
+ private CommentaireService commentaireService;
 
 //constructeur
-    public CommentaireController(CommentaireRepository commentaireRepository){
-        this.commentaireRepository = commentaireRepository;
+    public CommentaireController(CommentaireService commentaireService){
+        this.commentaireService = commentaireService;
     }
 
     @GetMapping
-    public ResponseEntity<List<Commentaire>> getAllCommentaire(){
-        return new ResponseEntity<>(commentaireRepository.findAll(), HttpStatus.OK);
-    }
-    @PostMapping
-    public ResponseEntity<Commentaire> createCommentaire(@RequestBody Commentaire commentaire ){
-        Commentaire commentaireCreated = commentaireRepository.save(commentaire);
-        return new ResponseEntity<>(commentaireCreated, HttpStatus.CREATED);
+
+    public ResponseEntity<Map<String, List<CommentaireDTO>>> getAllCommentaire() {
+        List<CommentaireDTO> commentaireDTOS = commentaireService.getAllCommentaire();
+
+        return ResponseEntity.ok(Map.of("subject", commentaireDTOS));
     }
 
+    @PostMapping
+     public ResponseEntity<Map<String, CommentaireDTO>> createCommentaire(@RequestBody CommentaireDTO commentaireDTO) {
+        CommentaireDTO createdDTO = commentaireService.createCommentaire(commentaireDTO);
+
+        return new ResponseEntity<>(Map.of("subject", createdDTO), HttpStatus.CREATED);
+    }
 }
