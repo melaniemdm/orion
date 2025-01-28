@@ -34,6 +34,24 @@ public class CommentaireService {
         return commentaireDTOS;
     }
 
+    public List<CommentaireDTO> getCommentairesByArticle(Integer articleId) {
+        // 1) Récupère TOUS les commentaires
+        List<Commentaire> commentaires = (List<Commentaire>) commentaireRepository.findAll();
+
+
+        List<CommentaireDTO> resultat = new ArrayList<>();
+
+        for (Commentaire commentaire : commentaires) {
+            // Si tu as un champ `commentaire.getArticleId()`
+            if (commentaire.getArticle_id().equals(articleId)) {
+                resultat.add(entityToDto(commentaire));
+            }
+        }
+
+        return resultat;
+    }
+
+
     public CommentaireDTO createCommentaire(CommentaireDTO dto) {
 
         Commentaire commentaire = new Commentaire();

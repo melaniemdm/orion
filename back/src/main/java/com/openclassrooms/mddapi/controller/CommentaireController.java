@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/article/{id}/commentaire")
+@RequestMapping("/post/{id}/comment")
 public class CommentaireController {
 @Autowired
  private CommentaireService commentaireService;
@@ -22,18 +22,17 @@ public class CommentaireController {
         this.commentaireService = commentaireService;
     }
 
+
     @GetMapping
-
-    public ResponseEntity<Map<String, List<CommentaireDTO>>> getAllCommentaire() {
-        List<CommentaireDTO> commentaireDTOS = commentaireService.getAllCommentaire();
-
-        return ResponseEntity.ok(Map.of("subject", commentaireDTOS));
+    public List<CommentaireDTO> getCommentairesByArticleId(@PathVariable Integer id) {
+        // Transmet l’ID au service
+        return commentaireService.getCommentairesByArticle(id);
     }
 
     @PostMapping
      public ResponseEntity<Map<String, CommentaireDTO>> createCommentaire(@RequestBody CommentaireDTO commentaireDTO) {
         CommentaireDTO createdDTO = commentaireService.createCommentaire(commentaireDTO);
 
-        return new ResponseEntity<>(Map.of("subject", createdDTO), HttpStatus.CREATED);
+        return new ResponseEntity<>(Map.of("comment", createdDTO), HttpStatus.CREATED);
     }
 }
