@@ -1,39 +1,41 @@
 package com.openclassrooms.mddapi.controller;
 
-import com.openclassrooms.mddapi.model.Abonnement;
-import com.openclassrooms.mddapi.repository.AbonnementRepository;
+import com.openclassrooms.mddapi.dto.AbonnementDTO;
+import com.openclassrooms.mddapi.service.AbonnementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("user/1/subscribe")
 public class AbonnementController {
 @Autowired
-    AbonnementRepository abonnementRepository;
+    AbonnementService abonnementService;
 
-public AbonnementController(AbonnementRepository abonnementRepository){
-    this.abonnementRepository = abonnementRepository;
+public AbonnementController(AbonnementService abonnementService){
+    this.abonnementService = abonnementService;
 }
 @GetMapping
-    public ResponseEntity<List<Abonnement>> getAllAbonnement(){
-    return new ResponseEntity<>(abonnementRepository.findAll(), HttpStatus.OK);
+public ResponseEntity<Map<String, List<AbonnementDTO>>> getAllAbonnement (){
+    List<AbonnementDTO> abonnementDTOS = abonnementService.getAllAbonnement();
+
+    return ResponseEntity.ok(Map.of("subscribe", abonnementDTOS));
 }
 @PostMapping
-    public ResponseEntity<Abonnement> createAbonnement(Abonnement abonnement){
-    Abonnement abonnementCreated = abonnementRepository.save(abonnement);
-    return new ResponseEntity<>(abonnementCreated, HttpStatus.CREATED);
+public ResponseEntity<Map<String, AbonnementDTO>> createAbonnement(@RequestBody AbonnementDTO abonnementDTO) {
+    AbonnementDTO createdDTO = abonnementService.createAbonnement(abonnementDTO);
+
+    return new ResponseEntity<>(Map.of("subscribe", createdDTO), HttpStatus.CREATED);
 }
 @DeleteMapping("/{id}")
-public ResponseEntity<Void> deleteAbonnement(@PathVariable Long id){
-    Optional<Abonnement> abonnement = abonnementRepository.findById(id);
-    if (abonnement.isPresent()){
-        abonnementRepository.delete(abonnement.get());
-        return new ResponseEntity<>(HttpStatus.OK);
-    }return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+public ResponseEntity<Map<String, String>> deleteAbonnement(@PathVariable Long id){
+    abonnementService.deleteAbonnement(id);
+
+    return ResponseEntity.ok(Map.of("subscribe", "subscribe deleted"));
 }
 }
