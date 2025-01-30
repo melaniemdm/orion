@@ -51,7 +51,7 @@ public List<AbonnementDTO>getAllAbonnement(){
         abonnement.setId(dto.getId());
         abonnement.setTheme_id(dto.getTheme_id());
         abonnement.setUser_id(dto.getUser_id());
-System.out.println("dto.getTheme_id() est " + dto.getTheme_id());
+
         Abonnement savedAbonnement = abonnementRepository.save(abonnement);
 
         AbonnementDTO abonnementDTO = new AbonnementDTO();

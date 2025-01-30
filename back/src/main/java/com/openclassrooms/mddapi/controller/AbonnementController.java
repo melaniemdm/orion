@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +27,7 @@ public List<AbonnementDTO> getAbonnementByUserId(@PathVariable Integer id) {
 }
 @PostMapping
 public ResponseEntity<Map<String, AbonnementDTO>> createAbonnement(@RequestBody AbonnementDTO abonnementDTO, @PathVariable Integer id) {
-    System.out.println("abonnementDTO est "+ abonnementDTO.getUser_id());
+
     abonnementDTO.setUser_id(id);
     AbonnementDTO createdDTO = abonnementService.createAbonnement(abonnementDTO);
 
