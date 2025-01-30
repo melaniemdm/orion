@@ -26,12 +26,32 @@ public List<AbonnementDTO>getAllAbonnement(){
     return abonnementDTOS;
 }
 
+    public List<AbonnementDTO> getCommentairesByArticleId(Integer idUrl) {
+        // 1) Récupère TOUS les abonnements
+        List<Abonnement> abonnements = (List<Abonnement>) abonnementRepository.findAll();
+
+
+        List<AbonnementDTO> resultat = new ArrayList<>();
+
+        for (Abonnement abonnement : abonnements) {
+
+
+            if (Integer.valueOf(3).equals(idUrl)) {
+                resultat.add(entityToDto(abonnement));
+            }
+        }
+
+        return resultat;
+    }
+
+
     public AbonnementDTO createAbonnement(AbonnementDTO dto) {
 
         Abonnement abonnement = new Abonnement();
+        abonnement.setId(dto.getId());
         abonnement.setTheme_id(dto.getTheme_id());
         abonnement.setUser_id(dto.getUser_id());
-
+System.out.println("dto.getTheme_id() est " + dto.getTheme_id());
         Abonnement savedAbonnement = abonnementRepository.save(abonnement);
 
         AbonnementDTO abonnementDTO = new AbonnementDTO();

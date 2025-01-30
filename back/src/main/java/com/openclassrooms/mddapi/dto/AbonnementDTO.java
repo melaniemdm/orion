@@ -7,7 +7,7 @@ public class AbonnementDTO {
     private Long id;
     @JsonProperty("user_id")
     private Integer user_id;
-    @JsonProperty("theme_id;")
+    @JsonProperty("theme_id")
     private Integer theme_id;
 
     public Long getId() {

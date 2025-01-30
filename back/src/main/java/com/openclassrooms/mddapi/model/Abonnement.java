@@ -8,7 +8,9 @@ public class Abonnement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "auteur_id", nullable = false)
     private Integer user_id;
+    @Column(name = "theme_id", nullable = true)
     private Integer theme_id;
 
     public Long getId() {
