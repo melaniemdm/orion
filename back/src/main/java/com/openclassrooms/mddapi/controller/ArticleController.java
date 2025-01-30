@@ -70,6 +70,6 @@ private ArticleService articleService;
     public ResponseEntity<Map<String, String>> deleteArticle(@PathVariable Long id){
         articleService.deleteArticle(id);
 
-        return ResponseEntity.ok(Map.of("message", "post deleted"));
+        return ResponseEntity.ok(Map.of("message", "article deleted"));
     }
 }
