@@ -27,8 +27,9 @@ public List<AbonnementDTO> getAbonnementByUserId(@PathVariable Integer id) {
     return abonnementService.getAbonnementByUserId(id);
 }
 @PostMapping
-public ResponseEntity<Map<String, AbonnementDTO>> createAbonnement(@RequestBody AbonnementDTO abonnementDTO) {
+public ResponseEntity<Map<String, AbonnementDTO>> createAbonnement(@RequestBody AbonnementDTO abonnementDTO, @PathVariable Integer id) {
     System.out.println("abonnementDTO est "+ abonnementDTO.getUser_id());
+    abonnementDTO.setUser_id(id);
     AbonnementDTO createdDTO = abonnementService.createAbonnement(abonnementDTO);
 
     return new ResponseEntity<>(Map.of("subscribe", createdDTO), HttpStatus.CREATED);
