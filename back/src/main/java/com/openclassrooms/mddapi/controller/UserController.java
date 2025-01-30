@@ -1,64 +1,64 @@
 package com.openclassrooms.mddapi.controller;
 
-import com.openclassrooms.mddapi.model.User;
-import com.openclassrooms.mddapi.repository.UserRepository;
+
+import com.openclassrooms.mddapi.dto.UserDTO;
+import com.openclassrooms.mddapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
     @Autowired
-    UserRepository userRepository;
+    private UserService userService;
 
     //constructeur
-    public UserController(UserRepository userRepository){
-        this.userRepository = userRepository;
+    public UserController(UserService userService){
+        this.userService = userService;
     }
     @GetMapping
-    public ResponseEntity<List<User>> getAllPersons(){
-        return new ResponseEntity<>(userRepository.findAll(), HttpStatus.OK);
+    public ResponseEntity<Map<String, List<UserDTO>>> getAllUser() {
+        List<UserDTO> userDTOS = userService.getAllUser();
+
+        return ResponseEntity.ok(Map.of("user", userDTOS));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity <Void > userPerson(@PathVariable Long id){
-        Optional <User> user = userRepository.findById(id);
+    public ResponseEntity<Map<String, String>> deleteUser(@PathVariable Long id){
+        userService.deleteUser(id);
 
-        if(user.isPresent()){
-            userRepository.delete(user.get());
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return ResponseEntity.ok(Map.of("user", "user deleted"));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity <User> userPerson(@PathVariable Long id, @RequestBody User userDetails){
-        Optional <User> user = userRepository.findById(id);
+    public ResponseEntity<Map<String, UserDTO>> updateUser(
+            @PathVariable Long id,
+            @RequestBody UserDTO userDTO
+    ) {
+        Optional<UserDTO> updatedOpt = userService.updateUser(id, userDTO);
 
-        if(user.isPresent()){
-            User  existingUser = user.get();
-            existingUser.setUser_name(userDetails.getUser_name());
-            existingUser.setEmail((userDetails.getEmail()));
-            existingUser.setPassword((userDetails.getPassword()));
-
-            User updatePerson=userRepository.save(existingUser);
-            return new ResponseEntity<>(updatePerson, HttpStatus.OK);
+        if (updatedOpt.isEmpty()) {
+            return ResponseEntity.notFound().build();
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        return ResponseEntity.ok(Map.of("user", updatedOpt.get()));
     }
+
     @GetMapping("/{id}")
-    public ResponseEntity <User> getUserById(@PathVariable Long id){
-        Optional <User> user = userRepository.findById(id);
+    public ResponseEntity<Map<String, UserDTO>> getUserById(@PathVariable Long id) {
+        Optional<UserDTO> userOpt = userService.getUserById(id);
 
-        if(user.isPresent()){
-            return new ResponseEntity<>(user.get(),HttpStatus.OK);
+        if (userOpt.isPresent()) {
 
+            return ResponseEntity.ok(Map.of("user", userOpt.get()));
+        } else {
+            return ResponseEntity.notFound().build();
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
