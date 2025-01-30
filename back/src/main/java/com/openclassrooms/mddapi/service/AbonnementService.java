@@ -26,7 +26,7 @@ public List<AbonnementDTO>getAllAbonnement(){
     return abonnementDTOS;
 }
 
-    public List<AbonnementDTO> getCommentairesByArticleId(Integer idUrl) {
+    public List<AbonnementDTO> getAbonnementByUserId(Integer idUrl) {
         // 1) Récupère TOUS les abonnements
         List<Abonnement> abonnements = (List<Abonnement>) abonnementRepository.findAll();
 

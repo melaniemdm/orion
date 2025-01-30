@@ -24,7 +24,7 @@ public AbonnementController(AbonnementService abonnementService){
 public List<AbonnementDTO> getAbonnementByUserId(@PathVariable Integer id) {
     // Transmet l’ID au service
     System.out.println("L'ID de l'abonnement est : " + id);
-    return abonnementService.getCommentairesByArticleId(id);
+    return abonnementService.getAbonnementByUserId(id);
 }
 @PostMapping
 public ResponseEntity<Map<String, AbonnementDTO>> createAbonnement(@RequestBody AbonnementDTO abonnementDTO) {
