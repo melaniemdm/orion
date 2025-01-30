@@ -1,7 +1,8 @@
 package com.openclassrooms.mddapi.controller;
 
-import com.openclassrooms.mddapi.model.User;
-import com.openclassrooms.mddapi.repository.UserRepository;
+
+import com.openclassrooms.mddapi.dto.UserDTO;
+import com.openclassrooms.mddapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,30 +11,32 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthentificationController {
    @Autowired
-    UserRepository userRepository;
+   private UserService userService;
 
    //constructeur
-    public AuthentificationController(UserRepository userRepository){
-        this.userRepository = userRepository;
+    public AuthentificationController(UserService userService){
+        this.userService = userService;
     }
 
 
     @PostMapping("/register")
-    public ResponseEntity<User> createUser(@RequestBody User user ){
-        User userCreated = userRepository.save(user);
-        return new ResponseEntity<>(userCreated, HttpStatus.CREATED);
+    public ResponseEntity<Map<String, UserDTO>> createUser(@RequestBody UserDTO userDTO) {
+        UserDTO createdDTO = userService.createUser(userDTO);
+
+        return new ResponseEntity<>(Map.of("user", createdDTO), HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody User loginRequest) {
+    public ResponseEntity<?> loginUser(@RequestBody UserDTO loginRequest) {
 
-        Optional<User> optionalUser = userRepository.findByEmail(loginRequest.getEmail());
+        Optional<UserDTO> optionalUser = userService.getUserByEmail(loginRequest.getEmail());
 
         if (optionalUser.isEmpty()) {
 
@@ -41,15 +44,13 @@ public class AuthentificationController {
                     .body("Invalid email or password.");
         }
 
-        User user = optionalUser.get();
-
-        if (!user.getPassword().equals(loginRequest.getPassword())) {
+        UserDTO userDTO = optionalUser.get();
+System.out.println("userDTO.email() est : " + userDTO.getEmail());
+System.out.println("loginRequest.email() est : " + loginRequest.getEmail());
+        if (!userDTO.getEmail().equals(loginRequest.getEmail())) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("Invalid email or password.");
         }
-
-
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(userDTO);
     }
-
 }

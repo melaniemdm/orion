@@ -79,11 +79,25 @@ public class UserService {
             return Optional.empty();
         }
     }
+
+    public Optional<UserDTO> getUserByEmail(String email) {
+
+        Optional<User> user = userRepository.findByEmail(email);
+
+        if (user.isPresent()) {
+            System.out.println("email : : " + email);
+        } else {
+            System.out.println("Aucun utilisateur trouvé pour l'email : " + email);
+        }
+        // Convert the User entity to a UserDTO if present and return it
+        return user.map(this::entityToDto);
+
+    }
+
     public Optional<UserDTO> deleteUser(Long id){
         userRepository.deleteById(id);
         return Optional.empty();
     }
-
 
     private UserDTO entityToDto(User user) {
 
