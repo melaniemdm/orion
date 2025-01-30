@@ -36,7 +36,7 @@ public List<AbonnementDTO>getAllAbonnement(){
         for (Abonnement abonnement : abonnements) {
 
 
-            if (Integer.valueOf(3).equals(idUrl)) {
+            if (abonnement.getUser_id().equals(idUrl)) {
                 resultat.add(entityToDto(abonnement));
             }
         }
