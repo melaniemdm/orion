@@ -5,8 +5,10 @@ import com.openclassrooms.mddapi.dto.UserDTO;
 import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +17,8 @@ import java.util.Optional;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public  UserService(UserRepository userRepository){
         this.userRepository=userRepository;
@@ -85,14 +89,29 @@ public class UserService {
         Optional<User> user = userRepository.findByEmail(email);
 
         if (user.isPresent()) {
-            System.out.println("email : : " + email);
+            System.out.println("email : : " + user.get());
         } else {
-            System.out.println("Aucun utilisateur trouvé pour l'email : " + email);
+            System.out.println("Aucun utilisateur trouvé pour login : " +  email);
         }
         // Convert the User entity to a UserDTO if present and return it
         return user.map(this::entityToDto);
 
     }
+
+    public UserDTO saveUser(UserDTO userDTO) {
+
+        User user = dtoToEntity(userDTO);
+
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+
+        //user.setCreatedAt(LocalDateTime.now());
+        //user.setUpdatedAt(LocalDateTime.now());
+
+        User savedUser = userRepository.save(user);
+
+        return entityToDto(savedUser);
+    }
+
 
     public Optional<UserDTO> deleteUser(Long id){
         userRepository.deleteById(id);
