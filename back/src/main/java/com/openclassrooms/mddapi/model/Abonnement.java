@@ -10,7 +10,7 @@ public class Abonnement {
     private Long id;
     @Column(name = "auteur_id", nullable = false)
     private Integer user_id;
-    @Column(name = "theme_id", nullable = true)
+    @Column(name = "theme_id", nullable = false)
     private Integer theme_id;
 
     public Long getId() {
