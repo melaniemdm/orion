@@ -2,6 +2,7 @@ package com.openclassrooms.mddapi.controller;
 
 
 import com.openclassrooms.mddapi.dto.UserDTO;
+import com.openclassrooms.mddapi.service.JwtService;
 import com.openclassrooms.mddapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -22,6 +24,8 @@ public class AuthentificationController {
    private UserService userService;
     @Autowired
     private PasswordEncoder passwordEncoder;
+@Autowired
+private JwtService jwtService;
 
    //constructeur
     public AuthentificationController(UserService userService){
@@ -63,6 +67,15 @@ System.out.println("loginRequest.password() est : " + loginRequest.getPassword()
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("Invalid email or password.");
         }
-        return ResponseEntity.ok(userDTO);
+        String token = JwtService.generateToken(userDTO.getEmail(), 10 * 60 * 60 * 1000); // Token valable 10h
+
+        // ✅ Retourner le token dans la réponse
+        Map<String, Object> response = new HashMap<>();
+        response.put("token", token);
+        response.put("user", userDTO);
+
+        System.out.print("le token est :" + token);
+
+        return ResponseEntity.ok("{ \"token\": \"" + token + "\" }");
     }
 }
