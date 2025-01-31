@@ -41,8 +41,15 @@ private JwtService jwtService;
             return ResponseEntity.badRequest().body("Password is required");
         }
         UserDTO createdDTO = userService.saveUser(userDTO);
+        String token = JwtService.generateToken(userDTO.getId(), userDTO.getEmail());
 
-        return new ResponseEntity<>(Map.of("user", createdDTO), HttpStatus.CREATED);
+        // ✅ Retourner le token dans la réponse
+        Map<String, Object> response = new HashMap<>();
+        response.put("token", token);
+        response.put("user", userDTO);
+
+        System.out.print("le token est :" + token);
+        return ResponseEntity.ok().body("{ \"token\": \"" + token + "\" }");
     }
 
     @PostMapping("/login")
@@ -67,7 +74,7 @@ System.out.println("loginRequest.password() est : " + loginRequest.getPassword()
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("Invalid email or password.");
         }
-        String token = JwtService.generateToken(userDTO.getEmail(), 10 * 60 * 60 * 1000); // Token valable 10h
+        String token = JwtService.generateToken(userDTO.getId(), userDTO.getEmail());
 
         // ✅ Retourner le token dans la réponse
         Map<String, Object> response = new HashMap<>();

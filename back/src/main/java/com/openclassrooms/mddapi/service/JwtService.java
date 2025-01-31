@@ -14,15 +14,13 @@ import java.util.Map;
 public class JwtService {
     private static final String SECRET_KEY = "maSuperCleSecreteTresLongue"; // Clé secrète pour signer le token
 
-    public static void main(String[] args) {
-        String token = generateToken("user@example.com", 10 * 60 * 60 * 1000); // Expire dans 10h
-        System.out.println("Token JWT généré : " + token);
-    }
+
 
     // ✅ Générer un token JWT
-    public static String generateToken(String email, long expirationMillis) {
+    public static String generateToken(Long id, String email ) {
+        long expirationTimeMillis = 1000 * 60 * 60 * 10; // 10 hours of validity
         long nowMillis = System.currentTimeMillis();
-        long expMillis = nowMillis + expirationMillis;
+        long expMillis = nowMillis + expirationTimeMillis;
 
         // 1️⃣ Header
         String headerJson = "{\"alg\":\"HS256\",\"typ\":\"JWT\"}";
@@ -30,6 +28,7 @@ public class JwtService {
 
         // 2️⃣ Payload
         Map<String, Object> payload = new HashMap<>();
+        payload.put("id", id);
         payload.put("sub", email);
         payload.put("iat", nowMillis); // Issued At
         payload.put("exp", expMillis); // Expiration Time
