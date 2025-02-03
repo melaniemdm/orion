@@ -71,4 +71,44 @@ public class JwtService {
         }
         return json.substring(0, json.length() - 1) + "}";
     }
+
+    private static Map<String, Object> jsonToMap(String json) {
+        Map<String, Object> map = new HashMap<>();
+        json = json.replace("{", "").replace("}", "");
+        String[] pairs = json.split(",");
+        for (String pair : pairs) {
+            String[] keyValue = pair.split(":");
+            map.put(keyValue[0].replace("\"", "").trim(), keyValue[1].replace("\"", "").trim());
+        }
+        return map;
+    }
+
+    public static String extractEmail(String token) {
+        try {
+            String[] parts = token.split("\\.");
+            if (parts.length != 3) return null;
+
+            String payloadJson = new String(Base64.getUrlDecoder().decode(parts[1]));
+            Map<String, Object> payload = jsonToMap(payloadJson);
+
+            return (String) payload.get("sub"); // "sub" correspond à l'email stocké dans le JWT
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    public Long extractUserId(String token) {
+        try {
+            String[] parts = token.split("\\.");
+            if (parts.length != 3) return null;
+
+            String payloadJson = new String(Base64.getUrlDecoder().decode(parts[1]));
+            Map<String, Object> payload = jsonToMap(payloadJson);
+
+            // Extraire l'ID utilisateur stocké dans le token
+            return Long.parseLong(payload.get("id").toString());
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
 }

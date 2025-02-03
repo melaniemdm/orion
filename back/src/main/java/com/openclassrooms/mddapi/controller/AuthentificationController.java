@@ -2,17 +2,16 @@ package com.openclassrooms.mddapi.controller;
 
 
 import com.openclassrooms.mddapi.dto.UserDTO;
+import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.service.JwtService;
 import com.openclassrooms.mddapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -81,8 +80,39 @@ System.out.println("loginRequest.password() est : " + loginRequest.getPassword()
         response.put("token", token);
         response.put("user", userDTO);
 
-        System.out.print("le token est :" + token);
-
-        return ResponseEntity.ok("{ \"token\": \"" + token + "\" }");
+       return ResponseEntity.ok("{ \"token\": \"" + token + "\" }");
     }
+
+    @GetMapping("/me")
+    public ResponseEntity<Map<String, Object>> getMe(@RequestHeader("Authorization") String authHeader) {
+        // Vérifier que le header Authorization contient bien un token
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Missing or invalid token"));
+        }
+        // Extraire le token (sans "Bearer ")
+        String token = authHeader.substring(7);
+
+        // Extraire l'id utilisateur du token
+        Long userId = jwtService.extractUserId(token);
+
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Invalid token"));
+        }
+
+        // Récupérer l'utilisateur en base de données
+        Optional<UserDTO> userDTO = userService.getUserById(userId);
+
+        if (userDTO.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", "User not found"));
+        }
+
+        // Construire la réponse
+        Map<String, Object> response = new HashMap<>();
+        response.put("id", userDTO.get().getId());
+        response.put("userName", userDTO.get().getUser_name());
+        response.put("email", userDTO.get().getEmail());
+
+        return ResponseEntity.ok(response);
+    }
+
 }

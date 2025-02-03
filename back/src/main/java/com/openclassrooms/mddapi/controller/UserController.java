@@ -51,12 +51,12 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Map<String, UserDTO>> getUserById(@PathVariable Long id) {
+    public ResponseEntity<Map<String, String>> getUserById(@PathVariable Long id) {
         Optional<UserDTO> userOpt = userService.getUserById(id);
-
+System.out.println("c'est ca :" + userOpt);
         if (userOpt.isPresent()) {
 
-            return ResponseEntity.ok(Map.of("user", userOpt.get()));
+            return ResponseEntity.ok(Map.of("userName", userOpt.get().getUser_name()));
         } else {
             return ResponseEntity.notFound().build();
         }
