@@ -2,6 +2,7 @@ package com.openclassrooms.mddapi.controller;
 
 import com.openclassrooms.mddapi.dto.AbonnementDTO;
 import com.openclassrooms.mddapi.service.AbonnementService;
+import com.openclassrooms.mddapi.service.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,19 +12,35 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("user/{id}/subscribe")
+@RequestMapping("user/subscribe")
 public class AbonnementController {
 @Autowired
     AbonnementService abonnementService;
+    @Autowired
+    private JwtService jwtService;
 
 public AbonnementController(AbonnementService abonnementService){
     this.abonnementService = abonnementService;
 }
 @GetMapping
-public List<AbonnementDTO> getAbonnementByUserId(@PathVariable Integer id) {
+public ResponseEntity<Map<String, Object>> getAbonnementByUserId(@RequestHeader("Authorization") String authHeader) {
+    if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Missing or invalid token"));
+    }
+    // Extraire le token (sans "Bearer ")
+    String token = authHeader.substring(7);
+
+    // Extraire l'id utilisateur du token
+    Long id = jwtService.extractUserId(token);
+
+    if (id == null) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Invalid token"));
+    }
+
     // Transmet l’ID au service
     System.out.println("L'ID de l'abonnement est : " + id);
-    return abonnementService.getAbonnementByUserId(id);
+    List<AbonnementDTO> userIdList =  abonnementService.getAbonnementByUserId(id);
+    return ResponseEntity.ok(Map.of("subscribe", userIdList ));
 }
 @PostMapping
 public ResponseEntity<Map<String, AbonnementDTO>> createAbonnement(@RequestBody AbonnementDTO abonnementDTO, @PathVariable Integer id) {
