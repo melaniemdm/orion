@@ -34,9 +34,9 @@ public List<AbonnementDTO>getAllAbonnement(){
         List<AbonnementDTO> resultat = new ArrayList<>();
 
         for (Abonnement abonnement : abonnements) {
-
-
-            if (abonnement.getUser_id().equals(idUrl)) {
+            //  Convertir Long en Integer
+            Integer userIdAsInteger = Math.toIntExact(idUrl);
+            if (abonnement.getUser_id().equals(userIdAsInteger)) {
                 resultat.add(entityToDto(abonnement));
             }
         }

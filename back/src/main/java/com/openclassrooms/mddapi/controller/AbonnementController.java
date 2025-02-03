@@ -35,16 +35,33 @@ public ResponseEntity<Map<String, Object>> getAbonnementByUserId(@RequestHeader(
     }
 }
 @PostMapping
-public ResponseEntity<Map<String, AbonnementDTO>> createAbonnement(@RequestBody AbonnementDTO abonnementDTO, @PathVariable Integer id) {
+public ResponseEntity<Map<String, AbonnementDTO>> createAbonnement(
+        @RequestHeader("Authorization") String authHeader,
+        @RequestBody AbonnementDTO abonnementDTO) {
 
-    abonnementDTO.setUser_id(id);
-    AbonnementDTO createdDTO = abonnementService.createAbonnement(abonnementDTO);
+    try {
+        // 🔥Extraire l'ID utilisateur depuis le token
+        Long userId = extractUserIdFromToken(authHeader);
 
-    return new ResponseEntity<>(Map.of("subscribe", createdDTO), HttpStatus.CREATED);
+        //  Convertir Long en Integer
+        Integer userIdAsInteger = Math.toIntExact(userId);
+
+        // Assigner l'ID utilisateur au DTO
+        abonnementDTO.setUser_id(userIdAsInteger);
+
+        // Créer l'abonnement
+        AbonnementDTO createdDTO = abonnementService.createAbonnement(abonnementDTO);
+
+        return new ResponseEntity<>(Map.of("subscribe", createdDTO), HttpStatus.CREATED);
+    } catch (IllegalArgumentException e) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(Map.of("error", new AbonnementDTO()));
+    }
 }
+
 @DeleteMapping("/{subscribeId}")
-public ResponseEntity<Map<String, String>> deleteAbonnement(@PathVariable Long id){
-    abonnementService.deleteAbonnement(id);
+public ResponseEntity<Map<String, String>> deleteAbonnement(@PathVariable Long subscribeId){
+    abonnementService.deleteAbonnement(subscribeId);
 
     return ResponseEntity.ok(Map.of("subscribe", "subscribe deleted"));
 }
