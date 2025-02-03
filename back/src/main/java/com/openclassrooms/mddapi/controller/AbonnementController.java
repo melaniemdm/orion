@@ -24,23 +24,15 @@ public AbonnementController(AbonnementService abonnementService){
 }
 @GetMapping
 public ResponseEntity<Map<String, Object>> getAbonnementByUserId(@RequestHeader("Authorization") String authHeader) {
-    if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Missing or invalid token"));
-    }
-    // Extraire le token (sans "Bearer ")
-    String token = authHeader.substring(7);
+    try {
+    Long id = extractUserIdFromToken(authHeader);
 
-    // Extraire l'id utilisateur du token
-    Long id = jwtService.extractUserId(token);
-
-    if (id == null) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Invalid token"));
-    }
-
-    // Transmet l’ID au service
-    System.out.println("L'ID de l'abonnement est : " + id);
     List<AbonnementDTO> userIdList =  abonnementService.getAbonnementByUserId(id);
+
     return ResponseEntity.ok(Map.of("subscribe", userIdList ));
+    } catch (IllegalArgumentException exception) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", exception.getMessage()));
+    }
 }
 @PostMapping
 public ResponseEntity<Map<String, AbonnementDTO>> createAbonnement(@RequestBody AbonnementDTO abonnementDTO, @PathVariable Integer id) {
@@ -56,4 +48,26 @@ public ResponseEntity<Map<String, String>> deleteAbonnement(@PathVariable Long i
 
     return ResponseEntity.ok(Map.of("subscribe", "subscribe deleted"));
 }
+
+    private Long extractUserIdFromToken(String authHeader) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            throw new IllegalArgumentException("Missing or invalid token");
+        }
+
+        // Extraire le token (sans "Bearer ")
+        String token = authHeader.substring(7);
+
+        // Extraire l'ID utilisateur depuis le token
+        Long userId = jwtService.extractUserId(token);
+
+        if (userId == null) {
+            throw new IllegalArgumentException("Invalid token");
+        }
+
+        return userId;
+    }
+
+
+
+
 }
