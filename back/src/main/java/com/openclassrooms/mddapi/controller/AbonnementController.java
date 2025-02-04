@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("user/subscribe")
@@ -53,18 +54,53 @@ public ResponseEntity<Map<String, AbonnementDTO>> createAbonnement(
         AbonnementDTO createdDTO = abonnementService.createAbonnement(abonnementDTO);
 
         return new ResponseEntity<>(Map.of("subscribe", createdDTO), HttpStatus.CREATED);
-    } catch (IllegalArgumentException e) {
+    } catch (IllegalArgumentException exception) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(Map.of("error", new AbonnementDTO()));
     }
 }
 
-@DeleteMapping("/{subscribeId}")
-public ResponseEntity<Map<String, String>> deleteAbonnement(@PathVariable Long subscribeId){
-    abonnementService.deleteAbonnement(subscribeId);
+    @DeleteMapping("/{subscribeId}")
+    public ResponseEntity<Map<String, String>> deleteAbonnement(
+            @RequestHeader("Authorization") String authHeader,
+            @PathVariable Long subscribeId) {
 
-    return ResponseEntity.ok(Map.of("subscribe", "subscribe deleted"));
-}
+        try {
+            //  Extraire l’ID utilisateur depuis le token
+            Long userIdFromToken = extractUserIdFromToken(authHeader);
+            Integer userIdAsInteger = Math.toIntExact(userIdFromToken);
+
+            //  Récupérer tous les abonnements de l'utilisateur
+            List<AbonnementDTO> abonnements = abonnementService.getAbonnementByUserId(Long.valueOf(userIdAsInteger));
+
+            //  Vérifier si l'abonnement demandé appartient bien à l'utilisateur
+            Optional<AbonnementDTO> abonnement = abonnements.stream()
+                    .filter(abonnementDTO -> abonnementDTO.getId().equals(subscribeId))
+                    .findFirst();
+
+            // Vérifier si l’abonnement existe
+            if (abonnement.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(Map.of("error", "Abonnement not found"));
+            }
+
+            // Vérifier si `user_id` est `null` avant de comparer
+            Integer abonnementUserId = abonnement.get().getUser_id();
+            if (abonnementUserId == null || !abonnementUserId.equals(userIdAsInteger)) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                        .body(Map.of("error", "You are not authorized to delete this subscription"));
+            }
+
+            // Supprimer l’abonnement
+            abonnementService.deleteAbonnement(subscribeId);
+            return ResponseEntity.ok(Map.of("subscribe", "subscribe deleted"));
+
+        } catch (IllegalArgumentException exception) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("error", "Invalid token or authentication issue"));
+        }
+    }
+
 
     private Long extractUserIdFromToken(String authHeader) {
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
