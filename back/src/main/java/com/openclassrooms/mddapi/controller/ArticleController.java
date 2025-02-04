@@ -2,6 +2,7 @@ package com.openclassrooms.mddapi.controller;
 
 import com.openclassrooms.mddapi.dto.ArticleDTO;
 import com.openclassrooms.mddapi.service.ArticleService;
+import com.openclassrooms.mddapi.service.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,8 @@ import java.util.Optional;
 public class ArticleController {
 @Autowired
 private ArticleService articleService;
+    @Autowired
+    private JwtService jwtService;
 
     public ArticleController(ArticleService articleService) {
         this.articleService = articleService;
@@ -30,7 +33,23 @@ private ArticleService articleService;
     }
 
     @PostMapping
-    public ResponseEntity<Map<String, ArticleDTO>> createArticle(@RequestBody ArticleDTO articleDTO) {
+    public ResponseEntity<Map<String, Object>> createArticle(@RequestBody ArticleDTO articleDTO, @RequestHeader("Authorization") String authHeader) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Missing or invalid token"));
+        }
+        // Extraire le token (sans "Bearer ")
+        String token = authHeader.substring(7);
+
+        // Extraire l'id utilisateur du token
+        Long id = jwtService.extractUserId(token);
+
+        if (id == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Invalid token"));
+        }
+
+        // Transmet l’ID au service
+        System.out.println("L'ID de l'abonnement est : " + id);
+
         ArticleDTO createdDTO = articleService.createArticle(articleDTO);
 
         return new ResponseEntity<>(Map.of("post", createdDTO), HttpStatus.CREATED);
@@ -52,10 +71,28 @@ private ArticleService articleService;
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<Map<String, ArticleDTO>> updateArticle(
+    public ResponseEntity<Map<String, Object>> updateArticle(
             @PathVariable Long id,
-            @RequestBody ArticleDTO articleDTO
+            @RequestBody ArticleDTO articleDTO,
+            @RequestHeader("Authorization") String authHeader
     ) {
+
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Missing or invalid token"));
+        }
+        // Extraire le token (sans "Bearer ")
+        String token = authHeader.substring(7);
+
+        // Extraire l'id utilisateur du token
+        Long userId = jwtService.extractUserId(token);
+
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Invalid token"));
+        }
+
+        // Transmet l’ID au service
+        System.out.println("L'ID de l'abonnement est : " + id);
+
         Optional<ArticleDTO> updatedOpt = articleService.updateArticle(id, articleDTO);
 
         if (updatedOpt.isEmpty()) {
@@ -67,7 +104,26 @@ private ArticleService articleService;
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Map<String, String>> deleteArticle(@PathVariable Long id){
+    public ResponseEntity<Map<String, String>> deleteArticle(@PathVariable Long id,@RequestHeader("Authorization") String authHeader){
+
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Missing or invalid token"));
+        }
+        // Extraire le token (sans "Bearer ")
+        String token = authHeader.substring(7);
+
+        // Extraire l'id utilisateur du token
+        Long userId = jwtService.extractUserId(token);
+
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Invalid token"));
+        }
+
+        // Transmet l’ID au service
+        System.out.println("L'ID de l'abonnement est : " + id);
+
+
+
         articleService.deleteArticle(id);
 
         return ResponseEntity.ok(Map.of("message", "article deleted"));
