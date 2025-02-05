@@ -1,5 +1,6 @@
 package com.openclassrooms.mddapi.controller;
 
+
 import com.openclassrooms.mddapi.dto.ArticleDTO;
 import com.openclassrooms.mddapi.service.ArticleService;
 import com.openclassrooms.mddapi.service.JwtService;
@@ -17,8 +18,8 @@ import java.util.Optional;
 public class ArticleController {
 @Autowired
 private ArticleService articleService;
-    @Autowired
-    private JwtService jwtService;
+@Autowired
+private JwtService jwtService;
 
     public ArticleController(ArticleService articleService) {
         this.articleService = articleService;
@@ -34,25 +35,24 @@ private ArticleService articleService;
 
     @PostMapping
     public ResponseEntity<Map<String, Object>> createArticle(@RequestBody ArticleDTO articleDTO, @RequestHeader("Authorization") String authHeader) {
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Missing or invalid token"));
+        try{
+            // 🔥Extrait l'ID utilisateur depuis le token
+            Long userId = extractUserIdFromToken(authHeader);
+
+            //  Converti Long en Integer
+            Integer userIdAsInteger = Math.toIntExact(userId);
+
+            // Assigne l'ID utilisateur au DTO
+            articleDTO.setAuteur_id(userIdAsInteger);
+            ArticleDTO createdDTO = articleService.createArticle(articleDTO);
+
+            return new ResponseEntity<>(Map.of("post", createdDTO), HttpStatus.CREATED);
+        }catch (IllegalArgumentException exception){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("error", new ArticleDTO()));
         }
-        // Extraire le token (sans "Bearer ")
-        String token = authHeader.substring(7);
 
-        // Extraire l'id utilisateur du token
-        Long id = jwtService.extractUserId(token);
 
-        if (id == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Invalid token"));
-        }
-
-        // Transmet l’ID au service
-        System.out.println("L'ID de l'abonnement est : " + id);
-
-        ArticleDTO createdDTO = articleService.createArticle(articleDTO);
-
-        return new ResponseEntity<>(Map.of("post", createdDTO), HttpStatus.CREATED);
     }
 
 
@@ -62,7 +62,7 @@ private ArticleService articleService;
         Optional<ArticleDTO> articleOpt = articleService.getArticleById(id);
 
         if (articleOpt.isPresent()) {
-            // On renvoie {"article": articleDTO}
+
             return ResponseEntity.ok(Map.of("post", articleOpt.get()));
         } else {
             return ResponseEntity.notFound().build();
@@ -77,55 +77,86 @@ private ArticleService articleService;
             @RequestHeader("Authorization") String authHeader
     ) {
 
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Missing or invalid token"));
-        }
-        // Extraire le token (sans "Bearer ")
-        String token = authHeader.substring(7);
+      try{
+          // 🔥Extrait l'ID utilisateur depuis le token
+          Long userId = extractUserIdFromToken(authHeader);
 
-        // Extraire l'id utilisateur du token
-        Long userId = jwtService.extractUserId(token);
+          //  Converti Long en Integer
+          Integer userIdAsInteger = Math.toIntExact(userId);
+          articleDTO.setAuteur_id(userIdAsInteger);
 
-        if (userId == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Invalid token"));
-        }
+          Optional<ArticleDTO> updatedOpt = articleService.updateArticle(id, articleDTO);
 
-        // Transmet l’ID au service
-        System.out.println("L'ID de l'abonnement est : " + id);
+          if (updatedOpt.isEmpty()) {
+              return ResponseEntity.notFound().build();
+          }
 
-        Optional<ArticleDTO> updatedOpt = articleService.updateArticle(id, articleDTO);
+          return ResponseEntity.ok(Map.of("post", updatedOpt.get()));
+      }catch (IllegalArgumentException exception){
+          return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                  .body(Map.of("error", new ArticleDTO()));
+      }
 
-        if (updatedOpt.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
 
-        return ResponseEntity.ok(Map.of("post", updatedOpt.get()));
     }
 
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, String>> deleteArticle(@PathVariable Long id,@RequestHeader("Authorization") String authHeader){
+        try {
+            //  Extrait l’ID utilisateur depuis le token
+            Long userIdFromToken = extractUserIdFromToken(authHeader);
+            Integer userIdAsInteger = Math.toIntExact(userIdFromToken);
 
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Missing or invalid token"));
+            //  Récupère tous les articles de l'utilisateur
+            Optional<ArticleDTO> articles = articleService.getArticleById(id);
+
+            //  Vérifie si l'article demandé appartient bien à l'utilisateur
+            Optional<ArticleDTO> article = articles.stream()
+                    .filter(articleDTO -> articleDTO.getId().equals(id))
+                    .findFirst();
+
+            // Vérifie si l’article existe
+            if (article.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(Map.of("error", "article not found"));
+            }
+
+            // Vérifier si `user_id` est `null` avant de comparer
+            Integer articleUserId = article.get().getAuteur_id();
+            if (articleUserId == null || !articleUserId.equals(userIdAsInteger)) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                        .body(Map.of("error", "You are not authorized to delete this article"));
+            }
+
+            // Supprime l’article
+            articleService.deleteArticle(id);
+            return ResponseEntity.ok(Map.of("post", "article deleted"));
+
+        } catch (IllegalArgumentException exception) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("error", "Invalid token or authentication issue"));
         }
-        // Extraire le token (sans "Bearer ")
+
+    }
+
+
+    private Long extractUserIdFromToken(String authHeader) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            throw new IllegalArgumentException("Missing or invalid token");
+        }
+
+        // Extrait le token (sans "Bearer ")
         String token = authHeader.substring(7);
 
-        // Extraire l'id utilisateur du token
+        // Extrait l'ID utilisateur depuis le token
         Long userId = jwtService.extractUserId(token);
 
         if (userId == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Invalid token"));
+            throw new IllegalArgumentException("Invalid token");
         }
 
-        // Transmet l’ID au service
-        System.out.println("L'ID de l'abonnement est : " + id);
-
-
-
-        articleService.deleteArticle(id);
-
-        return ResponseEntity.ok(Map.of("message", "article deleted"));
+        return userId;
     }
+
 }
