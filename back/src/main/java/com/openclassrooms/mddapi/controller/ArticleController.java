@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("post")
+@RequestMapping("/post")
 public class ArticleController {
 @Autowired
 private ArticleService articleService;

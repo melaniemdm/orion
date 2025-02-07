@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("user/subscription")
+@RequestMapping("/subscription")
 public class AbonnementController {
 @Autowired
     AbonnementService abonnementService;

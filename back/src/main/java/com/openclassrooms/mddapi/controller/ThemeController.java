@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("subject")
+@RequestMapping("/subject")
 public class ThemeController {
     @Autowired
     private ThemeService themeService;
