@@ -14,13 +14,30 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig  {
+public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    // Constructor to inject the custom JWT authentication filter.
+    /**
+     * Constructor to initialize the {@link SecurityConfig} class with a custom JWT authentication filter.
+     * This constructor injects the {@link JwtAuthenticationFilter} which will be used to filter HTTP requests and validate JWT tokens.
+     *
+     * @param jwtAuthenticationFilter The custom filter that will intercept and validate JWT tokens in incoming HTTP requests.
+     */
     public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
+
+    /**
+     * Configures the HTTP security for the application, including request authorization, session management, and custom JWT authentication.
+     * <p>
+     * This method disables CSRF protection as the application uses stateless JWT authentication. It also defines authorization rules for various
+     * endpoints and ensures that only authenticated users can access protected resources. Additionally, it integrates a custom JWT authentication filter
+     * into the Spring Security filter chain.
+     *
+     * @param http The {@link HttpSecurity} instance used to configure the security settings.
+     * @return A {@link SecurityFilterChain} object containing the configured security rules.
+     * @throws Exception If there is an error during the configuration process.
+     */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         System.out.println("✅ SecurityConfig LOADED !");
@@ -28,20 +45,25 @@ public class SecurityConfig  {
                 // Disable Cross-Site Request Forgery (CSRF) protection as this API uses stateless JWT authentication.
                 .csrf(csrf -> csrf.disable())
                 // Define authorization rules for endpoints.
-                .authorizeHttpRequests(auth -> auth
-                        .mvcMatchers("/auth/register", "/auth/login").permitAll() // ✅ Corrected requestMatchers
+                .authorizeHttpRequests(auth -> auth.mvcMatchers("/auth/register", "/auth/login").permitAll() // ✅ Corrected requestMatchers
                         .mvcMatchers().authenticated()
                         // All other endpoints require authentication
-                        .anyRequest().authenticated()
-                )
-                .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                );
+                        .anyRequest().authenticated()).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         // Add the custom JWT authentication filter before the default UsernamePasswordAuthenticationFilter.
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         // Return the SecurityFilterChain bean.
         return http.build();
     }
+
+    /**
+     * Provides a {@link PasswordEncoder} bean for securely encoding and validating passwords.
+     * <p>
+     * This method configures the {@link BCryptPasswordEncoder} for use in the application. BCrypt is a strong hashing algorithm
+     * that automatically handles salting and is commonly used for password hashing to protect sensitive information.
+     * It is used to ensure that passwords are stored and validated securely in the database.
+     *
+     * @return A {@link PasswordEncoder} instance configured with BCrypt for secure password hashing.
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         // Configure BCryptPasswordEncoder for encoding and validating passwords securely.
