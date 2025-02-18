@@ -1,0 +1,107 @@
+/* --- Reset de base (optionnel) --- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* --- Header global (desktop + mobile) --- */
+#bloc_header {
+  height: 94px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  //background-color: pink;
+  height: 74px; /* la hauteur du header */
+  padding: 0 1rem;
+  position: relative;
+  border-bottom: 1px solid #000000;
+}
+#logo {
+  width: auto;
+  height: 81px;
+}
+.menu-item {
+  font-size: 20px;
+}
+.menu-item:hover {
+  color: #6c5ccf;
+  text-decoration: underline;
+}
+.icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* 1. Par défaut, en desktop, on affiche directement le bloc #container-liens */
+#container-liens {
+  background-color: yellow;
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  align-items: center;
+  background-color: transparent;
+}
+
+/* Le burger, caché en desktop */
+#burger {
+  display: none;
+}
+
+/* --- Version Mobile : max-width: 767px (ajuste selon tes besoins) --- */
+@media (max-width: 767px) {
+  #bloc_header {
+    height: 62px;
+  }
+#bloc_liens{
+  
+}
+  #container-liens {
+    //background-color: yellow;
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 200px;
+    height: calc(100vh - 74px);
+    //background-color: #fff;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem;
+    border: 1px solid #000000;
+    background-color: #ffffff;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    /* Quand isMenuOpen = true, la classe .show est ajoutée → on l’affiche */
+    &.show {
+      display: flex;
+    }
+
+    .menu-item {
+      margin-top: 20%;
+      // margin-bottom: 0.5rem;
+      align-self: flex-end;
+      font-size: 20px;
+    }
+
+    /* On place l’icône user en bas à droite */
+    .icon-user {
+      margin-top: auto;
+      align-self: flex-end;
+      margin-bottom: 1rem;
+    }
+  }
+
+  /* Le burger, lui, est visible en mobile */
+  #burger {
+    display: block;
+    cursor: pointer;
+  }
+
+  #logo {
+    //width: auto;
+    height: 53px;
+  }
+}
