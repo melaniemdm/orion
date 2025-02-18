@@ -1,7 +1,36 @@
-.center {
-  height: 100vh;
+.container_connexion {
+ height: 100vh;
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   align-items: center;
   flex-direction: column;
+  
+  //background-color: yellow;
+}
+
+#button-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: auto;
+  gap: 1rem;
+  width: 377px;
+  height: 40px;
+  //background-color: yellow;
+}
+.logo {
+  
+  width: 412px;
+  height: 238px;
+  //background-color: blue;
+}
+
+
+@media (min-width: 768px) {
+  #button-container {
+    flex-direction: row;
+    gap: 2rem;
+  }
 }
