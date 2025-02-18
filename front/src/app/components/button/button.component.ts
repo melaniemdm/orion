@@ -7,11 +7,13 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class ButtonComponent implements OnInit {
   //Récupere la props
-  @Input() action : string='';
-  
-start() {
-throw new Error('Method not implemented.');
-}
+  @Input() action: string = '';
+  @Input() routerLink?: string; 
+
+  onClick(): void {
+    console.log(`${this.action} button clicked`);
+  }
+ 
 
   constructor() { }
 
