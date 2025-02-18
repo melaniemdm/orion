@@ -20,12 +20,7 @@
   height: 40px;
   //background-color: yellow;
 }
-.logo {
-  
-  width: 412px;
-  height: 238px;
-  //background-color: blue;
-}
+
 
 
 @media (min-width: 768px) {
@@ -33,4 +28,4 @@
     flex-direction: row;
     gap: 2rem;
   }
-}
+  }
