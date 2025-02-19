@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<div id="title-container">
+  <div> <img id="flecheGauche" src="/assets/fleche-gauche.png" alt="fleche gauche" [routerLink]="'/home'" /></div>
+  <div id="title">{{titleForm}}</div>
+
+</div>
+<form id="bloc-form" [formGroup]="subscriptionForm">
+
+  <app-input-form label="Nom d'utilisateur" type="text" formControlName="username" [formGroup]="subscriptionForm"
+    ngDefaultControl></app-input-form>
+  <app-input-form label="Adresse e-mail" type="email" formControlName="email" [formGroup]="subscriptionForm"
+    ngDefaultControl></app-input-form>
+  <app-input-form label="Mot de passe" type="password" formControlName="password" [formGroup]="subscriptionForm"
+    ngDefaultControl></app-input-form>
+
+
+</form>
+<div id="button"><app-button action="S'inscrire" [ngClass]="'inscription-button'"></app-button></div>
