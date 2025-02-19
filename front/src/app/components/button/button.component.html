@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
-<button id="button"  *ngIf="routerLink; else normalButton" [routerLink]="routerLink" >{{action}}</button>
+<button   class="white"
+*ngIf="routerLink; else normalButton" [routerLink]="routerLink" >{{action}}</button>
 <ng-template #normalButton>
-    <button (click)="onClick()">{{ action }}</button>
+    <button class="purple" (click)="onClick()">{{ action }}</button>
   </ng-template>
