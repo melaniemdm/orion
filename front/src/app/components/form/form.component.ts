@@ -11,6 +11,7 @@ export class FormComponent implements OnInit {
 
 subscriptionForm!: FormGroup;
 @Input() titleForm: string = '';
+@Input() action: string = '';
   constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
