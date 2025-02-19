@@ -1,0 +1,23 @@
+#blocLogo{
+    display: none;
+}
+@media (max-width: 768px) {
+header{
+    display: none;
+}
+#blocLogo{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    
+  }
+  img{
+   margin-top: 100px;
+  z-index: 1;
+  position: relative;
+   width: 225px;
+   height: 130px;
+   //border: 1px solid #000000;
+  }
+}
