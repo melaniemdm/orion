@@ -1,32 +1,23 @@
 <!DOCTYPE html>
-<div id="bloc_header">
-  <img id="logo" src="/assets/logo_p6.png" alt="logo" />
-  <div id="drawerOne">
-    <div class="menu-item">Articles</div>
-    <div class="menu-item">Thèmes</div>
-    <img class="icon icon-user" src="/assets/icon.jpg" alt="user icon" />
+<header>
+  <div id="bloc_header">
+    <img id="logo" src="/assets/logo_p6.png" alt="logo" />
+    <div id="drawerOne">
+      <div class="menu-item">Articles</div>
+      <div class="menu-item">Thèmes</div>
+      <img class="icon icon-user" src="/assets/icon.jpg" alt="user icon" />
+    </div>
+    <!-- Icône burger (pour mobile) -->
+    <img id="burger" class="icon" src="/assets/menu.png" alt="burger icon" (click)="toggleMenu()" />
   </div>
-  <!-- Icône burger (pour mobile) -->
-  <img 
-    id="burger" 
-    class="icon" 
-    src="/assets/menu.png" 
-    alt="burger icon"
-    (click)="toggleMenu()"
-  />
-</div>
 
-<!-- Overlay en plein écran (floute l’arrière-plan) 
-     et le menu “drawer” collé à droite -->
-<div 
-  id="container-liens" 
-  [class.show]="isMenuOpen"
->
-  <!-- Sous-conteneur du menu (non flouté) -->
-  <div id="drawer">
-    <div class="menu-item">Articles</div>
-    <div class="menu-item">Thèmes</div>
-    <img class="icon icon-user" src="/assets/icon.jpg" alt="user icon" />
+  <!-- floute l’arrière-plan en plein écran () -->
+  <div id="container-liens" [class.show]="isMenuOpen">
+    <!-- Sous-conteneur du menu (non flouté) -->
+    <div id="drawer">
+      <div class="menu-item">Articles</div>
+      <div class="menu-item">Thèmes</div>
+      <img class="icon icon-user" src="/assets/icon.jpg" alt="user icon" />
+    </div>
   </div>
-</div>
-
+</header>
