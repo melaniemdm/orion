@@ -20,7 +20,6 @@ form {
 
 #title {
   margin: 50px;
-
   font-size: 24px;
   display: flex;
   align-items: center;
@@ -31,4 +30,17 @@ form {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+@media (max-width: 767px) {
+  #title {
+    //border: 1px solid #000000;
+    margin: 0px;
+ 
+  }
+  #flecheGauche {
+    //border: 1px solid #000000;
+    position: absolute;
+    z-index: 1;
+    top: -50px;
+  }
 }
