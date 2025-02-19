@@ -1,0 +1,18 @@
+#bloc-form{
+    width: auto; /* Ajuste la largeur si nécessaire */
+    margin: 20px auto; /* Centre horizontalement et ajoute un espace vertical */
+    //padding: 20px;
+   
+}
+
+input {
+    display: block; /* Force les inputs à être en colonne */
+  //margin: 0 auto;
+  width: 245px;
+  height: 45px;
+  border: 1px solid black;
+  border-radius: 8px;
+  //background-color: red;
+}
+
+
