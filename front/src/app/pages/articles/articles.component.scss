@@ -1,0 +1,10 @@
+#blocButton{
+margin: 20px;
+}
+#blocArticles {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 colonnes égales */
+    gap: 20px; /* Espacement entre les articles */
+    max-width: 800px; /* Ajuste la largeur max selon ton design */
+    margin: auto; /* Centre le bloc */
+}
