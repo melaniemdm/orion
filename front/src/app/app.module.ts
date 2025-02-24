@@ -17,9 +17,10 @@ import { ArticleComponent } from './components/article/article.component';
 import { ArticlesComponent } from './pages/articles/articles.component';
 import { ThemesComponent } from './pages/themes/themes.component';
 import { ThemeComponent } from './components/theme/theme.component';
+import { NewArticlesComponent } from './pages/new-articles/new-articles.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, HeaderComponent, ButtonComponent, SubscriptionComponent, LoginComponent, FormComponent, InputFormComponent, ArticleComponent, ArticlesComponent, ThemesComponent, ThemeComponent],
+  declarations: [AppComponent, HomeComponent, HeaderComponent, ButtonComponent, SubscriptionComponent, LoginComponent, FormComponent, InputFormComponent, ArticleComponent, ArticlesComponent, ThemesComponent, ThemeComponent, NewArticlesComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
