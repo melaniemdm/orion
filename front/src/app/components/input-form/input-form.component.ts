@@ -13,6 +13,9 @@ export class InputFormComponent implements OnInit {
   @Input() type: string = '';
   @Input() id: string = '';
   @Input() formControlName!: string;
+  @Input() placeholder: string = '';
+  @Input() required: boolean = false;
+  @Input() classInput: string = '';
   constructor() { }
 
   ngOnInit(): void {
