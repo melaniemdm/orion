@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<app-header></app-header>
+
+<div id="containerNewArticle">
+
+
+    <div id="blocHeaderNewArticle">
+        <img id="flecheGauche" src="/assets/fleche-gauche.png" alt="fleche gauche" [routerLink]="'/articles'" />
+        <div id="titleNewArticle">Créer un nouvel article</div>
+    </div>
+
+    <form [formGroup]="articleForm"  id="blocForm">
+
+        <app-input-form classInput="purple" formControlName="theme" type="text" placeholder="Selectionner un thème" [formGroup]="articleForm" ngDefaultControl></app-input-form>
+        <app-input-form classInput="purple" formControlName="title" type="text" placeholder="Titre de l'article" [formGroup]="articleForm" ngDefaultControl></app-input-form>
+        <app-input-form classInput="purple" formControlName="summary" type="text" placeholder="Résumé de l'article" [formGroup]="articleForm" ngDefaultControl></app-input-form>
+        <app-button action="Créer"></app-button>
+
+
+    </form>
+
+
+</div>

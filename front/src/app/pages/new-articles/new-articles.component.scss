@@ -1,0 +1,36 @@
+#flecheGauche {
+  z-index: 3;
+  position: absolute;
+  width: 39px;
+  height: 39px;
+  padding-left: 50px;
+}
+#titleNewArticle {
+  font-size: 24px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#blocForm {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 20px;
+  height: 100%;
+}
+#containerNewArticle {
+  margin-top: 20px;
+}
+#summary {
+  border: 1px solid #7763C5;
+  }
+
+  @media (max-width: 768px) {
+    #flecheGauche {
+      z-index: 0;
+      position: relative;
+      padding-left: 30px;
+    }
+  }
