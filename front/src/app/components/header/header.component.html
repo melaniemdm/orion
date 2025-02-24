@@ -4,7 +4,7 @@
     <img id="logo" src="/assets/logo_p6.png" alt="logo" />
     <div id="drawerOne">
       <div class="menu-item" [routerLink]="'/articles'">Articles</div>
-      <div class="menu-item">Thèmes</div>
+      <div class="menu-item" [routerLink]="'/themes'">Thèmes</div>
       <img class="icon icon-user" src="/assets/icon.jpg" alt="user icon" />
     </div>
     <!-- Icône burger (pour mobile) -->
@@ -15,8 +15,8 @@
   <div id="container-liens" [class.show]="isMenuOpen">
     <!-- Sous-conteneur du menu (non flouté) -->
     <div id="drawer">
-      <div class="menu-item">Articles</div>
-      <div class="menu-item">Thèmes</div>
+      <div class="menu-item" [routerLink]="'/articles'">Articles</div>
+      <div class="menu-item" [routerLink]="'/themes'">Thèmes</div>
       <img class="icon icon-user" src="/assets/icon.jpg" alt="user icon" />
     </div>
   </div>

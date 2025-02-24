@@ -15,9 +15,11 @@ import { InputFormComponent } from './components/input-form/input-form.component
 import { ReactiveFormsModule } from '@angular/forms';
 import { ArticleComponent } from './components/article/article.component';
 import { ArticlesComponent } from './pages/articles/articles.component';
+import { ThemesComponent } from './pages/themes/themes.component';
+import { ThemeComponent } from './components/theme/theme.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, HeaderComponent, ButtonComponent, SubscriptionComponent, LoginComponent, FormComponent, InputFormComponent, ArticleComponent, ArticlesComponent],
+  declarations: [AppComponent, HomeComponent, HeaderComponent, ButtonComponent, SubscriptionComponent, LoginComponent, FormComponent, InputFormComponent, ArticleComponent, ArticlesComponent, ThemesComponent, ThemeComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
