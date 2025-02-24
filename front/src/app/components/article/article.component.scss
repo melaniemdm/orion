@@ -1,41 +1,41 @@
 #blocArticle {
-    margin: 20px;
-    background-color: #f5f5f5;
-    border-radius: 8px;
-    //border: 1px solid #000000;
-    width: 339px;
-    height: 157px;
-    padding: 10px;
-    overflow: hidden; /* Cache ce qui dépasse */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  margin: 20px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  width: 339px;
+  height: 157px;
+  padding: 10px;
+  overflow: hidden; /* Cache ce qui dépasse */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  //border: 1px solid red;
 }
 
 #titleArticle {
-    font-weight: bold;
-    font-size: 16px;
+  font-weight: bold;
+  font-size: 16px;
 }
 
 #infoArticle {
-    font-size: 16px;
-    display: flex;
-    justify-content: space-between;
+  font-size: 16px;
+  display: flex;
+  justify-content: space-between;
 }
 
-#auteur, #date {
-    width: 137px;
-    //background-color: red;
-    text-align: center;
+#auteur,
+#date {
+  width: 137px;
+  text-align: center;
 }
-#textArticle{
-    font-size: 14px;
+#textArticle {
+  font-size: 14px;
 }
 /* ... après 3 lignes */
 #blocArticle > div:last-child {
-    display: -webkit-box;
-    -webkit-line-clamp: 5; /* Nombre de lignes avant le "..." */
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 5; /* Nombre de lignes avant le "..." */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
