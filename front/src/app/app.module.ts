@@ -7,17 +7,23 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
 import { HeaderComponent } from './components/header/header.component';
 import { ButtonComponent } from './components/button/button.component';
-import { FormConnexionComponent } from './components/form-connexion/form-connexion.component';
+
 import { SubscriptionComponent } from './pages/subscription/subscription.component';
 import { LoginComponent } from './pages/login/login.component';
+import { FormComponent } from './components/form/form.component';
+import { InputFormComponent } from './components/input-form/input-form.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ArticleComponent } from './components/article/article.component';
+import { ArticlesComponent } from './pages/articles/articles.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, HeaderComponent, ButtonComponent, SubscriptionComponent, LoginComponent],
+  declarations: [AppComponent, HomeComponent, HeaderComponent, ButtonComponent, SubscriptionComponent, LoginComponent, FormComponent, InputFormComponent, ArticleComponent, ArticlesComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatButtonModule,
+    ReactiveFormsModule
     
   ],
   providers: [],
