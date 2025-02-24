@@ -1,10 +1,43 @@
-#blocButton{
-margin: 20px;
+#blocContainer {
+  display: flex;
+  justify-content: center;
+}
+#flecheBas {
+  width: 16px;
+  height: 16px;
+}
+#blocTrie {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  font-weight: bold;
+}
+#blocButton {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px;
 }
 #blocArticles {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+}
+@media (max-width: 768px) {
+  #blocArticles {
+    grid-template-columns: repeat(1, 1fr);
+    justify-content: center;
+    max-width: 400px;
+  }
+}
+@media (max-width: 468px) {
+  #blocButton {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2 colonnes égales */
-    gap: 20px; /* Espacement entre les articles */
-    max-width: 800px; /* Ajuste la largeur max selon ton design */
-    margin: auto; /* Centre le bloc */
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
 }
