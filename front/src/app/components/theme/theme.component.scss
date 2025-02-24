@@ -1,0 +1,35 @@
+#blocTheme {
+    margin: 20px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    width: 339px;
+    height: 157px;
+    padding: 10px;
+    overflow: hidden; /* Cache ce qui dépasse */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    //border: 1px solid red;
+  }
+  
+  #titleTheme {
+    font-weight: bold;
+    font-size: 16px;
+  }
+  
+ 
+  #textTheme {
+    font-size: 14px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Coupe après 3 lignes */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#buttonAbonnement{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+  

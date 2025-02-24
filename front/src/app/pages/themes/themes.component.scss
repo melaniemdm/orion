@@ -1,0 +1,15 @@
+#containerTheme {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+}
+@media (max-width: 768px) {
+    #containerTheme {
+      grid-template-columns: repeat(1, 1fr);
+      justify-content: center;
+      max-width: 400px;
+    }
+  }
