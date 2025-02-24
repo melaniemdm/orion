@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -12,13 +12,18 @@ export class FormComponent implements OnInit {
 subscriptionForm!: FormGroup;
 @Input() titleForm: string = '';
 @Input() action: string = '';
-  constructor(private fb: FormBuilder) { }
+@Input() showUsername: boolean = true; 
 
+
+  constructor(private fb: FormBuilder) { }
+  ngOnChanges(changes: SimpleChanges): void {
+    this.ngOnInit();
+  }
   ngOnInit(): void {
     this.subscriptionForm = this.fb.group({
-      username: ['', Validators.required], 
+      username: this.showUsername ? ['', Validators.required] : null, 
       email: ['', [Validators.required, Validators.email]], 
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
 
