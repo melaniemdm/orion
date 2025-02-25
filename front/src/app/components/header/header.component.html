@@ -5,7 +5,12 @@
     <div id="drawerOne">
       <div class="menu-item" [routerLink]="'/articles'">Articles</div>
       <div class="menu-item" [routerLink]="'/themes'">Thèmes</div>
-      <img class="icon icon-user" src="/assets/icon.jpg" alt="user icon" />
+      <div id="iconUser" [routerLink]="'/me'">
+        <div id="rond">
+          <div id="head"></div>
+          <div id="corps"></div>
+        </div>
+      </div>
     </div>
     <!-- Icône burger (pour mobile) -->
     <img id="burger" class="icon" src="/assets/menu.png" alt="burger icon" (click)="toggleMenu()" />
@@ -17,7 +22,12 @@
     <div id="drawer">
       <div class="menu-item" [routerLink]="'/articles'">Articles</div>
       <div class="menu-item" [routerLink]="'/themes'">Thèmes</div>
-      <img class="icon icon-user" src="/assets/icon.jpg" alt="user icon" />
+      <div id="icon icon-user" [routerLink]="'/me'">
+        <div id="rond">
+          <div id="head"></div>
+          <div id="corps"></div>
+        </div>
+      </div>
     </div>
   </div>
 </header>
