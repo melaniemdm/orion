@@ -7,6 +7,7 @@ import { ArticlesComponent } from './pages/articles/articles.component';
 import { ThemesComponent } from './pages/themes/themes.component';
 import { NewArticlesComponent } from './pages/new-articles/new-articles.component';
 import { MeComponent } from './pages/me/me.component';
+import { CommentComponent } from './pages/comment/comment.component';
 
 // consider a guard combined with canLoad / canActivate route option
 // to manage unauthenticated user to access private routes
@@ -17,7 +18,8 @@ const routes: Routes = [{ path: '', component: HomeComponent },
   {path:'articles', component: ArticlesComponent },
   {path:'themes', component: ThemesComponent },
   { path: 'newArticle', component: NewArticlesComponent },
-  { path: 'me', component: MeComponent }];
+  { path: 'me', component: MeComponent },
+  { path: 'comment', component: CommentComponent }];
 ;
 
 @NgModule({
