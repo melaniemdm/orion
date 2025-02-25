@@ -3,10 +3,12 @@
   //background-color: red;
   align-items: center;
   gap: 20px;
+  margin-top: 20px;
 }
 #flecheGauche {
   width: 40px;
   height: 40px;
+  margin-left: 20px;
 }
 #titleArticleSelect {
   font-size: 24px;
@@ -19,10 +21,11 @@
 }
 #textArticle {
   //background-color: red;
-  width: 740px;
-  margin-left: 300px;
+  width: 70%;
+  margin: 50px auto; /* Centrer horizontalement */
   border-bottom: 1px solid black;
   padding: 20px;
+  text-align: justify; /* Optionnel : justifier le texte */
 }
 #commentaires{
     margin-left: 50px;
@@ -37,4 +40,10 @@
 #send{
     width: 45px;
   height: 45px;
+}
+@media (max-width: 768px) {
+  #send{
+    position: absolute;
+    margin-right: -190px;
+}
 }
