@@ -19,15 +19,16 @@
   <!-- floute l’arrière-plan en plein écran () -->
   <div id="container-liens" [class.show]="isMenuOpen">
     <!-- Sous-conteneur du menu (non flouté) -->
-    <div id="drawer">
+    <div id="containerMenu">
       <div class="menu-item" [routerLink]="'/articles'">Articles</div>
       <div class="menu-item" [routerLink]="'/themes'">Thèmes</div>
-      <div id="icon icon-user" [routerLink]="'/me'">
+    </div>
+      <div id="iconUser" [routerLink]="'/me'">
         <div id="rond">
           <div id="head"></div>
           <div id="corps"></div>
         </div>
       </div>
     </div>
-  </div>
+ 
 </header>
