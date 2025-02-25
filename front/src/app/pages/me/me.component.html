@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<app-header></app-header>
+<div class="profil">Profil utilisateur</div>
+
+<div id="containerUser">
+<app-input-form classInput="purple" formControlName="username" type="text" placeholder="Username" [formGroup]="articleForm" ngDefaultControl></app-input-form>
+<app-input-form classInput="purple" formControlName="email" type="text" placeholder="email@email.com" [formGroup]="articleForm" ngDefaultControl></app-input-form></div>
+
+<div id="action"><app-button action="Sauvegarder"></app-button>
+<div id="deconnecter">Se déconnecter</div></div>
+
+<div class="profil">Abonnements</div>
+<div id="containerTheme">
+<app-theme></app-theme>
+<app-theme></app-theme>
+<app-theme></app-theme>
+<app-theme></app-theme>
+</div>
