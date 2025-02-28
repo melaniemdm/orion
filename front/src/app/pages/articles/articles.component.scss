@@ -32,8 +32,6 @@
     justify-content: center;
     max-width: 400px;
   }
-}
-@media (max-width: 468px) {
   #blocButton {
     display: grid;
     justify-content: center;
@@ -41,3 +39,4 @@
     gap: 20px;
   }
 }
+
