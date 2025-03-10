@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ArticleRequest } from 'src/app/interfaces/article.interfaces';
+import { AuthSuccess } from 'src/app/interfaces/authAcces.interfaces';
+import { ArticleService } from 'src/app/services/article.service';
+import { AuthService } from 'src/app/services/auth.service'; // <-- importer l'AuthService
+import { User } from 'src/app/interfaces/user.interfaces';
 
 @Component({
   selector: 'app-new-articles',
@@ -7,20 +13,76 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./new-articles.component.scss']
 })
 export class NewArticlesComponent implements OnInit {
-  articleForm!: FormGroup;
-  constructor(private fb: FormBuilder) { }
+  public articleForm!: FormGroup;
+  public onError = false;
+
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private articleService: ArticleService,
+    private authService: AuthService // <-- injection de AuthService
+  ) { }
 
   ngOnInit(): void {
     this.articleForm = this.fb.group({
-      theme: ['', Validators.required],
+      theme_id: ['', Validators.required],
       title: ['', Validators.required],
-      summary: ['', Validators.required]
+      description: ['', Validators.required]
     });
-
   }
-  onSubmit(): void {
-    if (this.articleForm.valid) {
-      console.log('Article soumis', this.articleForm.value);
+
+  public onSubmit(): void {
+    this.onFormSubmit(this.articleForm);
+  }
+
+  public onFormSubmit(form: FormGroup): void {
+    console.log("Formulaire reçu dans subscription.component.ts register:", form.value);
+
+    if (form.valid) {
+      const registerRequest = form.value as ArticleRequest;
+      console.log("Tentative d'inscription (article) :", registerRequest);
+
+      // 1. Récupération des infos du user via authService.me()
+      this.authService.me().subscribe({
+        next: (user: User) => {
+
+          registerRequest.auteur_id = user.id;
+          console.log("user.id" + user.id)
+
+          console.log('registerRequest final :', registerRequest);
+
+          // 3. Appel au service ArticleService pour créer l'article
+          this.articleService.registerArticle(registerRequest).subscribe({
+            next: (response: AuthSuccess) => {
+              console.log("Article créé avec succès :", response);
+              localStorage.setItem('token', response.token);
+              console.log("Redirection vers /articles...");
+              this.router.navigate(['/articles']).then(success => {
+                if (success) {
+                  console.log("Redirection réussie !");
+                } else {
+                  console.error("Problème de redirection !");
+                }
+              });
+            },
+            error: (err) => {
+              console.error("Erreur lors de la création de l'article :", err);
+              this.onError = true;
+            }
+          });
+        },
+        error: (err) => {
+          console.error("Erreur lors de la récupération du user :", err);
+          this.onError = true;
+        }
+      });
+
+    } else {
+      console.warn("Formulaire invalide :", form.errors);
     }
+  }
+
+  public onThemeSelected(themeValue: string): void {
+    this.articleForm.patchValue({ theme_id: themeValue });
   }
 }

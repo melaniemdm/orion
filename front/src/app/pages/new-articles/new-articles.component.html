@@ -9,12 +9,14 @@
         <div id="titleNewArticle">Créer un nouvel article</div>
     </div>
 
-    <form [formGroup]="articleForm"  id="blocForm">
+    <form [formGroup]="articleForm" id="blocForm" (ngSubmit)="onFormSubmit(articleForm)">
+        <app-theme-list id="listTheme" (themeChange)="onThemeSelected($event)"></app-theme-list>
 
-        <app-input-form classInput="purple" formControlName="theme" type="text" placeholder="Selectionner un thème" [formGroup]="articleForm" ngDefaultControl></app-input-form>
-        <app-input-form classInput="purple" formControlName="title" type="text" placeholder="Titre de l'article" [formGroup]="articleForm" ngDefaultControl></app-input-form>
-        <app-input-form classInput="purple" formControlName="summary" type="text" placeholder="Résumé de l'article" [formGroup]="articleForm" ngDefaultControl></app-input-form>
-        <app-button action="Créer"></app-button>
+        <app-input-form classInput="purple" formControlName="title" type="text" placeholder="Titre de l'article"
+            [formGroup]="articleForm" ngDefaultControl></app-input-form>
+        <app-input-form classInput="purple" formControlName="description" type="text" placeholder="Résumé de l'article"
+            [formGroup]="articleForm" ngDefaultControl></app-input-form>
+        <app-button action="Créer" type="submit"></app-button>
 
 
     </form>
