@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-me',
@@ -8,7 +9,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class MeComponent implements OnInit {
 articleForm!: FormGroup;
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder,private router: Router) { }
 
   ngOnInit(): void {
      this.articleForm = this.fb.group({
@@ -16,5 +17,11 @@ articleForm!: FormGroup;
           email: ['', Validators.required]
         });
   }
+  public onLogout(): void {
+    // 1. Retirer le token du localStorage
+    localStorage.removeItem('token');
 
+    // 2. Rediriger l’utilisateur vers la page home (ou login, etc.)
+    this.router.navigate(['/']);
+  }
 }

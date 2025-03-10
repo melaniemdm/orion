@@ -7,7 +7,7 @@
 <app-input-form classInput="purple" formControlName="email" type="text" placeholder="email@email.com" [formGroup]="articleForm" ngDefaultControl></app-input-form></div>
 
 <div id="action"><app-button action="Sauvegarder"></app-button>
-<div id="deconnecter">Se déconnecter</div></div>
+<div id="deconnecter" (click)="onLogout()">Se déconnecter</div></div>
 
 <div class="profil">Abonnements</div>
 <div id="containerTheme">
