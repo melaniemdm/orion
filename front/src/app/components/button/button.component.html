@@ -3,5 +3,5 @@
 <button   class="white"
 *ngIf="routerLink; else normalButton" [routerLink]="routerLink" >{{action}}</button>
 <ng-template #normalButton>
-    <button class="purple" (click)="onClick()">{{ action }}</button>
+    <button class="purple" >{{ action }}</button>
   </ng-template>
