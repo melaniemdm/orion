@@ -2,7 +2,6 @@ package com.openclassrooms.mddapi.controller;
 
 
 import com.openclassrooms.mddapi.dto.UserDTO;
-import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.service.JwtService;
 import com.openclassrooms.mddapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,14 +10,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthentificationController {
+    private static final Logger logger = LoggerFactory.getLogger(AuthentificationController.class);
     @Autowired
     private UserService userService;
     @Autowired
@@ -82,6 +83,7 @@ public class AuthentificationController {
      * - A 401 Unauthorized response if the email or password is incorrect.
      * - A 200 OK response with the token if login is successful.
      */
+    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody UserDTO loginRequest) {
 
@@ -90,6 +92,7 @@ public class AuthentificationController {
 
         // Check if the user exists in the database
         if (optionalUser.isEmpty()) {
+            logger.warn(" Utilisateur non trouvé pour l'email: {}", loginRequest.getEmail());
             // If no user is found, return a 401 Unauthorized response
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password.");
         }
@@ -102,11 +105,12 @@ public class AuthentificationController {
 
         // If the password is invalid, return a 401 Unauthorized response
         if (!isPasswordValid) {
+            logger.warn(" Mot de passe incorrect pour l'utilisateur: {}", loginRequest.getEmail());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password.");
         }
         // Generate a JWT token for the user upon successful login
         String token = JwtService.generateToken(userDTO.getId(), userDTO.getEmail());
-
+        logger.info(" Connexion réussie pour l'utilisateur: {}", loginRequest.getEmail());
         // Prepare the response body with the generated token and user information
         Map<String, Object> response = new HashMap<>();
         response.put("token", token);

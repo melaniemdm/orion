@@ -42,30 +42,30 @@ export class LoginComponent implements OnInit {
   }
 
   onFormSubmit(form: FormGroup): void {
-    console.log("📩 Formulaire reçu dans login.component.ts login:", form.value);
+    console.log("Formulaire reçu dans login.component.ts login:", form.value);
 
     if (form.valid) {
       const loginRequest = form.value as LoginRequest;
 
       this.authService.login(loginRequest).subscribe(
         (response: AuthSuccess) => {
-          console.log("✅ Connexion réussie :", response);
+          console.log("Connexion réussie :", response);
           localStorage.setItem('token', response.token);
-          console.log("📢 Token stocké :", localStorage.getItem('token')); // ✅ Vérifier si le token stocké est correct
+          console.log("Token stocké :", localStorage.getItem('token')); // Vérifie si le token stocké est correct
 
           this.authService.me().subscribe((user) => {
             this.sessionService.logIn(user);
-            console.log("🔀 Redirection vers /articles...");
+            console.log("Redirection vers /articles...");
             this.router.navigate(['/articles']);
           });
         },
         error => {
-          console.error("❌ Erreur de connexion :", error);
+          console.error("Erreur de connexion :", error);
           this.onError = true;
         }
       );
     } else {
-      console.warn("⚠️ Formulaire invalide :", form.errors);
+      console.warn("Formulaire invalide :", form.errors);
     }
   }
 

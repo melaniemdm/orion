@@ -26,6 +26,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
      * @param jwtService The service responsible for handling JWT token extraction and validation.
      */
     public JwtAuthenticationFilter(JwtService jwtService) {
+
         this.jwtService = jwtService;
     }
 
@@ -50,6 +51,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         System.out.println(" JwtAuthenticationFilter is running for request: " + request.getRequestURI());
+
+        // Affiche le token brut reçu dans l’en-tête Authorization
+        String authHeader = request.getHeader("Authorization");
+        System.out.println("📢 Authorization header received: " + authHeader);
+
         // Extraction and validation of the JWT token
         extractToken(request)// Get the token from the Authorization header
                 .flatMap(this::getValidUsername)// Validates the token and extracts the username if valid
@@ -77,9 +83,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
-
+            System.out.println("📢 Token extrait: " + token);
             return Optional.of(token);
         }
+        System.out.println("❌ Aucun token trouvé dans l'en-tête Authorization.");
         return Optional.empty();
     }
 
@@ -116,7 +123,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
      * @param request  The HTTP request used to obtain the token (included for context but not used directly).
      */
     private void setAuthentication(String username, HttpServletRequest request) {
-        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(username, null, null));
+        UsernamePasswordAuthenticationToken authentication =
+                new UsernamePasswordAuthenticationToken(username, null, null);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        System.out.println("🔒 Authentification définie pour l'utilisateur: " + username);
     }
 
 
