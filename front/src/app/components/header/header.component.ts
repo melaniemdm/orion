@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -10,12 +11,18 @@ export class HeaderComponent implements OnInit {
   // Contrôle l’affichage du menu en mobile
   public isMenuOpen: boolean = false;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void { }
 
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
   }
+  public onLogout(): void {
+    // 1. Retirer le token du localStorage
+    localStorage.removeItem('token');
 
+    // 2. Rediriger l’utilisateur vers la page home (ou login, etc.)
+    this.router.navigate(['/']);
+  }
 }

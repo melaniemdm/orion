@@ -3,8 +3,10 @@
   <div id="bloc_header">
     <img id="logo" src="/assets/logo_p6.png" alt="logo" />
     <div id="drawerOne">
+       <div class="deconnecter" (click)="onLogout()">Se deconnecter</div>
       <div class="menu-item" [routerLink]="'/articles'">Articles</div>
       <div class="menu-item" [routerLink]="'/themes'">Thèmes</div>
+     
       <div id="iconUser" [routerLink]="'/me'">
         <div id="rond">
           <div id="head"></div>
@@ -20,9 +22,11 @@
   <div id="container-liens" [class.show]="isMenuOpen">
     <!-- Sous-conteneur du menu (non flouté) -->
     <div id="containerMenu">
+      <div class="deconnecter" (click)="onLogout()">Se deconnecter</div>
       <div class="menu-item" [routerLink]="'/articles'">Articles</div>
       <div class="menu-item" [routerLink]="'/themes'">Thèmes</div>
     </div>
+    
       <div id="iconUser" [routerLink]="'/me'">
         <div id="rond">
           <div id="head"></div>
