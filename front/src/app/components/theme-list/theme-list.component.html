@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<div>
+ 
+    <select [(ngModel)]="selectedTheme" (ngModelChange)="onThemeChange($event)" >
+      <option value="" disabled>Sélectionnez un thème</option>
+      <option *ngFor="let theme_id of subjectData.subject" [value]="theme_id.id">
+        {{ theme_id.name_theme }}
+      </option>
+    </select>
+  
+  
+  </div>
+  
+  
