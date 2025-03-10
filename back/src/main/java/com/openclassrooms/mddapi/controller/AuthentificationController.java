@@ -88,7 +88,7 @@ public class AuthentificationController {
     public ResponseEntity<?> loginUser(@RequestBody UserDTO loginRequest) {
 
         // Retrieve the user by email from the database
-        Optional<UserDTO> optionalUser = userService.getUserByEmail(loginRequest.getEmail());
+        Optional<UserDTO> optionalUser = userService.getUserByEmailOrUsername(loginRequest.getEmail());
 
         // Check if the user exists in the database
         if (optionalUser.isEmpty()) {
@@ -111,6 +111,7 @@ public class AuthentificationController {
         // Generate a JWT token for the user upon successful login
         String token = JwtService.generateToken(userDTO.getId(), userDTO.getEmail());
         logger.info(" Connexion réussie pour l'utilisateur: {}", loginRequest.getEmail());
+
         // Prepare the response body with the generated token and user information
         Map<String, Object> response = new HashMap<>();
         response.put("token", token);

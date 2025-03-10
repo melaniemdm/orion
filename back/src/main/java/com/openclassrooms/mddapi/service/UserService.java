@@ -38,7 +38,7 @@ public class UserService {
     public UserDTO createUser(UserDTO dto) {
         // Convert DTO to entity
         User user = new User();
-        user.setUser_name(dto.getUser_name());
+        user.setUsername(dto.getUser_name());
         user.setEmail(dto.getEmail());
         user.setPassword(dto.getPassword());
         // Save the user entity to the database
@@ -47,7 +47,7 @@ public class UserService {
         // Convert saved entity back to DTO and return
         UserDTO userDTO = new UserDTO();
         userDTO.setId(savedUser.getId());
-        userDTO.setUser_name(savedUser.getUser_name());
+        userDTO.setUser_name(savedUser.getUsername());
         userDTO.setEmail(savedUser.getEmail());
         userDTO.setPassword(savedUser.getPassword());
 
@@ -71,7 +71,7 @@ public class UserService {
             User user = userOptional.get();
 
             // Update user fields
-            user.setUser_name(userDTO.getUser_name());
+            user.setUsername(userDTO.getUser_name());
             user.setEmail(userDTO.getEmail());
             user.setPassword(userDTO.getPassword());
 
@@ -133,21 +133,23 @@ public class UserService {
     /**
      * Retrieves a user by their email address.
      *
-     * @param email The email of the user to retrieve.
+     * @param emailOrUsername The email of the user to retrieve.
      * @return An {@link Optional} containing the {@link UserDTO} if the user exists, or an empty {@link Optional} if not found.
      */
-    public Optional<UserDTO> getUserByEmail(String email) {
+    public Optional<UserDTO> getUserByEmailOrUsername(String emailOrUsername) {
 
-        // Fetch the user entity by email from the repository
-        Optional<User> user = userRepository.findByEmail(email);
+        Optional<User> user = userRepository.findByEmail(emailOrUsername);
 
-        // Log the result for debugging purposes
-        if (user.isPresent()) {
-            System.out.println("email : : " + user.get());
-        } else {
-            System.out.println("Aucun utilisateur trouvé pour login : " + email);
+        if (user.isEmpty()) {
+            user = userRepository.findByUsername(emailOrUsername); // <-- corrigé ici
         }
-        // Convert the User entity to a UserDTO if present and return it
+
+        if (user.isPresent()) {
+            System.out.println("Utilisateur trouvé : " + user.get());
+        } else {
+            System.out.println("Aucun utilisateur trouvé pour l'identifiant : " + emailOrUsername);
+        }
+
         return user.map(this::entityToDto);
 
     }
@@ -197,7 +199,7 @@ public class UserService {
         UserDTO userDTO = new UserDTO();
 
         userDTO.setId(user.getId());
-        userDTO.setUser_name(user.getUser_name());
+        userDTO.setUser_name(user.getUsername());
         userDTO.setEmail(user.getEmail());
         userDTO.setPassword(user.getPassword());
 
@@ -215,7 +217,7 @@ public class UserService {
         User user = new User();
 
         user.setId(userDTO.getId());
-        user.setUser_name(userDTO.getUser_name());
+        user.setUsername(userDTO.getUser_name());
         user.setEmail(userDTO.getEmail());
         user.setPassword(userDTO.getPassword());
 
