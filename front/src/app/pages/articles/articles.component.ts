@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Article, ArticleService } from 'src/app/services/article.service';
-import { UserService } from 'src/app/services/user.service';
+import { ArticleRequest } from 'src/app/interfaces/article.interfaces';
+import { ArticleService } from 'src/app/services/article.service';
 
 @Component({
   selector: 'app-articles',
@@ -9,25 +9,22 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class ArticlesComponent implements OnInit {
 
-  articles: Article[] = [];
+// On stocke la liste des articles ici
+public articles: ArticleRequest[] = [];
 
-  constructor(private articleService: ArticleService, private userService: UserService) {}
+constructor(private articleService: ArticleService) {}
 
-  ngOnInit(): void {
-    this.loadArticles();
-  }
+ngOnInit(): void {
+  // Au chargement du composant, on récupère les articles
+  this.articleService.getAllArticles().subscribe({
+    next: (data) => {
+      // data est un tableau d'articles
+      this.articles = data;
+    },
+    error: (err) => {
+      console.error('Erreur lors de la récupération des articles :', err);
+    }
+  });
+}
 
-  loadArticles() {
-    this.articleService.getArticles().subscribe({
-      next: (data) => {
-        if (Array.isArray(data)) {
-          this.articles = data;
-        } else {
-          console.error("❌ La réponse du backend n'est pas un tableau :", data);
-        }
-        console.log("🎯 Articles stockés :", this.articles);
-      },
-      error: (err) => console.error("❌ Erreur lors du chargement des articles", err)
-    });
-  }
 }

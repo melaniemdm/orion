@@ -1,16 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, map, Observable, tap, throwError } from 'rxjs';
-import {  ArticleRequest } from '../interfaces/article.interfaces';
+import { catchError, map, Observable, throwError } from 'rxjs';
+import {  ArticleRequest, ArticleResponse } from '../interfaces/article.interfaces';
 import { AuthSuccess } from '../interfaces/authAcces.interfaces';
 
-export interface Article {
-  id: number;
-  title: string;
-  content: string;
-  author: string;
-  date: string;
-}
 
 @Injectable({
   providedIn: 'root'
@@ -19,32 +12,39 @@ export class ArticleService {
     private readonly BASE_URL = 'http://localhost:3001/api/post';
 
     constructor(private http: HttpClient) {}
+   // Méthode existante pour poster un article
    public registerArticle(request: ArticleRequest): Observable<AuthSuccess> {
-     // Récupération du token depuis localStorage
-     const token = localStorage.getItem('token') || '';
-
-     // Construction des en-têtes
-     const headers = new HttpHeaders({
-       Authorization: `Bearer ${token}`,
-       'Content-Type': 'application/json'
-     });
-      return this.http
-        .post<AuthSuccess>(`${this.BASE_URL}`, request, { headers })
-        .pipe(catchError(this.handleError));
-    }
+    const token = localStorage.getItem('token') || '';
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+    return this.http
+      .post<AuthSuccess>(this.BASE_URL, request, { headers })
+      .pipe(catchError(this.handleError));
+  }
  private handleError(error: any): Observable<never> {
     
     return throwError(() => new Error(error?.message || 'Server error'));
   }
+  public getAllArticles(): Observable<ArticleRequest[]> {
+    const token = localStorage.getItem('token') || '';
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
 
-  getArticles(): Observable<Article[]> {
-    const token = localStorage.getItem('token'); 
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-  
-    return this.http.get<{ post: Article[] }>(this.BASE_URL, { headers }).pipe(
-      tap(response => console.log("📡 Réponse brute du backend :", response)), 
-      map(response => response.post || []), // ✅ Assure que nous avons bien un tableau d'articles
-      catchError(this.handleError)
-    );
+    // On définit un type correspondant à { post: ArticleRequest[] }
+    
+
+    return this.http
+      .get<ArticleResponse>(this.BASE_URL, { headers })
+      .pipe(
+        // On récupère le tableau dans .post
+        map(response => response.post),
+        catchError(this.handleError)
+      );
   }
+
+  
 }

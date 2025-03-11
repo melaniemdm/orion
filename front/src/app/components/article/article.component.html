@@ -2,12 +2,10 @@
 <div id="blocArticle">
     <div id="titleArticle">title de l'article</div>
     <div id="infoArticle">
-        <div id="date">{{ article?.created_date | date:'dd/MM/yyyy '}} </div>
-        <div id="auteur">{{ article?.auteur_name || 'auteur inconnu'}} </div>
+        <div id="date"> {{ article.created_date | date:'dd/MM/yyyy '  }} </div>
+        <div id="auteur">{{ article.auteur_id   }}</div>
     </div>
     <div id="textArticle" [routerLink]="'/comment'">
-        <div id="textArticle" [routerLink]="'/comment'">
-            {{ article?.description }}
-        </div>
-    </div>
+        {{ article.description }}
+      </div>
 </div>

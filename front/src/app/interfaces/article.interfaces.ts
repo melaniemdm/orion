@@ -1,10 +1,11 @@
 export interface ArticleRequest {
-    id: number;
+  theme: string;
   title: string;
-  description: string;  // ✅ Correction (anciennement 'content')
-  auteur_id: number;  // ✅ Ajouté pour récupérer l'auteur
-  auteur_name?: string;  // ✅ Optionnel, car récupéré après
-  created_date: string;  // ✅ Correction (anciennement 'date')
+  auteur_id?: number;
+  description: string;
   theme_id?: number;
-
+created_date: string;
+}
+export interface ArticleResponse {
+  post: ArticleRequest[];
 }
