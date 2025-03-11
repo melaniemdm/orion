@@ -1,14 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Theme } from '../interfaces/theme.interfaces';
 
-export interface Theme {
-  id: number;
-  name: string;
-}
-export interface ThemeResponse {
-    subject?: Theme[]; // `?` permet de le rendre optionnel
-  }
+
 
 @Injectable({
   providedIn: 'root'

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { Theme, ThemeResponse, ThemeService } from 'src/app/services/theme.service';
+import { Theme } from 'src/app/interfaces/theme.interfaces';
+import {   ThemeService } from 'src/app/services/theme.service';
 
 @Component({
   selector: 'app-theme-list',
