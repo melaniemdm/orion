@@ -12,6 +12,8 @@
     ngDefaultControl></app-input-form>
   <app-input-form label="Mot de passe" type="password" formControlName="password" [formGroup]="subscriptionForm"
     ngDefaultControl></app-input-form>
-  <div id="button"><app-button type="submit" [action]="action" [ngClass]="'inscription-button'" (buttonClick)="onSubmit()"></app-button></div>
+  <div id="button">
+    
+    <app-button id="button" type="submit" [action]="action" [ngClass]="'inscription-button'" (buttonClick)="onSubmit()"></app-button></div>
 
 </form>

@@ -4,8 +4,11 @@
 
 <div id="containerUser">
 <app-input-form classInput="purple" formControlName="username" type="text" placeholder="Username" [formGroup]="articleForm" ngDefaultControl></app-input-form>
-<app-input-form classInput="purple" formControlName="email" type="text" placeholder="email@email.com" [formGroup]="articleForm" ngDefaultControl></app-input-form></div>
 
+<app-input-form classInput="purple" formControlName="email" type="text" placeholder="email@email.com" [formGroup]="articleForm" ngDefaultControl></app-input-form>
+
+<app-input-form classInput="purple" formControlName="password" type="password" placeholder="password" [formGroup]="articleForm" ngDefaultControl></app-input-form>
+</div>
 <div id="action"><app-button action="Sauvegarder"></app-button>
 <div id="deconnecter" (click)="onLogout()">Se déconnecter</div></div>
 

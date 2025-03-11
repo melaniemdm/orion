@@ -4,7 +4,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  //padding: 20px;
 }
 
 #email {
@@ -16,6 +16,7 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
+ 
 }
 #action {
   display: flex;
@@ -47,4 +48,7 @@
     justify-content: center;
     max-width: 400px;
   }
+}
+* {
+  border: 1px solid red;
 }

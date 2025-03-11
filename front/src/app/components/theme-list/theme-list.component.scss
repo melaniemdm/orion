@@ -8,7 +8,8 @@ select {
     outline: none;              /* Supprime le contour bleu par défaut au focus */
     background-color: #fff;     /* Fond blanc */
     color: #757474;                /* Couleur de texte */
-    appearance: none;           /* Supprime l’icône native du sélect (selon le navigateur) */
+    appearance: none; 
+    margin: -8px;          /* Supprime l’icône native du sélect (selon le navigateur) */
   }
   
  
