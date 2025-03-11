@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { Theme, ThemeResponse, ThemeService } from 'src/app/services/theme.service';
 
 @Component({
   selector: 'app-theme-list',
@@ -7,28 +8,46 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 export class ThemeListComponent {
  
-
-// Après
-public subjectData = {
-  subject: [
-    { id: 1, name_theme: 'informatique' },
-    { id: 2, name_theme: 'java' },
-    { id: 3, name_theme: 'javascript' },
-    { id: 4, name_theme: 'spring' },
-    { id: 5, name_theme: 'springboot' },
-    { id: 6, name_theme: 'go' },
-    { id: 7, name_theme: 'rust' }
-  ]
-};
-
-//utliser le back end pour recuperer la liste des theme
-//dans la liste deroulante je pourrais recuperer l'id
-// html a modifier
-
-  public selectedTheme: string = ''; // ou null, mais '' est plus simple
+  themes: Theme[] = [];
+  selectedTheme!: string;
 
   @Output() themeChange = new EventEmitter<string>();
+
+  constructor(private themeService: ThemeService) { }
+
+  ngOnInit(): void {
+    this.loadThemes();
+  }
+
+  loadThemes() {
+   
+
+    this.themeService.getThemes().subscribe({
+      next: (response: any) => {
+       
+
+        if (Array.isArray(response)) {
+          this.themes = response.map(theme => ({
+            id: theme.id,
+            name: theme.name_theme 
+          }));
+        } else if (response && response.subject) {
+          this.themes = response.subject.map((theme: { id: any; name_theme: any; }) => ({
+            id: theme.id,
+            name: theme.name_theme
+          }));
+        } else {
+          console.error('Format de réponse inattendu :', response);
+        }
+
+        console.log("Thèmes stockés après transformation :", this.themes);
+      },
+      error: err => console.error("Erreur lors du chargement des thèmes", err)
+    });
+  }
+
   onThemeChange(value: string) {
+    console.log("ngOnInit() exécuté !");
     this.themeChange.emit(value);
   }
 
