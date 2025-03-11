@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <app-header></app-header>
 <div id="containerBloc">
-    <div id="blocButton" [routerLink]="'/newArticle'"><app-button  action="Créer un article"></app-button>
+    <div id="blocButton" [routerLink]="'/newArticle'">
+        <app-button  action="Créer un article"></app-button>
     <div id="blocTrie">Trier par
         <img id="flecheBas" src="/assets/fleche-vers-le-bas.png" alt="fleche vers le Bas" />
     </div>
     </div>
-    <div id="blocArticles">
-        <app-article></app-article>
-        <app-article></app-article>
-        <app-article></app-article>
-        <app-article></app-article>
-    </div>
+    <div id="blocArticles" *ngIf="articles.length > 0">
+        <app-article *ngFor="let article of articles" [article]="article"></app-article>
+      </div>
+      
+      <ng-template #noArticles>
+        <p>Aucun article disponible.</p>
+      </ng-template>
+      
 </div>
