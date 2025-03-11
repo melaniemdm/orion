@@ -9,7 +9,7 @@ import { Theme, ThemeResponse, ThemeService } from 'src/app/services/theme.servi
 export class ThemeListComponent {
  
   themes: Theme[] = [];
-  selectedTheme!: string;
+  selectedTheme: string= "";
 
   @Output() themeChange = new EventEmitter<string>();
 
@@ -20,27 +20,24 @@ export class ThemeListComponent {
   }
 
   loadThemes() {
-   
-
     this.themeService.getThemes().subscribe({
       next: (response: any) => {
-       
-
         if (Array.isArray(response)) {
           this.themes = response.map(theme => ({
             id: theme.id,
-            name: theme.name_theme 
+            name: theme.name_theme
           }));
         } else if (response && response.subject) {
           this.themes = response.subject.map((theme: { id: any; name_theme: any; }) => ({
             id: theme.id,
             name: theme.name_theme
           }));
-        } else {
-          console.error('Format de réponse inattendu :', response);
         }
-
+  
         console.log("Thèmes stockés après transformation :", this.themes);
+  
+       
+        this.selectedTheme = ""; 
       },
       error: err => console.error("Erreur lors du chargement des thèmes", err)
     });
