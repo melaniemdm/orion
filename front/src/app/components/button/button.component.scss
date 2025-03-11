@@ -15,11 +15,20 @@ button{
 button:hover{
     text-decoration: underline;
 }
-.purple{
-    background-color: #7763c5;
-    color: #ffffff;
-    width: 153px ;
+//gestion des couleurs bouttons
+button{
+    &.gray{
+        background-color: gray;
+        color: #ffffff;  
+        width: 153px ;
+    }
+    &.purple{
+        background-color: #7763c5;
+        color: #ffffff;
+        width: 153px ;
+    }
 }
+
 .white{
     background-color: #ffffff;
     color: #000000;

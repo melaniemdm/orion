@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 
+
+
 <button   class="white"
 *ngIf="routerLink; else normalButton" [routerLink]="routerLink" >{{action}}</button>
+
 <ng-template #normalButton>
-    <button class="purple" >{{ action }}</button>
+    <button [ngClass]="{'gray': subscribed, 'purple': !subscribed}"   (click)="onClick()" >{{ action }}</button>
   </ng-template>

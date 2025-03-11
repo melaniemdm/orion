@@ -6,10 +6,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./theme.component.scss']
 })
 export class ThemeComponent implements OnInit {
+  subscribed = false;
 
   constructor() { }
 
   ngOnInit(): void {
   }
-
+toggleSubscription() {
+    this.subscribed = !this.subscribed;
+  }
 }

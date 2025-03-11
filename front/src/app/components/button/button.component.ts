@@ -9,14 +9,16 @@ export class ButtonComponent implements OnInit {
   //Récupere la props
   @Input() action: string = '';
   @Input() routerLink?: string; 
-
+  @Input() subscribed: boolean = false;
   
-
+  @Output() clicked = new EventEmitter<void>();
   
 
   constructor() { }
 
   ngOnInit(): void {
   }
-
+  onClick(): void {
+    this.clicked.emit();
+  }
 }
