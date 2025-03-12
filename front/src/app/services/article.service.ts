@@ -12,7 +12,7 @@ export class ArticleService {
     private readonly BASE_URL = 'http://localhost:3001/api/post';
 
     constructor(private http: HttpClient) {}
-   // Méthode existante pour poster un article
+   
    public registerArticle(request: ArticleRequest): Observable<AuthSuccess> {
     const token = localStorage.getItem('token') || '';
     const headers = new HttpHeaders({
@@ -34,13 +34,13 @@ export class ArticleService {
       'Content-Type': 'application/json'
     });
 
-    // On définit un type correspondant à { post: ArticleRequest[] }
+    
     
 
     return this.http
       .get<ArticleResponse>(this.BASE_URL, { headers })
       .pipe(
-        // On récupère le tableau dans .post
+        
         map(response => response.post),
         catchError(this.handleError)
       );
