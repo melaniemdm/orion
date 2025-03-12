@@ -5,7 +5,7 @@
         <div id="date"> {{ article.created_date | date:'dd/MM/yyyy '  }} </div>
         <div id="auteur">{{ getUserName() }}</div>
     </div>
-    <div id="textArticle" [routerLink]="'/comment'">
+    <div id="textArticle" [routerLink]="['/comment', article.id]">
         {{ article.description }}
       </div>
 </div>
