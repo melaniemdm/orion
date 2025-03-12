@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<div id="blocArticle">
-    <div id="titleArticle">title de l'article</div>
+<div id="blocArticle" (click)="goToComments(article.id)">
+    <div id="titleArticle">{{ article.title }}</div>
     <div id="infoArticle">
         <div id="date"> {{ article.created_date | date:'dd/MM/yyyy '  }} </div>
         <div id="auteur">{{ getUserName() }}</div>

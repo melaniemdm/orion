@@ -19,7 +19,7 @@ const routes: Routes = [{ path: '', component: HomeComponent },
   {path:'themes', component: ThemesComponent },
   { path: 'newArticle', component: NewArticlesComponent },
   { path: 'me', component: MeComponent },
-  { path: 'comment', component: CommentComponent }];
+  { path: 'comment/:id', component: CommentComponent }];
 ;
 
 @NgModule({

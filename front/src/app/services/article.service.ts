@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, Observable, throwError } from 'rxjs';
-import {  ArticleRequest, ArticleResponse } from '../interfaces/article.interfaces';
+import {  ArticleRequest, ArticleResponse, SingleArticleResponse } from '../interfaces/article.interfaces';
 import { AuthSuccess } from '../interfaces/authAcces.interfaces';
 
 
@@ -46,6 +46,16 @@ export class ArticleService {
         catchError(this.handleError)
       );
   }
-
+  public getArticleById(articleId: string): Observable<SingleArticleResponse> {
+    const token = localStorage.getItem('token') || '';
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+  
+    return this.http
+      .get<SingleArticleResponse>(`${this.BASE_URL}/${articleId}`, { headers })
+      .pipe(catchError(this.handleError));
+  }
   
 }
