@@ -29,6 +29,7 @@ export class ArticleService {
   }
   public getAllArticles(): Observable<ArticleRequest[]> {
     const token = localStorage.getItem('token') || '';
+    //console.log('getAllArticles() - token lu dans localStorage:', token);
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json'

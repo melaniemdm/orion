@@ -54,9 +54,15 @@ export class NewArticlesComponent implements OnInit {
           // 3. Appel au service ArticleService pour créer l'article
           this.articleService.registerArticle(registerRequest).subscribe({
             next: (response: AuthSuccess) => {
-              console.log("Article créé avec succès :", response);
-              localStorage.setItem('token', response.token);
-              console.log("Redirection vers /articles...");
+              
+              if (response.token) {
+                localStorage.setItem('token', response.token);
+              } else {
+                console.warn("Aucun token renvoyé lors de la création d'article, on ne modifie pas le localStorage.");
+              }
+              
+
+              //console.log("Redirection vers /articles...");
               this.router.navigate(['/articles']).then(success => {
                 if (success) {
                   console.log("Redirection réussie !");
