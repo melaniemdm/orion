@@ -25,10 +25,13 @@ ngOnInit(): void {
     this.userService.getAllUsers()
   ]).subscribe({
     next: ([articles, users]) => {
-      this.articles = articles;
+      this.articles = articles.sort((a, b) => {
+        const dateA = new Date(a.created_date).getTime();
+        const dateB = new Date(b.created_date).getTime();
+        return dateB - dateA; 
+      });
+
       this.users = users;
-      console.log('Liste des users reçus :', this.users);
-      console.log('Liste des users reçus :', this.articles);
     },
     error: (err) => {
       console.error('Erreur lors de la récupération :', err);
