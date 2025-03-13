@@ -7,6 +7,11 @@
   //padding: 20px;
 }
 
+//Masque le label
+::ng-deep app-input-form label {
+  display: none !important;
+}
+
 #email {
   border: 1px solid #7763c5;
 }
@@ -16,7 +21,8 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
- 
+ border-bottom: 1px solid black;
+ margin: 20px;
 }
 #action {
   display: flex;
@@ -33,6 +39,7 @@
 #deconnecter {
   color: #a40f0f;
   font-weight: bold;
+  margin: 20px;
 }
 #containerTheme {
   display: grid;

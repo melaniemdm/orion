@@ -6,11 +6,11 @@
 </div>
 <form id="bloc-form" [formGroup]="subscriptionForm" (ngSubmit)="onSubmit()">
 
-  <app-input-form *ngIf="showUsername" label="Nom d'utilisateur" type="text" formControlName="username"
+  <app-input-form *ngIf="showUsername" label="Nom d'utilisateur" placeholder="Username" type="text" formControlName="username"
     [formGroup]="subscriptionForm" ngDefaultControl></app-input-form>
-  <app-input-form label="E-mail ou nom de l'utilisateur" type="email" formControlName="email" [formGroup]="subscriptionForm"
+  <app-input-form label="E-mail ou nom de l'utilisateur" placeholder="Email@email.fr" type="email" formControlName="email" [formGroup]="subscriptionForm"
     ngDefaultControl></app-input-form>
-  <app-input-form label="Mot de passe" type="password" formControlName="password" [formGroup]="subscriptionForm"
+  <app-input-form label="Mot de passe" placeholder="Mot de passe" type="password" formControlName="password" [formGroup]="subscriptionForm"
     ngDefaultControl></app-input-form>
   <div id="button">
     
