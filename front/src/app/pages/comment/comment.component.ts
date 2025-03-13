@@ -81,11 +81,27 @@ loadUsers(): void {
    loadComments(): void {
     this.articleService.getComments(this.articleId).subscribe({
       next: (response: any) => {
-        this.comments = response; // Stocke les commentaires récupérés
-       //console.log('Commentaires chargés :', this.comments);
+        console.log("Commentaires bruts récupérés :", response); // <-- Ajout du log
+  
+        if (Array.isArray(response)) {
+          // Vérification des dates
+          response.forEach(comment => {
+            console.log(`Commentaire: ${comment.commentary}, Date: ${comment.created_date}`);
+          });
+  
+          // Tri des commentaires par date décroissante
+          this.comments = response.sort((a, b) => 
+            new Date(b.created_date).getTime() - new Date(a.created_date).getTime()
+          );
+  
+          console.log("Commentaires triés :", this.comments); // <-- Vérification après tri
+        } else {
+          console.error("Erreur : la réponse des commentaires n'est pas un tableau", response);
+          this.comments = [];
+        }
       },
       error: (err) => {
-        //console.error("Erreur lors du chargement des commentaires :", err);
+        console.error("Erreur lors du chargement des commentaires :", err);
       }
     });
   }
