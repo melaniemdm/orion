@@ -57,5 +57,28 @@ export class ArticleService {
       .get<SingleArticleResponse>(`${this.BASE_URL}/${articleId}`, { headers })
       .pipe(catchError(this.handleError));
   }
+  postComment(articleId: string, comment: string): Observable<Comment> {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+        console.error("Erreur : Aucun token trouvé dans localStorage !");
+        return throwError(() => new Error("Authentification requise"));
+    }
+
+    const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+    });
+
+    const body = {
+      article_id: articleId, // Assure-toi d'envoyer l'ID de l'article
+      commentary: comment,   // Le champ attendu par le backend
+      auteur_id: "17" // À remplacer par l'ID de l'utilisateur connecté si nécessaire
+  };
+  console.log("🚀 Données envoyées au backend :", body);
+    //console.log(`Envoi du commentaire à : ${this.BASE_URL}/${articleId}/comment avec token ${token}`);
+  console.log(`Envoi du commentaire à : ${this.BASE_URL}/${articleId}/comment avec token ${token}`)
+    return this.http.post<Comment>(`${this.BASE_URL}/${articleId}/comment`, body, { headers });
+  }
   
 }

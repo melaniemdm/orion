@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <app-header></app-header>
-<div id="blocHeaderComment" >
+<div id="blocHeaderComment">
     <img id="flecheGauche" src="/assets/fleche-gauche.png" alt="fleche gauche" [routerLink]="'/articles'" />
-    <div id="titleArticleSelect">{{ articleSelected?.title  }}</div>
+    <div id="titleArticleSelect">{{ articleSelected?.title }}</div>
 </div>
 <div id="infoArticle">
-    <div>{{ articleSelected?.created_date | date:'dd/MM/yyyy '  }}</div>
-    <div>{{ articleSelected?.auteur_id  }}</div>
-    <div>{{ articleSelected?.theme_id  }}</div>
+    <div>{{ articleSelected?.created_date | date:'dd/MM/yyyy ' }}</div>
+    <div>{{ articleSelected?.auteur_id }}</div>
+    <div>{{ articleSelected?.theme_id }}</div>
 </div>
 
-<div id="textArticle" >{{ articleSelected?.description  }}</div>
+<div id="textArticle">{{ articleSelected?.description }}</div>
 
 <div id="commentaires">Commentaires</div>
 <div id="sendComment">
     <div>
-<input id="insertComment"></div>
-<img id="send" src="/assets/send.png" alt="send"  /></div>
+        <input id="insertComment" [(ngModel)]="newComment" placeholder="Écrire un commentaire..." />
+    </div>
+    <img id="send" src="/assets/send.png" alt="send" (click)="sendComment()"/>
+</div>
+<p *ngIf="message" [ngClass]="{ 'success': isSuccess, 'error': !isSuccess }">{{ message }}</p>
