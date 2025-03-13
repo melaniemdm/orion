@@ -99,7 +99,7 @@ export class ArticleService {
 
     return this.http.get<Comment[]>(`${this.BASE_URL}/${articleId}/comment`, { headers }).pipe(
         map(response => {
-            console.log("Réponse brute du backend :", response);
+       //     console.log("Réponse brute du backend :", response);
             return response; 
         }),
         catchError(err => {

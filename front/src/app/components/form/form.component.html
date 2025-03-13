@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <div id="title-container">
-  <div> <img id="flecheGauche" src="/assets/fleche-gauche.png" alt="fleche gauche" [routerLink]="'/home'" /></div>
-  <div id="title">{{titleForm}}</div>
+  <div *ngIf="showBackArrow"> <img id="flecheGauche" src="/assets/fleche-gauche.png" alt="fleche gauche" [routerLink]="'/home'" /></div>
+  <div *ngIf="showTitleForm" id="title">{{titleForm}}</div>
 
 </div>
 <form id="bloc-form" [formGroup]="subscriptionForm" (ngSubmit)="onSubmit()">

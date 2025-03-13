@@ -59,7 +59,7 @@ loadUsers(): void {
         this.users = [];
       }
 
-      console.log('Utilisateurs chargés :', this.users);
+      //console.log('Utilisateurs chargés :', this.users);
     },
     error: (err) => {
       console.error("Erreur lors du chargement des utilisateurs :", err);
@@ -82,7 +82,7 @@ loadUsers(): void {
     this.articleService.getComments(this.articleId).subscribe({
       next: (response: any) => {
         this.comments = response; // Stocke les commentaires récupérés
-       console.log('Commentaires chargés :', this.comments);
+       //console.log('Commentaires chargés :', this.comments);
       },
       error: (err) => {
         //console.error("Erreur lors du chargement des commentaires :", err);
@@ -108,7 +108,7 @@ loadUsers(): void {
         this.loadComments();
       },
       error: (err: any) => {
-        console.error('Erreur lors de l\'envoi du commentaire :', err);
+       // console.error('Erreur lors de l\'envoi du commentaire :', err);
         this.message = "Erreur lors de l'envoi du commentaire.";
         this.isSuccess = false;
       }
@@ -129,7 +129,7 @@ loadUsers(): void {
   loadThemes(): void {
     this.articleService.getThemes().subscribe({
       next: (response) => {
-        console.log("Réponse brute des thèmes :", response);
+       // console.log("Réponse brute des thèmes :", response);
         if (response && Array.isArray(response.subject)) {
           this.themes = response.subject; // Utiliser 'subject' au lieu de 'themes'
         } else {
