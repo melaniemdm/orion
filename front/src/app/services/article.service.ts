@@ -80,7 +80,7 @@ export class ArticleService {
   console.log(`Envoi du commentaire à : ${this.BASE_URL}/${articleId}/comment avec token ${token}`)
     return this.http.post<Comment>(`${this.BASE_URL}/${articleId}/comment`, body, { headers });
   }
-  
+
   public getComments(articleId: string): Observable<Comment[]> {
     const token = localStorage.getItem('token');
 
@@ -130,6 +130,25 @@ export class ArticleService {
     );
   }
   
+public getThemes(): Observable<{ subject: { id: number; name_theme: string }[]}> {
+  const token = localStorage.getItem('token');
+
+  if (!token) {
+      return throwError(() => new Error("Authentification requise"));
+  }
+
+  const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+  });
+
+  return this.http.get<{ subject: { id: number; name_theme: string }[] }>('http://localhost:3001/api/subject', { headers }).pipe(
+    catchError(err => {
+      //console.error("Erreur lors de la récupération des thèmes :", err);
+      return throwError(() => err);
+    })
+  );
+}
 
 
 

@@ -16,6 +16,8 @@ export class CommentComponent implements OnInit {
   public isSuccess: boolean = false; // I
   public comments: any[] = [];// Stocke les commentaires récupérés
   public users: any[] = [];
+  public themes: any[] = [];
+
 
   constructor(private route: ActivatedRoute,
     private articleService: ArticleService) { }
@@ -42,6 +44,7 @@ export class CommentComponent implements OnInit {
     // Récupère les commentaires de l'article
     this.loadComments();
     this.loadUsers();
+    this.loadThemes();
   }
 // Charger la liste des utilisateurs
 loadUsers(): void {
@@ -111,4 +114,56 @@ loadUsers(): void {
       }
     });
   }
+
+  getArticleAuthorName(): string {
+    if (!this.articleSelected || !this.articleSelected.auteur_id || this.users.length === 0) {
+      return 'Utilisateur inconnu';
+    }
+  
+    const author = this.users.find(user => user.id === Number(this.articleSelected?.auteur_id));
+    return author ? author.user_name : 'Utilisateur inconnu';
+  }
+
+
+  // Charger la liste des thèmes
+  loadThemes(): void {
+    this.articleService.getThemes().subscribe({
+      next: (response) => {
+        console.log("Réponse brute des thèmes :", response);
+        if (response && Array.isArray(response.subject)) {
+          this.themes = response.subject; // Utiliser 'subject' au lieu de 'themes'
+        } else {
+          //console.error(" Erreur : la réponse des thèmes n'est pas un tableau", response);
+          this.themes = [];
+        }
+  
+        //console.log(" Thèmes chargés :", this.themes);
+       
+      },
+      error: (err) => {
+        console.error("Erreur lors du chargement des thèmes :", err);
+      }
+    });
+  }
+  
+  
+
+  getThemeName(themeId: number | undefined): string {
+    if (!themeId) {
+      return 'Thème inconnu';
+    }
+  
+    //console.log(" Liste des thèmes :", this.themes);
+    
+    if (!Array.isArray(this.themes)) {
+     // console.error(" Erreur : this.themes n'est pas un tableau", this.themes);
+      return 'Thème inconnu';
+    }
+  
+    const theme = this.themes.find(t => t.id === themeId);
+    return theme ? theme.name_theme : 'Thème inconnu'; // Utiliser 'name_theme'
+  }
+  
+  
+
 }
