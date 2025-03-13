@@ -15,6 +15,7 @@ export class CommentComponent implements OnInit {
   public message: string = ''; // Message de succès ou d'erreur
   public isSuccess: boolean = false; // I
   public comments: any[] = [];// Stocke les commentaires récupérés
+  public users: any[] = [];
 
   constructor(private route: ActivatedRoute,
     private articleService: ArticleService) { }
@@ -22,16 +23,16 @@ export class CommentComponent implements OnInit {
   ngOnInit(): void {
     // 1) Récupére l'ID dans l'URL
     this.articleId = this.route.snapshot.params['id'];
-    console.log("Article ID récupéré depuis l'URL :", this.articleId);
+    //console.log("Article ID récupéré depuis l'URL :", this.articleId);
     if (!this.articleId) {
-      console.error("Erreur : Aucun article ID trouvé dans l'URL !");
+     // console.error("Erreur : Aucun article ID trouvé dans l'URL !");
   }
     // 2) Appele articleService pour récupérer l'article correspondant
     this.articleService.getArticleById(this.articleId).subscribe({
       next: (response) => {
         
         this.articleSelected = response.post;
-        console.log('Article récupéré :', this.articleSelected);
+       // console.log('Article récupéré :', this.articleSelected);
        
       },
       error: (err) => {
@@ -40,16 +41,48 @@ export class CommentComponent implements OnInit {
     });
     // Récupère les commentaires de l'article
     this.loadComments();
+    this.loadUsers();
+  }
+// Charger la liste des utilisateurs
+loadUsers(): void {
+  this.articleService.getUsers().subscribe({
+    next: (response: any) => { // <-- Ajoute ": any" pour éviter l'erreur de typage
+      //console.log('Réponse utilisateurs avant stockage :', response);
+
+      if (response && Array.isArray(response.user)) {
+        this.users = response.user; // Extraire le tableau correct
+      } else {
+        console.error("Erreur : la réponse des utilisateurs n'est pas un tableau", response);
+        this.users = [];
+      }
+
+      console.log('Utilisateurs chargés :', this.users);
+    },
+    error: (err) => {
+      console.error("Erreur lors du chargement des utilisateurs :", err);
+    }
+  });
+}
+  // Trouver le nom de l'utilisateur par son ID
+  getUserName(auteurId: string): string {
+    if (!this.users || this.users.length === 0) {
+      return 'Utilisateur inconnu'; 
+    }
+  
+    const user = this.users.find(u => u.id === Number(auteurId));
+    //console.log("Utilisateur trouvé :", user);
+  
+    return user ? user.user_name : 'Utilisateur inconnu'; 
   }
    // Fonction pour charger les commentaires
    loadComments(): void {
     this.articleService.getComments(this.articleId).subscribe({
       next: (response: any) => {
         this.comments = response; // Stocke les commentaires récupérés
-        console.log('Commentaires chargés :', this.comments);
+       console.log('Commentaires chargés :', this.comments);
       },
       error: (err) => {
-        console.error("Erreur lors du chargement des commentaires :", err);
+        //console.error("Erreur lors du chargement des commentaires :", err);
       }
     });
   }
@@ -58,7 +91,7 @@ export class CommentComponent implements OnInit {
     if (!this.newComment.trim()) {
       this.message = "Le commentaire ne peut pas être vide.";
       this.isSuccess = false;
-      console.error("Erreur : Aucun texte dans le champ commentaire !");
+     // console.error("Erreur : Aucun texte dans le champ commentaire !");
       return;
     }
 

@@ -18,7 +18,7 @@
 <div *ngIf="comments.length > 0">
         <ul>
         <li *ngFor="let comment of comments">
-            <strong>{{ comment.auteur_id }}</strong> : {{ comment.commentary }}
+            <strong>{{ getUserName(comment.auteur_id) }}</strong> : {{ comment.commentary }}
         </li>
     </ul>
 </div>
