@@ -15,7 +15,7 @@ subscriptionForm!: FormGroup;
 @Input() showUsername: boolean = true; 
 @Output() formSubmitted = new EventEmitter<FormGroup>();
 @Input() showBackArrow: boolean = true;
-@Input() showTitleForm : boolean=true;
+
 
 
   constructor(private fb: FormBuilder) { }
