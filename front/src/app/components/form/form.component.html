@@ -7,11 +7,14 @@
 <form id="bloc-form" [formGroup]="subscriptionForm" (ngSubmit)="onSubmit()">
 
   <app-input-form *ngIf="showUsername" label="Nom d'utilisateur" placeholder="Username" type="text" formControlName="username"
-    [formGroup]="subscriptionForm" ngDefaultControl></app-input-form>
+    [formGroup]="subscriptionForm" ngDefaultControl [classInput]="classInput"></app-input-form>
+
   <app-input-form label="E-mail ou nom de l'utilisateur" placeholder="Email@email.fr" type="email" formControlName="email" [formGroup]="subscriptionForm"
-    ngDefaultControl></app-input-form>
+    ngDefaultControl [classInput]="classInput"></app-input-form>
+
   <app-input-form label="Mot de passe" placeholder="Mot de passe" type="password" formControlName="password" [formGroup]="subscriptionForm"
-    ngDefaultControl></app-input-form>
+    ngDefaultControl [classInput]="classInput"></app-input-form>
+
   <div id="button">
     
     <app-button id="button" type="submit" [action]="action" [ngClass]="'inscription-button'" (buttonClick)="onSubmit()"></app-button></div>

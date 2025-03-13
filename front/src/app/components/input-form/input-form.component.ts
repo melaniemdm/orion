@@ -16,6 +16,7 @@ export class InputFormComponent implements OnInit {
   @Input() placeholder: string = '';
   @Input() required: boolean = false;
   @Input() classInput: string = '';
+  
   constructor() { }
 
   ngOnInit(): void {

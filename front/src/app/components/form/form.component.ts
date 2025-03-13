@@ -15,8 +15,7 @@ subscriptionForm!: FormGroup;
 @Input() showUsername: boolean = true; 
 @Output() formSubmitted = new EventEmitter<FormGroup>();
 @Input() showBackArrow: boolean = true;
-
-
+@Input() classInput: string = '';
 
   constructor(private fb: FormBuilder) { }
   ngOnChanges(changes: SimpleChanges): void {
