@@ -14,6 +14,7 @@ export class CommentComponent implements OnInit {
   public newComment: string = '';  // Stocke le commentaire saisi
   public message: string = ''; // Message de succès ou d'erreur
   public isSuccess: boolean = false; // I
+  public comments: any[] = [];// Stocke les commentaires récupérés
 
   constructor(private route: ActivatedRoute,
     private articleService: ArticleService) { }
@@ -37,6 +38,20 @@ export class CommentComponent implements OnInit {
         console.error('Erreur lors de la récupération de l\'article :', err);
       }
     });
+    // Récupère les commentaires de l'article
+    this.loadComments();
+  }
+   // Fonction pour charger les commentaires
+   loadComments(): void {
+    this.articleService.getComments(this.articleId).subscribe({
+      next: (response: any) => {
+        this.comments = response; // Stocke les commentaires récupérés
+        console.log('Commentaires chargés :', this.comments);
+      },
+      error: (err) => {
+        console.error("Erreur lors du chargement des commentaires :", err);
+      }
+    });
   }
 // Envoie le commentaire au backend
   sendComment(): void {
@@ -49,10 +64,12 @@ export class CommentComponent implements OnInit {
 
     this.articleService.postComment(this.articleId, this.newComment).subscribe({
       next: (response: any) => {
-        console.log('Commentaire envoyé avec succès :', response);
+        //console.log('Commentaire envoyé avec succès :', response);
         this.message = "Commentaire envoyé avec succès !";
         this.isSuccess = true;
         this.newComment = '';  // Réinitialise le champ après l'envoi
+        // Recharge les commentaires après l'envoi
+        this.loadComments();
       },
       error: (err: any) => {
         console.error('Erreur lors de l\'envoi du commentaire :', err);

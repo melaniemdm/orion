@@ -61,7 +61,7 @@ export class ArticleService {
     const token = localStorage.getItem('token');
 
     if (!token) {
-        console.error("Erreur : Aucun token trouvé dans localStorage !");
+       // console.error("Erreur : Aucun token trouvé dans localStorage !");
         return throwError(() => new Error("Authentification requise"));
     }
 
@@ -80,5 +80,32 @@ export class ArticleService {
   console.log(`Envoi du commentaire à : ${this.BASE_URL}/${articleId}/comment avec token ${token}`)
     return this.http.post<Comment>(`${this.BASE_URL}/${articleId}/comment`, body, { headers });
   }
+  public getComments(articleId: string): Observable<Comment[]> {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+        //console.error("Erreur : Aucun token trouvé dans localStorage !");
+        return throwError(() => new Error("Authentification requise"));
+    }
+
+    const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+    });
+   // console.log(`Récupération des commentaires pour article ID : ${articleId}`);
+    //console.log(`URL de la requête : ${this.BASE_URL}/${articleId}/comment`);
+
+
+    return this.http.get<Comment[]>(`${this.BASE_URL}/${articleId}/comment`, { headers }).pipe(
+        map(response => {
+            console.log("Réponse brute du backend :", response);
+            return response; 
+        }),
+        catchError(err => {
+           // console.error(" Erreur lors de la récupération des commentaires :", err);
+            return throwError(() => err);
+        })
+    );
   
+  }
 }
