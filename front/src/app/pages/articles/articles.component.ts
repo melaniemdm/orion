@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { ArticleRequest } from 'src/app/interfaces/article.interfaces';
 import { User } from 'src/app/interfaces/user.interfaces';
@@ -16,10 +17,17 @@ export class ArticlesComponent implements OnInit {
 public articles: ArticleRequest[] = [];
 public users: User[] = [];
 
-constructor(private articleService: ArticleService, private userService: UserService) {}
+constructor(private articleService: ArticleService, private userService: UserService, private router: Router) {}
 
 ngOnInit(): void {
-  
+  const token = localStorage.getItem('token');
+
+    if (!token) {
+      // S'il n'y a pas de token, redirige vers la home directement
+      this.router.navigate(['/home']);
+      return; // Important de s'arrêter ici
+    }
+    
   forkJoin([
     this.articleService.getAllArticles(),
     this.userService.getAllUsers()
