@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthSuccess } from 'src/app/interfaces/authAcces.interfaces';
@@ -12,6 +12,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class SubscriptionComponent implements OnInit {
   public onError = false;
+  @Input('title-form') titleForm: string = '';
 
   constructor(private authService: AuthService,
     private router: Router) { }
@@ -19,34 +20,26 @@ export class SubscriptionComponent implements OnInit {
   ngOnInit(): void {
     
   }
-  onFormSubmit(form: FormGroup): void {
-    console.log("Formulaire reçu dans subscription.component.ts register:", form.value);
-
-    if (form.valid) {
-      const registerRequest = form.value as RegisterRequest;
-
-      console.log("Tentative d'inscription :", registerRequest);
-
-      this.authService.register(registerRequest).subscribe(
-        (response: AuthSuccess) => {
-          console.log("Inscription réussie :", response);
-          localStorage.setItem('token', response.token);
-          console.log("Redirection vers /articles...");
-          this.router.navigate(['/articles']).then(success => {
-            if (success) {
-              console.log("Redirection réussie !");
-            } else {
-              console.error("Problème de redirection !");
-            }
-          });
-        },
-        error => {
-          console.error("Erreur d'inscription :", error);
-          this.onError = true;
-        }
-      );
-    } else {
-      console.warn("⚠️ Formulaire invalide :", form.errors);
-    }
+  onFormSubmit(formValue: {user_name: string, email: string, password: string}): void {
+    console.log("Formulaire reçu dans subscription.component.ts register:", formValue);
+  
+    const registerRequest: RegisterRequest = {
+      name: formValue.user_name,
+      email: formValue.email,
+      password: formValue.password
+    };
+  
+    this.authService.register(registerRequest).subscribe(
+      (response: AuthSuccess) => {
+        localStorage.setItem('token', response.token);
+        setTimeout(() => { // petite temporisation pour être certain du stockage
+          this.router.navigate(['/articles']);
+        }, 100);
+      },
+      (error) => {
+        console.error("Erreur inscription :", error);
+        this.onError = true;
+      }
+    );
   }
 }

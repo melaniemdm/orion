@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+<div id="title-container">
+    <div class="left-arrow" *ngIf="showBackArrow">
+      <img id="flecheGauche" src="/assets/fleche-gauche.png" alt="fleche gauche" [routerLink]="'/home'" />
+    </div>
+    
+    <div id="title">{{ titleForm }}</div>
+  </div>
+  
+  <div id="blocForm">
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+    
+      <div class="form-field">
+        <label for="username">Nom utilisateur :</label>
+        <input id="username" placeholder="Nom d'utilisateur" formControlName="user_name" type="text">
+      </div>
+        
+      <div class="form-field">
+        <label for="email">Email :</label>
+        <input id="email" placeholder="Adresse e-mail" formControlName="email" type="email">
+      </div>
+        
+      <div class="form-field">
+        <label for="password">Mot de passe :</label>
+        <input id="password" placeholder="Mot de passe" formControlName="password" type="password">
+      </div>
+        
+      <app-button id="button"  [action]="action" (buttonClick)="onSubmit()"></app-button>
+        
+    </form>
+  </div>
+  
+  
