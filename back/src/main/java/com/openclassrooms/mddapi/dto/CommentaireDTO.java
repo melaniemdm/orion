@@ -2,6 +2,8 @@ package com.openclassrooms.mddapi.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.time.LocalDateTime;
+
 public class CommentaireDTO {
 
     private Long id;
@@ -11,6 +13,8 @@ public class CommentaireDTO {
     private Integer article_id;
     @JsonProperty("commentary")
     private String commentary;
+    @JsonProperty("created_date")
+    private LocalDateTime created_date;
 
     public Long getId() {
         return id;
@@ -42,5 +46,13 @@ public class CommentaireDTO {
 
     public void setCommentary(String commentary) {
         this.commentary = commentary;
+    }
+
+    public LocalDateTime getCreated_date() {
+        return created_date;
+    }
+
+    public void setCreated_date(LocalDateTime created_date) {
+        this.created_date = created_date;
     }
 }
