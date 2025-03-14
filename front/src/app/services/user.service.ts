@@ -38,6 +38,21 @@ export class UserService {
             
           );
       }
-    
+      public updateUser(id: number, data: Partial<User>): Observable<User> {
+        const token = localStorage.getItem('token') || '';
+        const headers = new HttpHeaders({
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        });
+      
+        return this.httpClient
+          .put<User>(`${this.USER_URL}/${id}`, data, { headers })
+          .pipe(
+            tap((updatedUser) => {
+              console.log('Utilisateur mis à jour côté serveur :', updatedUser);
+            })
+          );
+      }
+      
    
 }

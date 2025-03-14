@@ -6,8 +6,8 @@
  <!--    <form>
    <app-form classInput="purple" classInput="purple" titleForm="Profil utilisateur" action="Sauvegarder" label="" [showBackArrow]="false" classInput="purple" ></app-form>
 </form>-->
-<form>
-    <input placeholder="username">
+<form [formGroup]="articleForm" (ngSubmit)="updateUser()">
+    <input placeholder="username" formControlName="username">
     <div class="mail session en cours">
        mail de l'user en cours : {{ userEmail }}
     </div>
