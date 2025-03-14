@@ -21,7 +21,8 @@ export class MeComponent implements OnInit {
   ngOnInit(): void {
     this.articleForm = this.fb.group({
       username: ['', Validators.required],
-      email: [{ value: '', disabled: true }]
+      email: [{ value: '', disabled: true }],
+      password: [''],
     });
     this.authService.me().subscribe({
       next: (user: User) => {
@@ -50,17 +51,28 @@ export class MeComponent implements OnInit {
 
 
   updateUser(): void {
-    if (this.articleForm.valid && this.userId) {  // Ajoute un contrôle sur l'ID utilisateur
-      const updatedData = { user_name: this.articleForm.get('username')!.value };
+    if (this.articleForm.valid && this.userId) {
   
-      this.userService.updateUser(this.userId, updatedData).subscribe({  // Utilise un ID vérifié
+      const formValues = this.articleForm.value;
+  
+      // Préparer les données à envoyer
+      const updatedData: Partial<User> = { user_name: formValues.username };
+  
+      // N'inclure le mot de passe que s'il est renseigné (non vide)
+      if (formValues.password && formValues.password.trim() !== '') {
+        updatedData.password = formValues.password;
+      }
+  
+      this.userService.updateUser(this.userId, updatedData).subscribe({
         next: (userUpdated) => {
           console.log('Utilisateur mis à jour avec succès:', userUpdated);
+          this.articleForm.get('password')!.reset(); // réinitialiser le champ mot de passe après succès
         },
         error: (err) => {
           console.error('Erreur lors de la mise à jour utilisateur :', err);
         }
       });
+  
     } else {
       console.error('Formulaire invalide ou ID utilisateur non défini.');
     }

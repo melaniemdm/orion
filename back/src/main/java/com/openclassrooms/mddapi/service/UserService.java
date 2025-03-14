@@ -63,28 +63,32 @@ public class UserService {
      * or an empty {@link Optional} if no user is found with the given ID.
      */
     public Optional<UserDTO> updateUser(Long id, UserDTO userDTO) {
+        Optional<User> existingUserOpt = userRepository.findById(id);
 
-        // Retrieve the user by ID
-        Optional<User> userOptional = userRepository.findById(id);
-
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-
-            // Update user fields
-            user.setUsername(userDTO.getUser_name());
-            user.setEmail(userDTO.getEmail());
-            user.setPassword(userDTO.getPassword());
-
-            // Save the updated user in the database
-            User updatedUser = userRepository.save(user);
-
-            // Convert the updated entity to DTO and return it
-            return Optional.of(entityToDto(updatedUser));
-        } else {
-
-            // Return empty Optional if user does not exist
+        if (existingUserOpt.isEmpty()) {
             return Optional.empty();
         }
+
+        User existingUser = existingUserOpt.get();
+
+        // Copie uniquement les champs non null
+        if (userDTO.getUser_name() != null) {
+            existingUser.setUsername(userDTO.getUser_name());
+        }
+
+        if (userDTO.getEmail() != null) {
+            existingUser.setEmail(userDTO.getEmail());
+        }
+
+        if (userDTO.getPassword() != null && !userDTO.getPassword().isBlank()) {
+            existingUser.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        }
+
+        // Sauvegarde en base
+        User savedUser = userRepository.save(existingUser);
+
+        // Retourne le DTO mis à jour
+        return Optional.of(entityToDto(savedUser));
     }
 
     /**
