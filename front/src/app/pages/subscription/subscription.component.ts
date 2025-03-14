@@ -24,7 +24,7 @@ export class SubscriptionComponent implements OnInit {
     console.log("Formulaire reçu dans subscription.component.ts register:", formValue);
   
     const registerRequest: RegisterRequest = {
-      name: formValue.user_name,
+      user_name: formValue.user_name,
       email: formValue.email,
       password: formValue.password
     };
