@@ -34,6 +34,7 @@ export class AuthService {
   public me(): Observable<User> {
     const token = localStorage.getItem('token') || '';
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+    //console.log("TOKEN envoyé à l'API:", token);
 
     return this.http
       .get<User>(`${this.BASE_URL}/me`, { headers })
