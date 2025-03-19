@@ -2,7 +2,11 @@
 
 <div id="title-container">
     <div class="left-arrow" *ngIf="showBackArrow">
-      <img id="flecheGauche" src="/assets/fleche-gauche.png" alt="fleche gauche" [routerLink]="'/home'" />
+      
+      <div id="containerArrow_back">
+        <span class="material-icons arrow_back" [routerLink]="'/home'">
+            arrow_back
+          </span></div>
     </div>
     
     <div id="title">{{ titleForm }}</div>
