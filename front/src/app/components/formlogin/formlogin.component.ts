@@ -7,49 +7,42 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./formlogin.component.scss']
 })
 export class FormloginComponent implements OnInit {
-  @Input() showBackArrow: boolean = true;
-  @Input() titleForm: string = '';
-  @Input() loginForm!: FormGroup;
-  subscriptionForm!: FormGroup;
-  @Input() showUsername: boolean = true;
-  @Input() action: string = '';
+  @Input() showBackArrow = true;
+  @Input() titleForm = '';
+  @Input() showUsername = true;
+  @Input() action = '';
+
   @Output() formSubmitted = new EventEmitter<FormGroup>();
+  subscriptionForm!: FormGroup;
 
   constructor(private fb: FormBuilder) { }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    this.ngOnInit();
-  }
   ngOnInit(): void {
     this.subscriptionForm = this.fb.group({
-      email: ['', [Validators.required]],
+      email: ['', [Validators.required]],  // <-- on peut renommer 'email' en 'identifier' pour accepter email ou username
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
 
-    // Ajoute `username` uniquement si `showUsername` est activé 
-    if (this.showUsername) {
-      this.subscriptionForm.addControl('username', this.fb.control('', Validators.required));
-    }
+    
   }
 
-
   onSubmit(): void {
-    console.log("Formulaire soumis !");
-    console.log("Données envoyées :", this.subscriptionForm.value);
+    console.log('Données envoyées :', this.subscriptionForm.value);
 
-    if (this.loginForm.invalid) {
-      console.warn(" Formulaire invalide :", this.subscriptionForm.errors);
-
+    if (this.subscriptionForm.invalid) {
+      console.warn("Formulaire invalide :", this.subscriptionForm.errors); // Souvent null
       Object.keys(this.subscriptionForm.controls).forEach(key => {
-        const controlErrors = this.subscriptionForm.get(key)?.errors;
-        if (controlErrors) {
-          console.warn(`Erreur sur ${key} :`, controlErrors);
+        const control = this.subscriptionForm.get(key);
+        if (control?.invalid) {
+          console.warn(
+            `- Le champ "${key}" est invalide :`,
+            control.errors
+          );
         }
       });
-
       return;
     }
 
-    this.formSubmitted.emit(this.loginForm);
+    this.formSubmitted.emit(this.subscriptionForm);
   }
 }

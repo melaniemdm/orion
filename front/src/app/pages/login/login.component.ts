@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
     if (form.valid) {
       const loginRequest = form.value as LoginRequest;
 
-      this.authService.login(loginRequest).subscribe(
+      this.authService.login(form.value).subscribe(
         (response: AuthSuccess) => {
           console.log("Connexion réussie :", response);
           localStorage.setItem('token', response.token);

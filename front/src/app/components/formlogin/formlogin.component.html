@@ -7,19 +7,18 @@
     <div id="title">{{ titleForm }}</div>
   </div>
   <div id="blocForm">
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <div class="form-field">
-          <label for="email">E-mail ou nom de l'utlisateur :</label>
-          <input id="email" placeholder="Adresse e-mail" formControlName="email" type="email">
-        </div>
-          
-        <div class="form-field">
-          <label for="password">Mot de passe :</label>
-          <input id="password" placeholder="Mot de passe" formControlName="password" type="password">
-        </div>
-          
-        <app-button id="button" [action]="action" (buttonClick)="onSubmit()"></app-button>
-      </form>
-      
+    <form [formGroup]="subscriptionForm" (ngSubmit)="onSubmit()">
+      <div class="form-field">
+        <label for="email">E-mail ou nom d'utilisateur :</label>
+        <input id="email" placeholder="E-mail ou username" formControlName="email" type="text">
+      </div>
+     
+      <div class="form-field">
+        <label for="password">Mot de passe :</label>
+        <input id="password" placeholder="Mot de passe" formControlName="password" type="password">
+      </div>
+     
+      <app-button id="button" [action]="action" (buttonClick)="onSubmit()"></app-button>
+    </form>
       
   </div>
