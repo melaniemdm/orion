@@ -10,10 +10,13 @@ export class HeaderComponent implements OnInit {
   
   // Contrôle l’affichage du menu en mobile
   public isMenuOpen: boolean = false;
+  public isLoggedIn: boolean = false;
 
   constructor(private router: Router) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void { 
+    this.isLoggedIn = !!localStorage.getItem('token');
+  }
 
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;

@@ -13,6 +13,7 @@ import { AuthService } from 'src/app/services/auth.service';
 export class SubscriptionComponent implements OnInit {
   public onError = false;
   @Input('title-form') titleForm: string = '';
+  public isLoggedIn: boolean = true;
 
   constructor(private authService: AuthService,
     private router: Router) { }

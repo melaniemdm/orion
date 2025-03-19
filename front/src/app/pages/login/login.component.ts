@@ -14,6 +14,7 @@ import { SessionService } from 'src/app/services/session.service';
 })
 export class LoginComponent implements OnInit {
   @Input() loginForm!: FormGroup;
+  public isLoggedIn: boolean = true;
   /**
    * Indique si le mot de passe est masqué ou non dans l'UI.
    */
