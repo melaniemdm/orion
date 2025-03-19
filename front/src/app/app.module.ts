@@ -23,9 +23,10 @@ import { CommentComponent } from './pages/comment/comment.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ThemeListComponent } from './components/theme-list/theme-list.component';
 import { FormSubscribeComponent } from './components/form-subscribe/form-subscribe.component';
+import { FormloginComponent } from './components/formlogin/formlogin.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, HeaderComponent, ButtonComponent, SubscriptionComponent, LoginComponent, FormComponent, InputFormComponent, ArticleComponent, ArticlesComponent, ThemesComponent, ThemeComponent, NewArticlesComponent, MeComponent, CommentComponent, ThemeListComponent, FormSubscribeComponent],
+  declarations: [AppComponent, HomeComponent, HeaderComponent, ButtonComponent, SubscriptionComponent, LoginComponent, FormComponent, InputFormComponent, ArticleComponent, ArticlesComponent, ThemesComponent, ThemeComponent, NewArticlesComponent, MeComponent, CommentComponent, ThemeListComponent, FormSubscribeComponent, FormloginComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

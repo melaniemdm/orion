@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <app-header></app-header>
 <div id="blocLogo"><img class="logo" src="/assets/logo_p6.png" alt="logo" /></div>
-<div class="subscription-page">
-    <app-form titleForm="Se connecter" action="Se connecter" [showUsername]="false" (formSubmitted)="onFormSubmit($event)"></app-form>
-
+<div class="login-page">
+   
+<app-formlogin titleForm="Se connecter" action="Se connecter"  [loginForm]="form" (formSubmitted)="onFormSubmit($event)"></app-formlogin>
    
 </div>

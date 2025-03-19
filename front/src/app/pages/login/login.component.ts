@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthSuccess } from 'src/app/interfaces/authAcces.interfaces';
@@ -13,6 +13,7 @@ import { SessionService } from 'src/app/services/session.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  @Input() loginForm!: FormGroup;
   /**
    * Indique si le mot de passe est masqué ou non dans l'UI.
    */

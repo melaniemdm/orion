@@ -1,0 +1,63 @@
+#title-container {
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    position: relative;
+    //background-color: red;
+    height: 60px; 
+  }
+  
+  .left-arrow {
+    position: absolute; 
+    left: 0; 
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+  
+  #flecheGauche {
+    width: 39px;
+    height: 39px;
+    cursor: pointer;
+    margin-left: 0; 
+    padding-left: 0; 
+  }
+  
+  #title {
+    font-size: 24px;
+    //background-color: green;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+    margin: 0 auto; 
+  }
+
+  input{
+    width: 245px;
+    height: 45px;
+    border-radius: 8px;
+  }
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px; /* espace vertical entre les champs */
+  }
+  
+  .form-field label {
+    margin-bottom: 5px; /* espace entre label et input */
+    font-weight: 500;
+  }
+  
+  .form-field input {
+    height: 45px;
+    border-radius: 8px;
+    padding: 8px;
+    box-sizing: border-box;
+  }
+  #blocForm{
+    //background-color: red;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
