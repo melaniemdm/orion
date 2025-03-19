@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <app-header></app-header>
 <div id="blocHeaderComment">
-    <img id="flecheGauche" src="/assets/fleche-gauche.png" alt="fleche gauche" [routerLink]="'/articles'" />
+    <div id="containerArrow_back">
+        <span class="material-icons arrow_back" [routerLink]="'/articles'">
+            arrow_back
+        </span>
+    </div>
     <div id="titleArticleSelect">{{ articleSelected?.title }}</div>
 </div>
 <div id="infoArticle">
@@ -28,7 +32,10 @@
     <div>
         <input id="insertComment" [(ngModel)]="newComment" placeholder="Écrire un commentaire..." />
     </div>
-    <img id="send" src="/assets/send.png" alt="send" (click)="sendComment()"/>
+   
+    <span class="material-icons send" (click)="sendComment()">
+        send
+        </span>
 </div>
 
 <p *ngIf="message" [ngClass]="{ 'success': isSuccess, 'error': !isSuccess }">{{ message }}</p>

@@ -10,11 +10,10 @@
   height: 45px;
   border-radius: 8px;
 }
-#flecheGauche {
-  width: 40px;
-  height: 40px;
-  margin-left: 20px;
-}
+.arrow_back{
+  font-size:  39px;
+ }
+ 
 #titleArticleSelect {
   font-size: 24px;
 }
@@ -42,9 +41,12 @@
     justify-content: center;
     gap:20px;
 }
-#send{
-    width: 45px;
-  height: 45px;
+.send{
+  //background-color: #7763c5;
+  margin-top: -10px;
+  font-size: 43px;
+  color:#7763c5 ;
+  transform: rotate(-30deg);
 }
 @media (max-width: 768px) {
   #send{
