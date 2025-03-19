@@ -3,11 +3,11 @@
   <div id="bloc_header">
     <img id="logo" src="/assets/logo_p6.png" alt="logo" />
     <div id="drawerOne">
-       <div class="deconnecter" (click)="onLogout()">Se deconnecter</div>
-      <div class="menu-item" [routerLink]="'/articles'">Articles</div>
-      <div class="menu-item" [routerLink]="'/themes'">Thèmes</div>
+       <div class="deconnecter" (click)="onLogout()"  *ngIf="isLoggedIn" >Se deconnecter</div>
+      <div class="menu-item" [routerLink]="'/articles'"  *ngIf="isLoggedIn" >Articles</div>
+      <div class="menu-item" [routerLink]="'/themes'"  *ngIf="isLoggedIn" >Thèmes</div>
      
-      <div id="iconUser" [routerLink]="'/me'">
+      <div id="iconUser" [routerLink]="'/me'" *ngIf="isLoggedIn">
         <div id="rond">
           <div id="head"></div>
           <div id="corps"></div>
@@ -16,7 +16,7 @@
     </div>
     <!-- Icône burger (pour mobile) -->
    
-    <span class="material-icons menu" id="burger" (click)="toggleMenu()">
+    <span class="material-icons menu" id="burger" (click)="toggleMenu()" *ngIf="isLoggedIn">
       menu
       </span>
   </div>
@@ -25,12 +25,12 @@
   <div id="container-liens" [class.show]="isMenuOpen">
     <!-- Sous-conteneur du menu (non flouté) -->
     <div id="containerMenu">
-      <div class="deconnecter" (click)="onLogout()">Se deconnecter</div>
-      <div class="menu-item" [routerLink]="'/articles'">Articles</div>
-      <div class="menu-item" [routerLink]="'/themes'">Thèmes</div>
+      <div class="deconnecter" (click)="onLogout()"  *ngIf="isLoggedIn" >Se deconnecter</div>
+      <div class="menu-item" [routerLink]="'/articles'" *ngIf="isLoggedIn" >Articles</div>
+      <div class="menu-item" [routerLink]="'/themes'" *ngIf="isLoggedIn" >Thèmes</div>
     </div>
     
-      <div id="iconUser" [routerLink]="'/me'">
+      <div id="iconUser" [routerLink]="'/me'" *ngIf="isLoggedIn">
         <div id="rond">
           <div id="head"></div>
           <div id="corps"></div>
