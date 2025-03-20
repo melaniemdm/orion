@@ -45,4 +45,9 @@ export class AuthService {
     // Possibilité d'ajouter un logging plus complet ici
     return throwError(() => new Error(error?.message || 'Server error'));
   }
+
+  public getToken(): string {
+    return localStorage.getItem('token') || '';
+  }
+  
 }

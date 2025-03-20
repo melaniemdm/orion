@@ -4,7 +4,7 @@ export interface ArticleRequest {
   title: string;
   auteur_id?: number;
   description: string;
-  theme_id?: number;
+  theme_id: number;
 created_date: string;
 themeName?: string;
 }
