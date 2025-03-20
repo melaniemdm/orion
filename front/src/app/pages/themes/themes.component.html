@@ -2,9 +2,10 @@
 
 <app-header></app-header>
 <div id="containerTheme">
-    <app-theme></app-theme>
-    <app-theme></app-theme>
-    <app-theme></app-theme>
-    <app-theme></app-theme>
+    <div id="containerTheme">
+        <app-theme
+          *ngFor="let article of articles"
+          [article]="article">
+        </app-theme>
    
 </div>

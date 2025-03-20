@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { ArticleRequest } from 'src/app/interfaces/article.interfaces';
 
 @Component({
   selector: 'app-theme',
@@ -7,7 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ThemeComponent implements OnInit {
   subscribed = false;
-
+  @Input() article!: ArticleRequest;
+  
   constructor() { }
 
   ngOnInit(): void {
