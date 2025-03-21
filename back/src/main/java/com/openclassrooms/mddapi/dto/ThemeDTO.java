@@ -6,6 +6,8 @@ public class ThemeDTO {
     private Long id;
     @JsonProperty("name_theme")
     private String name_theme;
+    @JsonProperty("description")
+    private String description;
 
     public Long getId() {
         return id;
@@ -21,5 +23,13 @@ public class ThemeDTO {
 
     public void setName_theme(String name_theme) {
         this.name_theme = name_theme;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

@@ -91,6 +91,7 @@ public class ThemeService {
         Theme theme = new Theme();
         theme.setId(dto.getId());
         theme.setName_theme(dto.getName_theme());
+        theme.setDescription(dto.getDescription());
 
         // Save the theme entity into the database
         Theme savedTheme = themeRepository.save(theme);
@@ -99,6 +100,7 @@ public class ThemeService {
         ThemeDTO themeDTO = new ThemeDTO();
         themeDTO.setId(savedTheme.getId());
         themeDTO.setName_theme(savedTheme.getName_theme());
+        themeDTO.setDescription(savedTheme.getDescription());
 
         // Return the ThemeDTO with the saved theme's details
         return themeDTO;
@@ -121,6 +123,7 @@ public class ThemeService {
         // Set the properties of the DTO from the entity
         themeDTO.setId(theme.getId());
         themeDTO.setName_theme(theme.getName_theme());
+        themeDTO.setDescription(theme.getDescription());
 
         // Return the populated DTO
         return themeDTO;
@@ -142,7 +145,7 @@ public class ThemeService {
         // Set the properties of the entity from the DTO
         theme.setId(themeDTO.getId());
         theme.setName_theme(themeDTO.getName_theme());
-
+        theme.setDescription(themeDTO.getDescription());
         // Return the populated Theme entity
         return theme;
     }

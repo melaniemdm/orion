@@ -3,7 +3,7 @@
   <select [(ngModel)]="selectedTheme" (ngModelChange)="onThemeChange($event)">
     <option value="" disabled selected>Sélectionnez un thème</option>
     <option *ngFor="let theme of themes" [value]="theme.id">
-      {{ theme.name }}
+      {{ theme.name_theme }}
     </option>
   </select>
   

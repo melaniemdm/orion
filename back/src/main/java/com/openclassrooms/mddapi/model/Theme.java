@@ -9,6 +9,7 @@ public class Theme {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name_theme;
+    private String description;
 
     public Long getId() {
         return id;
@@ -24,5 +25,13 @@ public class Theme {
 
     public void setName_theme(String name_theme) {
         this.name_theme = name_theme;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

@@ -1,6 +1,7 @@
 export interface Theme {
     id: number;
-    name: string;
+    name_theme: string;
+    description?: string;
   }
   export interface ThemeResponse {
     subject?: Theme[]; 

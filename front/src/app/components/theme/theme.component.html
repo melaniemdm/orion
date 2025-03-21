@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <div id="blocTheme">
-    <div id="titleTheme">  {{ article.themeName }}</div>
+    <div id="titleTheme">  {{ theme.name_theme }} </div>
 
-    <div id="textArticle" [routerLink]="['/comment', article.id]">
-        {{ article.description }}
+    <div id="textArticle" [routerLink]="['/comment']">
+        {{ theme.description }}
       </div>
 
     <div id="buttonAbonnement" > 

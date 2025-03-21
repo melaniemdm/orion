@@ -24,14 +24,16 @@ export class ThemeListComponent {
     this.themeService.getThemes().subscribe({
       next: (response: any) => {
         if (Array.isArray(response)) {
-          this.themes = response.map(theme => ({
-            id: theme.id,
-            name: theme.name_theme
-          }));
+          this.themes = response.map((t: any) => ({
+            id: t.id,
+            name_theme: t.name_theme,       // on reprend le même nom
+            description: t.description
+          })) as Theme[];
+          
         } else if (response && response.subject) {
           this.themes = response.subject.map((theme: { id: any; name_theme: any; }) => ({
             id: theme.id,
-            name: theme.name_theme
+            name_theme: theme.name_theme
           }));
         }
   

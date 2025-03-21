@@ -6,7 +6,7 @@ export interface ArticleRequest {
   description: string;
   theme_id: number;
 created_date: string;
-themeName?: string;
+
 }
 export interface ArticleResponse {
   post: ArticleRequest[];

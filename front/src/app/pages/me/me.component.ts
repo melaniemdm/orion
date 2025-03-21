@@ -43,10 +43,10 @@ export class MeComponent implements OnInit {
   }
   public onLogout(): void {
     // 1. Retirer le token du localStorage
-    localStorage.removeItem('token');
+   // localStorage.removeItem('token');
 
     // 2. Rediriger l’utilisateur vers la page home (ou login, etc.)
-    this.router.navigate(['/']);
+    //this.router.navigate(['/']);
   }
 
 
