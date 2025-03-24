@@ -23,5 +23,8 @@
    *ngFor="let theme of themes"
    [theme]="theme">
  </app-theme>
-
+   
+    <div *ngIf="!themes || themes.length === 0">
+      Aucun abonnement trouvé.
+    </div>
 </div>

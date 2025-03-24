@@ -43,18 +43,26 @@ export class SubscriptionService {
     );
   }
   // subscribe.service.ts
-getUserSubscriptions(): Observable<{id: number, theme_id: number, user_id: number}[]> {
-  return this.http.get<{subscribe: {id: number, theme_id: number, user_id: number}[]}>('/api/subscription', {
-    headers: this.getAuthHeaders()
-  }).pipe(
-    map(response => response.subscribe),
-    catchError(err => {
-      console.error('Erreur récupération abonnements :', err);
-      return of([]);
-    })
-  );
-}
-
+  getUserSubscriptions(): Observable<{id: number, theme_id: number, user_id: number}[]> {
+    return this.http.get<any>('/api/subscription', {
+      headers: this.getAuthHeaders()
+    }).pipe(
+      map(response => {
+        console.log('Structure complète de la réponse:', response);
+        // Vérifiez la structure exacte de votre réponse
+        if (response && response.subscribe && Array.isArray(response.subscribe)) {
+          return response.subscribe;
+        } else {
+          console.error('Structure inattendue de la réponse:', response);
+          return [];
+        }
+      }),
+      catchError(err => {
+        console.error('Erreur récupération abonnements :', err);
+        return of([]);
+      })
+    );
+  }
   
   
   
