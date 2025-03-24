@@ -4,6 +4,7 @@ import { catchError, map, Observable, of, tap, throwError } from "rxjs";
 
 @Injectable({ providedIn: 'root' })
 export class SubscriptionService {
+  private readonly BASE_URL = 'http://localhost:3001/api/subscription';
   constructor(private http: HttpClient) { }
 
   private getAuthHeaders(): HttpHeaders {
@@ -17,7 +18,7 @@ export class SubscriptionService {
 
   subscribeToTheme(themeId: number): Observable<any> {
     console.log('Requête abonnement envoyée au serveur, themeId :', themeId);
-    return this.http.post('/api/subscription', { theme_id: themeId }, {
+    return this.http.post(this.BASE_URL, { theme_id: themeId }, {
       headers: this.getAuthHeaders()
     })
     .pipe(
@@ -29,22 +30,23 @@ export class SubscriptionService {
     );
   }
 
-  unsubscribeFromTheme(themeId: number): Observable<any> {
-    console.log('Requête désabonnement envoyée au serveur, themeId :', themeId);
-    return this.http.delete(`/api/subscription/${themeId}`, {
+  unsubscribeFromTheme(subscriptionId: number): Observable<any> {
+    console.log('[unsubscribeFromTheme] SubscriptionId :', subscriptionId);
+    return this.http.delete(`${this.BASE_URL}/${subscriptionId}`, {
       headers: this.getAuthHeaders()
-    })
-    .pipe(
-      tap(res => console.log('Réponse désabonnement serveur :', res)),
+    }).pipe(
+      tap(res => console.log('[unsubscribeFromTheme] Succès :', res)),
       catchError(err => {
-        console.error('Erreur HTTP désabonnement serveur :', err);
+        console.error('[unsubscribeFromTheme] Erreur serveur :', err);
         return throwError(() => err);
       })
     );
   }
+  
+  
   // subscribe.service.ts
   getUserSubscriptions(): Observable<{id: number, theme_id: number, user_id: number}[]> {
-    return this.http.get<any>('/api/subscription', {
+    return this.http.get<any>(this.BASE_URL, {
       headers: this.getAuthHeaders()
     }).pipe(
       map(response => {
