@@ -19,6 +19,9 @@
 </div>
 <div class="profil">Abonnements</div>
 <div id="containerTheme">
-<app-theme></app-theme>
+   <app-theme
+   *ngFor="let theme of themes"
+   [theme]="theme">
+ </app-theme>
 
 </div>

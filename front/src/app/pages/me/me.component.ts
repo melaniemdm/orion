@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Theme } from 'src/app/interfaces/theme.interfaces';
 import { User } from 'src/app/interfaces/user.interfaces';
 import { AuthService } from 'src/app/services/auth.service';
+import { ThemeService } from 'src/app/services/theme.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -15,8 +17,9 @@ export class MeComponent implements OnInit {
   userEmail: string = '';
   userId!: number; // Stocke l'id du user courant
   updatedData:any;
+   themes: Theme[] = []; 
   
-  constructor(private fb: FormBuilder, private router: Router, private authService: AuthService, private userService: UserService) { }
+  constructor(private fb: FormBuilder, private router: Router, private authService: AuthService, private userService: UserService, private themeService: ThemeService, ) { }
 
   ngOnInit(): void {
     this.articleForm = this.fb.group({
@@ -39,7 +42,12 @@ export class MeComponent implements OnInit {
         console.error('Erreur lors du chargement des infos utilisateur :', err);
       }
     });
-
+ // Appel au service pour récupérer les thèmes
+ this.themeService.getThemes().subscribe((response: any) => {
+  // On suppose que `response.subject` est un tableau
+  this.themes = response.subject;
+  console.log('this.themes après mapping :', this.themes);
+});
   }
   public onLogout(): void {
     // 1. Retirer le token du localStorage
@@ -76,5 +84,6 @@ export class MeComponent implements OnInit {
     } else {
       console.error('Formulaire invalide ou ID utilisateur non défini.');
     }
+   
   }
 }
