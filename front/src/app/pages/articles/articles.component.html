@@ -3,11 +3,14 @@
 <div id="containerBloc">
     <div id="blocButton" >
      <div id="containerButton" [routerLink]="'/newArticle'">  <app-button  action="Créer un article"></app-button></div> 
-    <div id="blocTrie">Trier par
-      <span class="material-icons arrow_downward ">
-        arrow_downward
-        </span>
+     
+     <div id="blocTrie" (click)="toggleSortOrder()">
+      Trier par
+      <span class="material-icons arrow_downward">
+        {{ sortDescending ? 'arrow_downward' : 'arrow_upward' }}
+      </span>
     </div>
+    
     </div>
     <div id="blocArticles">
       <app-article
