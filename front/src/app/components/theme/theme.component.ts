@@ -13,7 +13,7 @@ import { SubscriptionService } from 'src/app/services/subscribe.service';
 export class ThemeComponent implements OnInit {
   subscribed = false;
   @Input() theme!: Theme;
-
+  @Input() context: 'default' | 'me' = 'default';
   
   constructor(private subscriptionService: SubscriptionService, private authService: AuthService, private http: HttpClient) { }
 
@@ -49,6 +49,13 @@ export class ThemeComponent implements OnInit {
           console.error('Erreur désabonnement (unsubscribeFromTheme) :', err);
         });
     }
+  }
+
+  getButtonLabel(): string {
+    if (this.context === 'me') {
+      return 'Se désabonner';
+    }
+    return this.subscribed ? 'Déjà abonné' : 'S\'abonner';
   }
 }
 

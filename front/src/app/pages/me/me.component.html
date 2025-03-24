@@ -21,7 +21,8 @@
 <div id="containerTheme">
    <app-theme
    *ngFor="let theme of themes"
-   [theme]="theme">
+   [theme]="theme"
+   context="me">
  </app-theme>
    
     <div *ngIf="!themes || themes.length === 0">

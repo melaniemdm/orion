@@ -7,9 +7,10 @@
       </div>
 
     <div id="buttonAbonnement" > 
-        <app-button [action]="subscribed ? 'Déjà abonné' : 'S\'abonner'"
-        [subscribed]="subscribed"
-        (clicked)="toggleSubscription()">
-</app-button>
+        <app-button 
+            [action]="getButtonLabel()"
+            [subscribed]="subscribed"
+            (clicked)="toggleSubscription()">
+        </app-button>
     </div>
 </div>
