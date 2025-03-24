@@ -62,7 +62,7 @@ export class ThemeComponent implements OnInit {
             this.subscriptionService.getUserSubscriptions().subscribe(subscriptions => {
               this.subscriptions = subscriptions;
             });
-  
+            window.location.reload(); 
           }, err => {
             console.error('Erreur désabonnement (unsubscribeFromTheme) :', err);
           });
