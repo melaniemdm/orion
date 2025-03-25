@@ -26,7 +26,7 @@ export class MeComponent implements OnInit {
   ngOnInit(): void {
     this.articleForm = this.fb.group({
       username: ['', Validators.required],
-      email: [{ value: '', disabled: true }],
+      email: ['', [Validators.required, Validators.email]],
       password: [''],
     });
     this.authService.me().subscribe({
@@ -34,6 +34,7 @@ export class MeComponent implements OnInit {
 
         this.userId = user.id;
         this.userEmail = user.email;
+        
 
         this.articleForm.patchValue({
           username: user.user_name,
@@ -115,7 +116,7 @@ export class MeComponent implements OnInit {
       const formValues = this.articleForm.value;
   
       // Préparer les données à envoyer
-      const updatedData: Partial<User> = { user_name: formValues.username };
+      const updatedData: Partial<User> = { user_name: formValues.username, email: formValues.email };
   
       // N'inclure le mot de passe que s'il est renseigné (non vide)
       if (formValues.password && formValues.password.trim() !== '') {

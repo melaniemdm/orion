@@ -1,21 +1,20 @@
 <!DOCTYPE html>
 <app-header></app-header>
 
-
+<h2>Profil utilisateur</h2>
 <div id="containerUser">
  <!--    <form>
    <app-form classInput="purple" classInput="purple" titleForm="Profil utilisateur" action="Sauvegarder" label="" [showBackArrow]="false" classInput="purple" ></app-form>
 </form>-->
 <form [formGroup]="articleForm" (ngSubmit)="updateUser()">
+   <div id="containerupdate">
     <input placeholder="username" formControlName="username">
-    <div class="mail session en cours">
-       mail de l'user en cours : {{ userEmail }}
-    </div>
-    <input placeholder="mot de passe" formControlName="password" type="password">
+    <input placeholder="email" formControlName="email">
+    <input placeholder="mot de passe" formControlName="password" type="password"></div>
     <button>sauvegarde</button>
 </form>
 
-<div id="deconnecter" (click)="onLogout()">Se déconnecter</div>
+
 </div>
 <div class="profil">Abonnements</div>
 <div id="containerTheme">
