@@ -1,42 +1,44 @@
-#blocContainer {
+.containerArticles {
   display: flex;
-  justify-content: center;
-}
-#flecheBas {
-  width: 16px;
-  height: 16px;
-}
-#blocTrie {
-  display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 20px;
-  font-weight: bold;
+  padding: 1rem;
 }
-#blocButton {
+
+.toolbar {
   display: flex;
   justify-content: space-between;
-  margin: 20px;
-}
-#blocArticles {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-  max-width: 800px;
   width: 100%;
-  margin: 0 auto;
-}
-@media (max-width: 768px) {
-  #blocArticles {
-    grid-template-columns: repeat(1, 1fr);
-    justify-content: center;
-    max-width: 400px;
-  }
-  #blocButton {
-    display: grid;
-    justify-content: center;
-    align-items: center;
+  max-width: 800px;
+  margin: 20px 0;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
     gap: 20px;
+    align-items: center;
   }
 }
 
+.button-wrapper {
+  cursor: pointer;
+}
+
+.sort-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.articles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  width: 100%;
+  max-width: 800px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}

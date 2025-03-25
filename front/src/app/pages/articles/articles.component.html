@@ -1,24 +1,21 @@
 <!DOCTYPE html>
 <app-header></app-header>
-<div id="containerBloc">
-    <div id="blocButton" >
-     <div id="containerButton" [routerLink]="'/newArticle'">  <app-button  action="Créer un article"></app-button></div> 
-     
-     <div id="blocTrie" (click)="toggleSortOrder()">
+
+<div class="containerArticles">
+  <div class="toolbar">
+    <div class="button-wrapper" [routerLink]="'/newArticle'">
+      <app-button action="Créer un article"></app-button>
+    </div>
+
+    <div class="sort-toggle" (click)="toggleSortOrder()">
       Trier par
-      <span class="material-icons arrow_downward">
+      <span class="material-icons">
         {{ sortDescending ? 'arrow_downward' : 'arrow_upward' }}
       </span>
     </div>
-    
-    </div>
-    <div id="blocArticles">
-      <app-article
-      *ngFor="let article of articles"
-      [article]="article" [users]="users">
-    </app-article>
   </div>
-      
-      
-      
+
+  <div class="articles-grid">
+    <app-article *ngFor="let article of articles" [article]="article" [users]="users"></app-article>
+  </div>
 </div>

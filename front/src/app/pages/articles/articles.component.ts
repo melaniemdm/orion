@@ -12,49 +12,46 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./articles.component.scss']
 })
 export class ArticlesComponent implements OnInit {
+  articles: ArticleRequest[] = [];
+  users: User[] = [];
+  sortDescending = true;
 
-// On stocke la liste des articles ici
-public articles: ArticleRequest[] = [];
-public users: User[] = [];
-sortDescending: boolean = true;
+  constructor(
+    private articleService: ArticleService,
+    private userService: UserService,
+    private router: Router
+  ) {}
 
-constructor(private articleService: ArticleService, private userService: UserService, private router: Router) {}
+  ngOnInit(): void {
+    if (!localStorage.getItem('token')) {
+      this.router.navigate(['/home']);
+      return;
+    }
 
-ngOnInit(): void {
-  const token = localStorage.getItem('token');
-
-  if (!token) {
-    this.router.navigate(['/home']);
-    return;
+    forkJoin([
+      this.articleService.getAllArticles(),
+      this.userService.getAllUsers()
+    ]).subscribe({
+      next: ([articles, users]) => {
+        this.articles = articles;
+        this.users = users;
+        this.sortArticles();
+      },
+      error: (err) => console.error('Erreur chargement articles/utilisateurs :', err)
+    });
   }
 
-  forkJoin([
-    this.articleService.getAllArticles(),
-    this.userService.getAllUsers()
-  ]).subscribe({
-    next: ([articles, users]) => {
-      this.articles = articles;
-      this.users = users;
-      this.sortArticles(); // Effectue le tri initial dès la récupération
-    },
-    error: (err) => {
-      console.error('Erreur lors de la récupération :', err);
-    }
-  });
-}
+  toggleSortOrder(): void {
+    this.sortDescending = !this.sortDescending;
+    this.sortArticles();
+  }
 
-
-toggleSortOrder(): void {
-  this.sortDescending = !this.sortDescending;
-  this.sortArticles();
-}
-sortArticles(): void {
-  this.articles.sort((a, b) => {
-    const dateA = new Date(a.created_date).getTime();
-    const dateB = new Date(b.created_date).getTime();
-
-    return this.sortDescending ? dateB - dateA : dateA - dateB;
-  });
-}
+  private sortArticles(): void {
+    this.articles.sort((a, b) =>
+      this.sortDescending
+        ? new Date(b.created_date).getTime() - new Date(a.created_date).getTime()
+        : new Date(a.created_date).getTime() - new Date(b.created_date).getTime()
+    );
+  }
 
 }
