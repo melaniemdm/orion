@@ -6,19 +6,20 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   styleUrls: ['./button.component.scss']
 })
 export class ButtonComponent implements OnInit {
-  //Récupere la props
   @Input() action: string = '';
-  @Input() routerLink?: string; 
+  @Input() routerLink?: string;
   @Input() subscribed: boolean = false;
-  
+
   @Output() clicked = new EventEmitter<void>();
-  
-
-  constructor() { }
-
-  ngOnInit(): void {
+  ngOnInit(): void { }
+  get buttonClass(): string {
+    if (this.routerLink) return 'white';
+    return this.subscribed ? 'gray' : 'purple';
   }
-  onClick(): void {
-    this.clicked.emit();
+
+  handleClick(): void {
+    if (!this.routerLink) {
+      this.clicked.emit();
+    }
   }
 }
