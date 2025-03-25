@@ -1,16 +1,11 @@
-<!DOCTYPE html>
-<div id="blocTheme">
-    <div id="titleTheme">  {{ theme.name_theme }} </div>
+<div class="theme-card">
+    <div class="theme-title">{{ theme.name_theme }}</div>
 
-    <div id="textArticle" [routerLink]="['/comment']">
+    <div class="theme-description" [routerLink]="['/comment']">
         {{ theme.description }}
-      </div>
+    </div>
 
-    <div id="buttonAbonnement" > 
-        <app-button 
-            [action]="getButtonLabel()"
-            [subscribed]="subscribed"
-            (clicked)="toggleSubscription()">
-        </app-button>
+    <div class="theme-button">
+        <app-button [action]="buttonLabel" [subscribed]="subscribed" (clicked)="toggleSubscription()"></app-button>
     </div>
 </div>

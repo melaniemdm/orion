@@ -11,73 +11,54 @@ import { SubscriptionService } from 'src/app/services/subscribe.service';
   styleUrls: ['./theme.component.scss']
 })
 export class ThemeComponent implements OnInit {
-  subscribed = false;
   @Input() theme!: Theme;
   @Input() context: 'default' | 'me' = 'default';
-  subscriptions: {id: number, theme_id: number, user_id: number}[] = [];
-  
-  constructor(private subscriptionService: SubscriptionService, private authService: AuthService, private http: HttpClient) { }
+
+  subscribed = false;
+  subscriptions: { id: number; theme_id: number; user_id: number }[] = [];
+
+  get buttonLabel(): string {
+    if (this.context === 'me') return 'Se désabonner';
+    return this.subscribed ? 'Déjà abonné' : 'S’abonner';
+  }
+
+  constructor(private subscriptionService: SubscriptionService) {}
 
   ngOnInit(): void {
-    this.subscriptionService.getUserSubscriptions().subscribe(subscriptions => {
-      this.subscriptions = subscriptions;
-      this.subscribed = subscriptions.some(sub => sub.theme_id === this.theme.id);
-    });
+    this.loadSubscriptions();
   }
-  
- 
 
-  // Vérifie si l’utilisateur est déjà abonné à ce thème
   toggleSubscription(): void {
-    console.log('État abonnement avant action :', this.subscribed);
-  
+    const themeId = this.theme.id;
+
     if (!this.subscribed) {
-      console.log('Tentative abonnement au thème ID :', this.theme.id);
-      this.subscriptionService.subscribeToTheme(this.theme.id)
-        .subscribe(() => {
+      this.subscriptionService.subscribeToTheme(themeId).subscribe({
+        next: () => {
           this.subscribed = true;
-          console.log('Abonnement réussi au thème ID :', this.theme.id);
-          
-          // Recharge les abonnements après abonnement
-          this.subscriptionService.getUserSubscriptions().subscribe(subscriptions => {
-            this.subscriptions = subscriptions;
-          });
-  
-        }, err => {
-          console.error('Erreur abonnement (subscribeToTheme) :', err);
-        });
-  
+          this.loadSubscriptions();
+        },
+        error: err => console.error('Erreur abonnement :', err)
+      });
     } else {
-      console.log('Tentative désabonnement du thème ID :', this.theme.id);
-  
-      // Important : récupérer subscriptionId au lieu de themeId pour supprimer
-      const subscription = this.subscriptions.find(sub => sub.theme_id === this.theme.id);
-      if (subscription) {
-        this.subscriptionService.unsubscribeFromTheme(subscription.id)
-          .subscribe(() => {
-            this.subscribed = false;
-            console.log('Désabonnement réussi, subscriptionId :', subscription.id);
-  
-            // Recharge les abonnements après désabonnement
-            this.subscriptionService.getUserSubscriptions().subscribe(subscriptions => {
-              this.subscriptions = subscriptions;
-            });
-            window.location.reload(); 
-          }, err => {
-            console.error('Erreur désabonnement (unsubscribeFromTheme) :', err);
-          });
-      } else {
-        console.error('Abonnement introuvable pour ce thème. Vérifie tes données.');
-      }
+      const subscription = this.subscriptions.find(sub => sub.theme_id === themeId);
+      if (!subscription) return;
+
+      this.subscriptionService.unsubscribeFromTheme(subscription.id).subscribe({
+        next: () => {
+          this.subscribed = false;
+          this.loadSubscriptions();
+          window.location.reload(); 
+        },
+        error: err => console.error('Erreur désabonnement :', err)
+      });
     }
   }
-  
 
-  getButtonLabel(): string {
-    if (this.context === 'me') {
-      return 'Se désabonner';
-    }
-    return this.subscribed ? 'Déjà abonné' : 'S\'abonner';
+  private loadSubscriptions(): void {
+    this.subscriptionService.getUserSubscriptions().subscribe(subs => {
+      this.subscriptions = subs;
+      this.subscribed = subs.some(sub => sub.theme_id === this.theme.id);
+    });
   }
 }
 
