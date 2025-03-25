@@ -9,40 +9,29 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class FormloginComponent implements OnInit {
   @Input() showBackArrow = true;
   @Input() titleForm = '';
-  @Input() showUsername = true;
   @Input() action = '';
 
   @Output() formSubmitted = new EventEmitter<FormGroup>();
+
   subscriptionForm!: FormGroup;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.subscriptionForm = this.fb.group({
-      email: ['', [Validators.required]],  // <-- on peut renommer 'email' en 'identifier' pour accepter email ou username
+      email: ['', Validators.required], // peut contenir un email ou un username
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
-
-    
   }
 
   onSubmit(): void {
-    console.log('Données envoyées :', this.subscriptionForm.value);
-
     if (this.subscriptionForm.invalid) {
-      console.warn("Formulaire invalide :", this.subscriptionForm.errors); // Souvent null
-      Object.keys(this.subscriptionForm.controls).forEach(key => {
-        const control = this.subscriptionForm.get(key);
-        if (control?.invalid) {
-          console.warn(
-            `- Le champ "${key}" est invalide :`,
-            control.errors
-          );
-        }
-      });
+      console.warn('Formulaire invalide :', this.subscriptionForm.value);
+      this.subscriptionForm.markAllAsTouched();
       return;
     }
 
+    console.log('Données envoyées :', this.subscriptionForm.value);
     this.formSubmitted.emit(this.subscriptionForm);
   }
 }
