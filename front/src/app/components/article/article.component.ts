@@ -13,18 +13,13 @@ export class ArticleComponent implements OnInit {
   @Input() users: User[] = [];
 
   constructor(private router: Router) { }
+  ngOnInit(): void { }
+  get userName(): string {
+    return this.users.find(user => user.id === this.article.auteur_id)?.user_name ?? 'Auteur inconnu';
+  }
 
-  ngOnInit(): void {
-     
-  }
-  getUserName(): string {
-   
-    const user = this.users.find(u => u.id === this.article.auteur_id);
-   
-    return user ? user.user_name : 'Auteur inconnu';
-  }
-  public goToComments(articleId: string): void {
-    
-    this.router.navigate(['/comment', articleId]);
+  goToComments(): void {
+    this.router.navigate(['/comment', this.article.id]);
   }
 }
+

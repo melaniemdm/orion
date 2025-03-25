@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<div id="blocArticle" (click)="goToComments(article.id)">
+<div id="blocArticle" (click)="goToComments()">
     <div id="titleArticle">{{ article.title }}</div>
+  
     <div id="infoArticle">
-        <div id="date"> {{ article.created_date | date:'dd/MM/yyyy '  }} </div>
-        <div id="auteur">{{ getUserName() }}</div>
+      <div id="date">{{ article.created_date | date: 'dd/MM/yyyy' }}</div>
+      <div id="auteur">{{ userName }}</div>
     </div>
+  
     <div id="textArticle" [routerLink]="['/comment', article.id]">
-        {{ article.description }}
-      </div>
-</div>
+      {{ article.description }}
+    </div>
+  </div>
+  
