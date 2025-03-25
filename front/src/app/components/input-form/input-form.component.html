@@ -1,9 +1,6 @@
 <!DOCTYPE html>
-<div id="bloc-form">
-    <form [formGroup]="formGroup" >
-        <label [for]="formControlName">{{label}}</label>
-        <input [id]="formControlName" [type]="type" [formControlName]="formControlName" [placeholder]="placeholder" [class]="classInput">
-    </form>
-
-   
+<div class="input-wrapper" [formGroup]="formGroup">
+    <label [for]="formControlName">{{ label }}</label>
+    <input [id]="formControlName" [type]="type" [formControlName]="formControlName" [placeholder]="placeholder"
+        [ngClass]="classInput" [required]="required" />
 </div>

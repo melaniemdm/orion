@@ -1,21 +1,18 @@
-#bloc-form{
-    width: auto; 
-    margin: 8px auto; 
-    //padding: 20px;
-   
+.input-wrapper {
+  margin: 8px auto;
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
 }
 
 input {
-    display: block; 
-  //margin: 0 auto;
   width: 245px;
   height: 45px;
-  //border: 1px solid black;
   border-radius: 8px;
-  //background-color: red;
+  padding: 0 10px;
+  box-sizing: border-box;
 }
-//css de new article
-.purple{
 
- border: 1px solid #7763C5;
-  }
+.purple {
+  border: 1px solid #7763c5;
+}

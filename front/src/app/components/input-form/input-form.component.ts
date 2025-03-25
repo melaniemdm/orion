@@ -8,17 +8,12 @@ import { FormGroup } from '@angular/forms';
 })
 export class InputFormComponent implements OnInit {
   @Input() formGroup!: FormGroup;
-  @Input() for: string = '';
-  @Input() label: string = '';
-  @Input() type: string = '';
-  @Input() id: string = '';
+  @Input() label = '';
+  @Input() type = 'text';
   @Input() formControlName!: string;
-  @Input() placeholder: string = '';
-  @Input() required: boolean = false;
-  @Input() classInput: string = '';
-  
-  constructor() { }
-
+  @Input() placeholder = '';
+  @Input() required = false;
+  @Input() classInput = '';
   ngOnInit(): void {
   }
 
