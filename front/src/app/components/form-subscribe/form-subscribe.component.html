@@ -28,6 +28,10 @@
       <div class="form-field">
         <label for="password">Mot de passe :</label>
         <input id="password" placeholder="Mot de passe" formControlName="password" type="password">
+        <div
+        *ngIf="userForm.get('password')?.errors?.['passwordInvalid'] && userForm.get('password')?.touched">
+          Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.
+        </div>
       </div>
         
       <app-button id="button"  [action]="action" (buttonClick)="onSubmit()"></app-button>

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-form-subscribe',
@@ -7,51 +7,57 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./form-subscribe.component.scss']
 })
 export class FormSubscribeComponent implements OnInit {
-  @Input() userForm!: FormGroup;
-  @Input() formControlName!: string;
-  @Input() required: boolean = false;
   @Input() titleForm: string = '';
   @Input() action: string = '';
-  @Output() formSubmitted = new EventEmitter<{user_name: string, email: string, password: string}>();
   @Input() showBackArrow: boolean = true;
 
+  @Output() formSubmitted = new EventEmitter<{
+    user_name: string;
+    email: string;
+    password: string;
+  }>();
 
-  constructor(private fb: FormBuilder) { }
+  public userForm!: FormGroup;
 
-  ngOnChanges(changes: SimpleChanges): void {
-    this.ngOnInit();
-  }
+  constructor(private fb: FormBuilder) {}
+
   ngOnInit(): void {
     this.userForm = this.fb.group({
       user_name: ['', Validators.required],
-      email: ['', [Validators.required]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, passwordValidator]]
     });
-
-   
   }
-
 
   onSubmit(): void {
     if (this.userForm.invalid) {
-      console.warn("Formulaire invalide :", this.userForm.errors);
-      Object.keys(this.userForm.controls).forEach(key => {
-        const controlErrors = this.userForm.get(key)?.errors;
-        if (controlErrors) {
-          console.warn(`Erreur sur ${key} :`, controlErrors);
-        }
-      });
+      this.userForm.markAllAsTouched(); // Active les erreurs visuelles dans le template
+      console.warn('Formulaire invalide :', this.userForm.errors);
       return;
     }
-  
-    const payload = {
-      user_name: this.userForm.value.user_name, 
-      email: this.userForm.value.email,
-      password: this.userForm.value.password
-    };
-  
-    console.log("Formulaire valide avec payload adapté envoyé vers API :", payload);
+
+    const payload = this.userForm.value;
+    console.log('Formulaire valide, payload envoyé :', payload);
     this.formSubmitted.emit(payload);
   }
+}
+
+// Personnalisation du mot de passe
+export function passwordValidator(control: AbstractControl): ValidationErrors | null {
+  const value = control.value || '';
+
+  const hasUpperCase = /[A-Z]/.test(value);
+  const hasLowerCase = /[a-z]/.test(value);
+  const hasNumber = /\d/.test(value);
+  const hasSpecialChar = /[^A-Za-z0-9]/.test(value);
+  const hasMinLength = value.length >= 8;
+
+  const isValid = hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar && hasMinLength;
+
+  return isValid
+    ? null
+    : {
+        passwordInvalid: true
+      };
 
 }
