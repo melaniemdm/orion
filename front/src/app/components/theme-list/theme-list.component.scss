@@ -1,15 +1,14 @@
-select {
-    width: 249px;
-    height: 45px;              
-    //padding: 0.75rem;           
-    font-size: 14px;            
-    border: 1px solid #7763c5;  
-    border-radius: 8px;         
-    outline: none;              
-    background-color: #fff;    
-    color: #535151;                
-    appearance: none; 
-    margin: -8px;          
-  }
-  
- 
+.theme-select-wrapper select {
+  width: 249px;
+  height: 45px;
+  font-size: 14px;
+  border: 1px solid #7763c5;
+  border-radius: 8px;
+  background-color: #fff;
+  color: #535151;
+  appearance: none;
+  padding: 0 0.75rem;
+  margin: -5px ;
+  display: block;
+  outline: none;
+}
