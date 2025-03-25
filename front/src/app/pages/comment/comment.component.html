@@ -1,41 +1,30 @@
 <!DOCTYPE html>
 <app-header></app-header>
-<div id="blocHeaderComment">
-    <div id="containerArrow_back">
-        <span class="material-icons arrow_back" [routerLink]="'/articles'">
-            arrow_back
-        </span>
-    </div>
-    <div id="titleArticleSelect">{{ articleSelected?.title }}</div>
+
+<div class="comment-header">
+    <span class="material-icons arrow_back" [routerLink]="'/articles'">arrow_back</span>
+    <div class="article-title">{{ articleSelected?.title }}</div>
 </div>
-<div id="infoArticle">
-    <div>{{ articleSelected?.created_date | date:'dd/MM/yyyy ' }}</div>
+
+<div class="article-info">
+    <div>{{ articleSelected?.created_date | date: 'dd/MM/yyyy' }}</div>
     <div>{{ getArticleAuthorName() }}</div>
-    <div>{{ getThemeName(articleSelected?.theme_id || 0) }}</div>
-
+    <div>{{ getThemeName(articleSelected?.theme_id) }}</div>
 </div>
 
-<div id="textArticle">{{ articleSelected?.description }}</div>
+<div class="article-content">{{ articleSelected?.description }}</div>
 
-<div id="commentaires">Commentaires</div>
+<h3>Commentaires</h3>
 
-<!-- Liste des commentaires -->
-<div *ngIf="comments.length > 0">
-    <ul>
-        <li *ngFor="let comment of comments">
-            <strong>{{ getUserName(comment.auteur_id) }}</strong> : {{ comment.commentary }}
-        </li>
-    </ul>
+<ul *ngIf="comments.length > 0">
+    <li *ngFor="let comment of comments">
+        <strong>{{ getUserName(comment.auteur_id) }}</strong> : {{ comment.commentary }}
+    </li>
+</ul>
+
+<div class="comment-form">
+    <input [(ngModel)]="newComment" placeholder="Écrire un commentaire..." />
+    <span class="material-icons send" (click)="sendComment()">send</span>
 </div>
 
-<div id="sendComment">
-    <div>
-        <input id="insertComment" [(ngModel)]="newComment" placeholder="Écrire un commentaire..." />
-    </div>
-   
-    <span class="material-icons send" (click)="sendComment()">
-        send
-        </span>
-</div>
-
-<p *ngIf="message" [ngClass]="{ 'success': isSuccess, 'error': !isSuccess }">{{ message }}</p>
+<p *ngIf="message" [ngClass]="{ success: isSuccess, error: !isSuccess }">{{ message }}</p>
