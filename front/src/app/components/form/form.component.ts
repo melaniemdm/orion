@@ -7,50 +7,41 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./form.component.scss']
 })
 export class FormComponent implements OnInit {
+  subscriptionForm!: FormGroup;
 
+  @Input() titleForm: string = '';
+  @Input() action: string = '';
+  @Input() showUsername: boolean = true;
+  @Input() showBackArrow: boolean = true;
+  @Input() classInput: string = '';
 
-subscriptionForm!: FormGroup;
-@Input() titleForm: string = '';
-@Input() action: string = '';
-@Input() showUsername: boolean = true; 
-@Output() formSubmitted = new EventEmitter<FormGroup>();
-@Input() showBackArrow: boolean = true;
-@Input() classInput: string = '';
+  @Output() formSubmitted = new EventEmitter<FormGroup>();
 
   constructor(private fb: FormBuilder) { }
-  ngOnChanges(changes: SimpleChanges): void {
-    this.ngOnInit();
-  }
+
   ngOnInit(): void {
     this.subscriptionForm = this.fb.group({
-      email: ['', [Validators.required]], 
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      email: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(6)]]
     });
-  
-    // Ajoute `username` uniquement si `showUsername` est activé 
+
     if (this.showUsername) {
-      this.subscriptionForm.addControl('username', this.fb.control('', Validators.required));
+      this.subscriptionForm.addControl(
+        'username',
+        this.fb.control('', Validators.required)
+      );
     }
   }
-  
 
   onSubmit(): void {
-    console.log("Formulaire soumis !");
-  console.log("Données envoyées :", this.subscriptionForm.value);
-  
-  if (this.subscriptionForm.invalid) {
-    console.warn(" Formulaire invalide :", this.subscriptionForm.errors);
-    
-    Object.keys(this.subscriptionForm.controls).forEach(key => {
-      const controlErrors = this.subscriptionForm.get(key)?.errors;
-      if (controlErrors) {
-        console.warn(`Erreur sur ${key} :`, controlErrors);
-      }
-    });
-    
-    return;
-  }
+    if (this.subscriptionForm.invalid) {
+      console.warn('Formulaire invalide :', this.subscriptionForm.errors);
+      this.subscriptionForm.markAllAsTouched();
+      return;
+    }
 
-  this.formSubmitted.emit(this.subscriptionForm);}
+    console.log('Formulaire soumis avec :', this.subscriptionForm.value);
+    this.formSubmitted.emit(this.subscriptionForm);
+  }
 
 }

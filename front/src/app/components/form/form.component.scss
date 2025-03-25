@@ -1,47 +1,46 @@
-
 form {
   display: flex;
   flex-direction: column;
-  //gap: 15px;
   max-width: 255px;
   margin: auto;
-  //background-color: yellow;
 }
 
-#flecheGauche {
-  z-index: 3;
-  position: absolute;
-  width: 39px;
-  height: 39px;
-  padding-left: 50px;
-}
-.arrow_back{
-  font-size:  39px;
- }
- 
-#title {
-  margin: 50px;
-  font-size: 24px;
+#title-container {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+}
+
+#containerArrow_back {
+  position: absolute;
+  left: 0;
+}
+
+.arrow_back {
+  font-size: 39px;
+  cursor: pointer;
+}
+
+#title {
+  margin: 50px 0;
+  font-size: 24px;
+  text-align: center;
   height: 44px;
 }
+
 #button {
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
 @media (max-width: 767px) {
   #title {
-    //border: 1px solid #000000;
-    margin: 0px;
- 
+    margin: 0;
   }
-  #flecheGauche {
-    //border: 1px solid #000000;
-    position: absolute;
-    z-index: 1;
+
+  #containerArrow_back {
     top: -50px;
   }
 }
