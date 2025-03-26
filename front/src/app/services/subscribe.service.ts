@@ -5,23 +5,25 @@ import { ApiService } from "./api.service";
 
 @Injectable({ providedIn: 'root' })
 export class SubscriptionService {
-  private readonly BASE_URL = 'http://localhost:3001/api/subscription';
+  private readonly BASE_URL: string;
 
-  constructor(private http: HttpClient, private apiService: ApiService) { }
+  constructor(private http: HttpClient, private apiService: ApiService) {
+    this.BASE_URL = this.apiService.getApiSubscription();
+  }
 
-  
+
   subscribeToTheme(themeId: number): Observable<any> {
     console.log('Requête abonnement envoyée au serveur, themeId :', themeId);
     return this.http.post(this.BASE_URL, { theme_id: themeId }, {
       headers: this.apiService.getAuthHeaders()
     })
-    .pipe(
-      tap(res => console.log('Réponse abonnement serveur :', res)),
-      catchError(err => {
-        console.error('Erreur HTTP abonnement serveur :', err);
-        return throwError(() => err);
-      })
-    );
+      .pipe(
+        tap(res => console.log('Réponse abonnement serveur :', res)),
+        catchError(err => {
+          console.error('Erreur HTTP abonnement serveur :', err);
+          return throwError(() => err);
+        })
+      );
   }
 
   unsubscribeFromTheme(subscriptionId: number): Observable<any> {
@@ -36,10 +38,10 @@ export class SubscriptionService {
       })
     );
   }
-  
-  
+
+
   // subscribe.service.ts
-  getUserSubscriptions(): Observable<{id: number, theme_id: number, user_id: number}[]> {
+  getUserSubscriptions(): Observable<{ id: number, theme_id: number, user_id: number }[]> {
     return this.http.get<any>(this.BASE_URL, {
       headers: this.apiService.getAuthHeaders()
     }).pipe(
@@ -59,7 +61,7 @@ export class SubscriptionService {
       })
     );
   }
-  
-  
-  
+
+
+
 }

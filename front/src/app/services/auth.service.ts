@@ -11,12 +11,14 @@ import { ApiService } from './api.service';
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly BASE_URL = 'http://localhost:3001/api/auth';
+  private readonly BASE_URL: string;
 
   constructor(
     private http: HttpClient,
     private apiService: ApiService
-  ) { }
+  ) {
+    this.BASE_URL = this.apiService.getApiAuth();
+  }
 
   register(request: RegisterRequest): Observable<AuthSuccess> {
     return this.http.post<AuthSuccess>(`${this.BASE_URL}/register`, request)

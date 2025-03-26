@@ -11,19 +11,20 @@ import { ApiService } from './api.service';
 })
 export class ThemeService {
 
-  private apiUrl = 'http://localhost:3001/api/subject';
+  private readonly BASE_URL: string;
 
-  constructor(private http: HttpClient, private apiService: ApiService) { }
-  
+  constructor(private http: HttpClient, private apiService: ApiService) {
+    this.BASE_URL = this.apiService.getApiSubject();
+  }
+
+
  
-  // vérification 
-
   getThemes(): Observable<Theme[]> {
-    return this.http.get<any>(this.apiUrl, { headers: this.apiService.getAuthHeaders() })
+    return this.http.get<any>(this.BASE_URL, { headers: this.apiService.getAuthHeaders() })
       .pipe(
         map(response => {
           console.log('Réponse API thèmes brute:', response);
-  
+
           if (response && Array.isArray(response.subject)) {
             // Retourne explicitement response.subject
             return response.subject;
@@ -38,6 +39,6 @@ export class ThemeService {
         })
       );
   }
-  
+
 
 }

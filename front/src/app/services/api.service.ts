@@ -5,10 +5,12 @@ import { Injectable } from "@angular/core";
   providedIn: 'root'
 })
 export class ApiService {
- 
-    constructor(private http: HttpClient) {}
+  private readonly BASE_URL = 'http://localhost:3001/api/';;
 
-getAuthHeaders(): HttpHeaders {
+
+  constructor(private http: HttpClient) { }
+
+  getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
     //console.log('Token récupéré :', token);
     return new HttpHeaders({
@@ -17,5 +19,26 @@ getAuthHeaders(): HttpHeaders {
     });
   }
 
+  getApiArticles(): string {
 
+    return this.BASE_URL + 'post';
+  }
+  getApiAuth(): string {
+
+    return this.BASE_URL + 'auth';
+  }
+  getApiSubscription(): string {
+
+    return this.BASE_URL + 'subscription';
+  }
+  getApiSubject(): string {
+
+    return this.BASE_URL + 'subject';
+  }
+
+  getApiUser(): string {
+
+    return this.BASE_URL + 'user';
+  }
 }
+
