@@ -1,25 +1,19 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { catchError, map, Observable, of, tap, throwError } from "rxjs";
+import { ApiService } from "./api.service";
 
 @Injectable({ providedIn: 'root' })
 export class SubscriptionService {
   private readonly BASE_URL = 'http://localhost:3001/api/subscription';
-  constructor(private http: HttpClient) { }
 
-  private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('token');
-    console.log('Token récupéré :', token);
-    return new HttpHeaders({
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    });
-  }
+  constructor(private http: HttpClient, private apiService: ApiService) { }
 
+  
   subscribeToTheme(themeId: number): Observable<any> {
     console.log('Requête abonnement envoyée au serveur, themeId :', themeId);
     return this.http.post(this.BASE_URL, { theme_id: themeId }, {
-      headers: this.getAuthHeaders()
+      headers: this.apiService.getAuthHeaders()
     })
     .pipe(
       tap(res => console.log('Réponse abonnement serveur :', res)),
@@ -33,7 +27,7 @@ export class SubscriptionService {
   unsubscribeFromTheme(subscriptionId: number): Observable<any> {
     console.log('[unsubscribeFromTheme] SubscriptionId :', subscriptionId);
     return this.http.delete(`${this.BASE_URL}/${subscriptionId}`, {
-      headers: this.getAuthHeaders()
+      headers: this.apiService.getAuthHeaders()
     }).pipe(
       tap(res => console.log('[unsubscribeFromTheme] Succès :', res)),
       catchError(err => {
@@ -47,7 +41,7 @@ export class SubscriptionService {
   // subscribe.service.ts
   getUserSubscriptions(): Observable<{id: number, theme_id: number, user_id: number}[]> {
     return this.http.get<any>(this.BASE_URL, {
-      headers: this.getAuthHeaders()
+      headers: this.apiService.getAuthHeaders()
     }).pipe(
       map(response => {
         console.log('Structure complète de la réponse:', response);

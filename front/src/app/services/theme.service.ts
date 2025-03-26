@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, Observable, of } from 'rxjs';
 import { Theme } from '../interfaces/theme.interfaces';
+import { ApiService } from './api.service';
 
 
 
@@ -12,20 +13,13 @@ export class ThemeService {
 
   private apiUrl = 'http://localhost:3001/api/subject';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private apiService: ApiService) { }
   
-  private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('token');
-    console.log('Token récupéré :', token);
-    return new HttpHeaders({
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    });
-  }
+ 
   // vérification 
 
   getThemes(): Observable<Theme[]> {
-    return this.http.get<any>(this.apiUrl, { headers: this.getAuthHeaders() })
+    return this.http.get<any>(this.apiUrl, { headers: this.apiService.getAuthHeaders() })
       .pipe(
         map(response => {
           console.log('Réponse API thèmes brute:', response);
