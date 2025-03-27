@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { catchError, map, Observable, of, tap, throwError } from "rxjs";
-import { ApiService } from "./api.service";
+import { ApiService } from "../interceptors/api.service";
 
 @Injectable({ providedIn: 'root' })
 export class SubscriptionService {

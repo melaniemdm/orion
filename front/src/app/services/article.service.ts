@@ -3,7 +3,7 @@ import { HttpClient, } from '@angular/common/http';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { ArticleRequest, ArticleResponse, SingleArticleResponse } from '../interfaces/article.interfaces';
 import { AuthSuccess } from '../interfaces/authAcces.interfaces';
-import { ApiService } from './api.service';
+import { ApiService } from '../interceptors/api.service';
 
 
 @Injectable({

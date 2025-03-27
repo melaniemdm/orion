@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable, tap } from 'rxjs';
 import { User } from '../interfaces/user.interfaces';
-import { ApiService } from './api.service';
+import { ApiService } from '../interceptors/api.service';
 
 
 @Injectable({

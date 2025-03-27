@@ -5,7 +5,7 @@ import { AuthSuccess } from '../interfaces/authAcces.interfaces';
 import { LoginRequest } from '../interfaces/login.interfaces';
 import { RegisterRequest } from '../interfaces/registerRequest.interfaces';
 import { User } from '../interfaces/user.interfaces';
-import { ApiService } from './api.service';
+import { ApiService } from '../interceptors/api.service';
 
 @Injectable({
   providedIn: 'root'

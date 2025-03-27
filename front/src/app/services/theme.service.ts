@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, Observable, of } from 'rxjs';
 import { Theme } from '../interfaces/theme.interfaces';
-import { ApiService } from './api.service';
+import { ApiService } from '../interceptors/api.service';
 
 
 
@@ -18,7 +18,7 @@ export class ThemeService {
   }
 
 
- 
+
   getThemes(): Observable<Theme[]> {
     return this.http.get<any>(this.BASE_URL, { headers: this.apiService.getAuthHeaders() })
       .pipe(
