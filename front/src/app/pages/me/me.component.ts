@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+
 import { forkJoin } from 'rxjs';
 import { Theme } from 'src/app/interfaces/theme.interfaces';
 import { User } from 'src/app/interfaces/user.interfaces';

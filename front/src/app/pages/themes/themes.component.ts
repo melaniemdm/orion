@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ArticleRequest } from 'src/app/interfaces/article.interfaces';
 import { Theme } from 'src/app/interfaces/theme.interfaces';
-import { ArticleService } from 'src/app/services/article.service';
 import { ThemeService } from 'src/app/services/theme.service';
 
 @Component({
