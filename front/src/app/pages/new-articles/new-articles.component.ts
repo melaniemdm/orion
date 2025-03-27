@@ -42,7 +42,7 @@ export class NewArticlesComponent implements OnInit {
       const registerRequest = form.value as ArticleRequest;
       //console.log("Tentative d'inscription (article) :", registerRequest);
 
-      // 1. Récupération des infos du user via authService.me()
+      // Récupération des infos du user via authService.me()
       this.authService.me().subscribe({
         next: (user: User) => {
 
@@ -51,7 +51,7 @@ export class NewArticlesComponent implements OnInit {
 
           //console.log('registerRequest final :', registerRequest);
 
-          // 3. Appel au service ArticleService pour créer l'article
+          // Appel au service ArticleService pour créer l'article
           this.articleService.registerArticle(registerRequest).subscribe({
             next: (response: AuthSuccess) => {
               
@@ -61,7 +61,6 @@ export class NewArticlesComponent implements OnInit {
                 console.warn("Aucun token renvoyé lors de la création d'article, on ne modifie pas le localStorage.");
               }
               
-
               //console.log("Redirection vers /articles...");
               this.router.navigate(['/articles']).then(success => {
                 if (success) {
@@ -88,6 +87,7 @@ export class NewArticlesComponent implements OnInit {
     }
   }
 
+  // Mise à jour de 'theme_id' avec la valeur du thème sélectionné
   public onThemeSelected(themeValue: string): void {
     this.articleForm.patchValue({ theme_id: themeValue });
   }

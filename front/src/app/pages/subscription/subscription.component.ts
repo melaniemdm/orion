@@ -11,24 +11,28 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class SubscriptionComponent implements OnInit {
   public onError = false;
-  @Input('title-form') titleForm: string = '';
+  // Variable pour la gestion d'état utilisateur
   public isLoggedIn: boolean = true;
+
+  // Input pour le titre du formulaire
+  @Input('title-form') titleForm: string = '';
+
 
   constructor(private authService: AuthService,
     private router: Router) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void { }
 
-  }
+  // Méthode pour gérer le submit du formulaire
   onFormSubmit(formValue: { user_name: string, email: string, password: string }): void {
-    console.log("Formulaire reçu dans subscription.component.ts register:", formValue);
+    //console.log("Formulaire reçu dans subscription.component.ts register:", formValue);
 
     const registerRequest: RegisterRequest = {
       user_name: formValue.user_name,
       email: formValue.email,
       password: formValue.password
     };
-
+    // Appel au service d'authentification pour l'inscription
     this.authService.register(registerRequest).subscribe(
       (response: AuthSuccess) => {
         localStorage.setItem('token', response.token);

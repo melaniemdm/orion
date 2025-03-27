@@ -14,9 +14,10 @@ export class ThemesComponent implements OnInit {
   constructor(private themeService: ThemeService) { }
 
   ngOnInit(): void {
+    // Subscription à l'observable renvoyée par getThemes() pour récupérer la liste des thèmes
     this.themeService.getThemes().subscribe((themes: Theme[]) => {
-      this.themes = themes; // directement, sans ".subject"
-      console.log('this.themes après mapping :', this.themes);
+      this.themes = themes; 
+      //console.log('this.themes après mapping :', this.themes);
     });
   }
 
