@@ -41,11 +41,13 @@ export class ArticlesComponent implements OnInit {
     });
   }
 
+  //Inverse la valeur de tri
   toggleSortOrder(): void {
     this.sortDescending = !this.sortDescending;
     this.sortArticles();
   }
 
+  // Tri les articles selon leur date de création
   private sortArticles(): void {
     this.articles.sort((a, b) =>
       this.sortDescending

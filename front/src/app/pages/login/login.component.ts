@@ -15,24 +15,15 @@ import { SessionService } from 'src/app/services/session.service';
 export class LoginComponent implements OnInit {
   @Input() loginForm!: FormGroup;
   public isLoggedIn: boolean = true;
-  /**
-   * Indique si le mot de passe est masqué ou non dans l'UI.
-   */
+ 
   public hide = true;
-  /**
-  * Indicateur d'erreur pour l'affichage conditionnel d'un message d'erreur dans l'UI.
-  */
   public onError = false;
-  /**
-     * FormGroup réactif pour gérer la saisie de l'email et du mot de passe.
-     */
+ 
   public form: FormGroup = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(3)]]
   });
-  /**
-   * Constructeur : injection des dépendances.
-   */
+ 
   constructor(
     private authService: AuthService,
     private fb: FormBuilder,
@@ -40,7 +31,7 @@ export class LoginComponent implements OnInit {
     private sessionService: SessionService) { }
 
   ngOnInit(): void {
-    
+
   }
 
   onFormSubmit(form: FormGroup): void {
@@ -51,13 +42,13 @@ export class LoginComponent implements OnInit {
 
       this.authService.login(form.value).subscribe(
         (response: AuthSuccess) => {
-          console.log("Connexion réussie :", response);
+        //  console.log("Connexion réussie :", response);
           localStorage.setItem('token', response.token);
-          console.log("Token stocké :", localStorage.getItem('token')); // Vérifie si le token stocké est correct
+          //console.log("Token stocké :", localStorage.getItem('token')); // Vérifie si le token stocké est correct
 
           this.authService.me().subscribe((user) => {
             this.sessionService.logIn(user);
-            console.log("Redirection vers /articles...");
+            //console.log("Redirection vers /articles...");
             this.router.navigate(['/articles']);
           });
         },

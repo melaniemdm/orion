@@ -11,10 +11,10 @@ import { ArticleService } from 'src/app/services/article.service';
 export class CommentComponent implements OnInit {
   public articleId!: string;
   public articleSelected?: ArticleRequest;
-  public newComment: string = '';  // Stocke le commentaire saisi
-  public message: string = ''; // Message de succès ou d'erreur
-  public isSuccess: boolean = false; // I
-  public comments: any[] = [];// Stocke les commentaires récupérés
+  public newComment: string = ''; 
+  public message: string = ''; 
+  public isSuccess: boolean = false; 
+  public comments: any[] = [];
   public users: any[] = [];
   public themes: any[] = [];
 
@@ -23,13 +23,13 @@ export class CommentComponent implements OnInit {
     private articleService: ArticleService) { }
 
   ngOnInit(): void {
-    // 1) Récupére l'ID dans l'URL
+    //Récupération de l'ID dans l'URL
     this.articleId = this.route.snapshot.params['id'];
     //console.log("Article ID récupéré depuis l'URL :", this.articleId);
     if (!this.articleId) {
       // console.error("Erreur : Aucun article ID trouvé dans l'URL !");
     }
-    // 2) Appele articleService pour récupérer l'article correspondant
+    // Appel articleService pour récupérer l'article correspondant
     this.articleService.getArticleById(this.articleId).subscribe({
       next: (response) => {
 
@@ -49,7 +49,7 @@ export class CommentComponent implements OnInit {
   // Charger la liste des utilisateurs
   loadUsers(): void {
     this.articleService.getUsers().subscribe({
-      next: (response: any) => { // <-- Ajoute ": any" pour éviter l'erreur de typage
+      next: (response: any) => { 
         //console.log('Réponse utilisateurs avant stockage :', response);
 
         if (response && Array.isArray(response.user)) {
@@ -66,7 +66,7 @@ export class CommentComponent implements OnInit {
       }
     });
   }
-  // Trouver le nom de l'utilisateur par son ID
+  // Trouve le nom de l'utilisateur par son ID
   getUserName(auteurId: string): string {
     if (!this.users || this.users.length === 0) {
       return 'Utilisateur inconnu';

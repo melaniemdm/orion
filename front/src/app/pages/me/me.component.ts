@@ -28,14 +28,14 @@ export class MeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // On initialise notre formulaire
+    // Initialisation du formulaire
     this.articleForm = this.fb.group({
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['']
     });
 
-    // On récupère les infos de l'utilisateur connecté
+    // Récuperation des infos de l'utilisateur connecté
     this.authService.me().subscribe({
       next: (user: User) => {
         this.userId = user.id;
@@ -70,15 +70,15 @@ export class MeComponent implements OnInit {
   }
 
   updateUser(): void {
-    // On vérifie que le formulaire est valide et qu’on a un userId
+    // Vérification que le formulaire est valide et que j'ai un userId
     if (this.articleForm.valid && this.userId) {
       const { username, email, password } = this.articleForm.value;
-      // On prépare les données
+      // Préparation des données
       const updatedData: Partial<User> = { 
         user_name: username, 
         email 
       };
-      // On n’inclut le mot de passe que s’il est renseigné
+      // Inclut le mot de passe que s’il est renseigné
       if (password && password.trim()) {
         updatedData.password = password;
       }
@@ -86,7 +86,7 @@ export class MeComponent implements OnInit {
       this.userService.updateUser(this.userId, updatedData).subscribe({
         next: (updatedUser) => {
           console.log('Utilisateur mis à jour:', updatedUser);
-          // On peut éventuellement réinitialiser le champ password
+          // Réinitialiser le champ password
           this.articleForm.get('password')?.reset();
         },
         error: (err) => {
