@@ -40,16 +40,16 @@ export class NewArticlesComponent implements OnInit {
 
     if (form.valid) {
       const registerRequest = form.value as ArticleRequest;
-      console.log("Tentative d'inscription (article) :", registerRequest);
+      //console.log("Tentative d'inscription (article) :", registerRequest);
 
       // 1. Récupération des infos du user via authService.me()
       this.authService.me().subscribe({
         next: (user: User) => {
 
           registerRequest.auteur_id = user.id;
-          console.log("user.id" + user.id)
+          //console.log("user.id" + user.id)
 
-          console.log('registerRequest final :', registerRequest);
+          //console.log('registerRequest final :', registerRequest);
 
           // 3. Appel au service ArticleService pour créer l'article
           this.articleService.registerArticle(registerRequest).subscribe({

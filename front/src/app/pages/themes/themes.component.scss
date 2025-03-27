@@ -7,9 +7,9 @@
   margin: 0 auto;
 }
 @media (max-width: 768px) {
-    #containerTheme {
-      grid-template-columns: repeat(1, 1fr);
-      justify-content: center;
-      max-width: 400px;
-    }
+  #containerTheme {
+    grid-template-columns: repeat(1, 1fr);
+    justify-content: center;
+    max-width: 400px;
   }
+}

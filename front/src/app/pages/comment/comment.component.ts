@@ -27,15 +27,15 @@ export class CommentComponent implements OnInit {
     this.articleId = this.route.snapshot.params['id'];
     //console.log("Article ID récupéré depuis l'URL :", this.articleId);
     if (!this.articleId) {
-     // console.error("Erreur : Aucun article ID trouvé dans l'URL !");
-  }
+      // console.error("Erreur : Aucun article ID trouvé dans l'URL !");
+    }
     // 2) Appele articleService pour récupérer l'article correspondant
     this.articleService.getArticleById(this.articleId).subscribe({
       next: (response) => {
-        
+
         this.articleSelected = response.post;
-       // console.log('Article récupéré :', this.articleSelected);
-       
+        // console.log('Article récupéré :', this.articleSelected);
+
       },
       error: (err) => {
         console.error('Erreur lors de la récupération de l\'article :', err);
@@ -46,54 +46,54 @@ export class CommentComponent implements OnInit {
     this.loadUsers();
     this.loadThemes();
   }
-// Charger la liste des utilisateurs
-loadUsers(): void {
-  this.articleService.getUsers().subscribe({
-    next: (response: any) => { // <-- Ajoute ": any" pour éviter l'erreur de typage
-      //console.log('Réponse utilisateurs avant stockage :', response);
+  // Charger la liste des utilisateurs
+  loadUsers(): void {
+    this.articleService.getUsers().subscribe({
+      next: (response: any) => { // <-- Ajoute ": any" pour éviter l'erreur de typage
+        //console.log('Réponse utilisateurs avant stockage :', response);
 
-      if (response && Array.isArray(response.user)) {
-        this.users = response.user; // Extraire le tableau correct
-      } else {
-        console.error("Erreur : la réponse des utilisateurs n'est pas un tableau", response);
-        this.users = [];
+        if (response && Array.isArray(response.user)) {
+          this.users = response.user; // Extraire le tableau correct
+        } else {
+          console.error("Erreur : la réponse des utilisateurs n'est pas un tableau", response);
+          this.users = [];
+        }
+
+        //console.log('Utilisateurs chargés :', this.users);
+      },
+      error: (err) => {
+        console.error("Erreur lors du chargement des utilisateurs :", err);
       }
-
-      //console.log('Utilisateurs chargés :', this.users);
-    },
-    error: (err) => {
-      console.error("Erreur lors du chargement des utilisateurs :", err);
-    }
-  });
-}
+    });
+  }
   // Trouver le nom de l'utilisateur par son ID
   getUserName(auteurId: string): string {
     if (!this.users || this.users.length === 0) {
-      return 'Utilisateur inconnu'; 
+      return 'Utilisateur inconnu';
     }
-  
+
     const user = this.users.find(u => u.id === Number(auteurId));
     //console.log("Utilisateur trouvé :", user);
-  
-    return user ? user.user_name : 'Utilisateur inconnu'; 
+
+    return user ? user.user_name : 'Utilisateur inconnu';
   }
-   // Fonction pour charger les commentaires
-   loadComments(): void {
+  // Fonction pour charger les commentaires
+  loadComments(): void {
     this.articleService.getComments(this.articleId).subscribe({
       next: (response: any) => {
         console.log("Commentaires bruts récupérés :", response); // <-- Ajout du log
-  
+
         if (Array.isArray(response)) {
           // Vérification des dates
           response.forEach(comment => {
             console.log(`Commentaire: ${comment.commentary}, Date: ${comment.created_date}`);
           });
-  
+
           // Tri des commentaires par date décroissante
-          this.comments = response.sort((a, b) => 
+          this.comments = response.sort((a, b) =>
             new Date(b.created_date).getTime() - new Date(a.created_date).getTime()
           );
-  
+
           console.log("Commentaires triés :", this.comments); // <-- Vérification après tri
         } else {
           console.error("Erreur : la réponse des commentaires n'est pas un tableau", response);
@@ -105,12 +105,12 @@ loadUsers(): void {
       }
     });
   }
-// Envoie le commentaire au backend
+  // Envoie le commentaire au backend
   sendComment(): void {
     if (!this.newComment.trim()) {
       this.message = "Le commentaire ne peut pas être vide.";
       this.isSuccess = false;
-     // console.error("Erreur : Aucun texte dans le champ commentaire !");
+      // console.error("Erreur : Aucun texte dans le champ commentaire !");
       return;
     }
 
@@ -124,7 +124,7 @@ loadUsers(): void {
         this.loadComments();
       },
       error: (err: any) => {
-       // console.error('Erreur lors de l\'envoi du commentaire :', err);
+        // console.error('Erreur lors de l\'envoi du commentaire :', err);
         this.message = "Erreur lors de l'envoi du commentaire.";
         this.isSuccess = false;
       }
@@ -135,7 +135,7 @@ loadUsers(): void {
     if (!this.articleSelected || !this.articleSelected.auteur_id || this.users.length === 0) {
       return 'Utilisateur inconnu';
     }
-  
+
     const author = this.users.find(user => user.id === Number(this.articleSelected?.auteur_id));
     return author ? author.user_name : 'Utilisateur inconnu';
   }
@@ -145,41 +145,41 @@ loadUsers(): void {
   loadThemes(): void {
     this.articleService.getThemes().subscribe({
       next: (response) => {
-       // console.log("Réponse brute des thèmes :", response);
+        // console.log("Réponse brute des thèmes :", response);
         if (response && Array.isArray(response.subject)) {
           this.themes = response.subject; // Utiliser 'subject' au lieu de 'themes'
         } else {
           //console.error(" Erreur : la réponse des thèmes n'est pas un tableau", response);
           this.themes = [];
         }
-  
+
         //console.log(" Thèmes chargés :", this.themes);
-       
+
       },
       error: (err) => {
         console.error("Erreur lors du chargement des thèmes :", err);
       }
     });
   }
-  
-  
+
+
 
   getThemeName(themeId: number | undefined): string {
     if (!themeId) {
       return 'Thème inconnu';
     }
-  
+
     //console.log(" Liste des thèmes :", this.themes);
-    
+
     if (!Array.isArray(this.themes)) {
-     // console.error(" Erreur : this.themes n'est pas un tableau", this.themes);
+      // console.error(" Erreur : this.themes n'est pas un tableau", this.themes);
       return 'Thème inconnu';
     }
-  
+
     const theme = this.themes.find(t => t.id === themeId);
     return theme ? theme.name_theme : 'Thème inconnu'; // Utiliser 'name_theme'
   }
-  
-  
+
+
 
 }

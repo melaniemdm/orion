@@ -11,8 +11,8 @@ import { ThemeService } from 'src/app/services/theme.service';
 })
 export class ThemesComponent implements OnInit {
   themes: Theme[] = [];  // tableau pour stocker les thèmes
- 
-  
+
+
   constructor(private themeService: ThemeService) { }
 
   ngOnInit(): void {
@@ -21,8 +21,7 @@ export class ThemesComponent implements OnInit {
       console.log('this.themes après mapping :', this.themes);
     });
   }
-    
-    
-  }
-  
- 
+
+
+}
+

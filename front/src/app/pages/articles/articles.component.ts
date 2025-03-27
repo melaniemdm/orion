@@ -20,7 +20,7 @@ export class ArticlesComponent implements OnInit {
     private articleService: ArticleService,
     private userService: UserService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     if (!localStorage.getItem('token')) {
