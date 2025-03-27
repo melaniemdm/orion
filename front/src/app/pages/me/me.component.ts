@@ -16,26 +16,29 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class MeComponent implements OnInit {
   articleForm!: FormGroup;
-  userEmail: string = '';
-  userId!: number; // Stocke l'id du user courant
-  updatedData:any;
-   themes: Theme[] = []; 
-  
-  constructor(private fb: FormBuilder, private router: Router, private authService: AuthService, private userService: UserService, private themeService: ThemeService, private subscriptionService: SubscriptionService ) { }
+  userId!: number;
+  themes: Theme[] = [];
+
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private userService: UserService,
+    private themeService: ThemeService,
+    private subscriptionService: SubscriptionService
+  ) {}
 
   ngOnInit(): void {
+    // On initialise notre formulaire
     this.articleForm = this.fb.group({
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: [''],
+      password: ['']
     });
+
+    // On récupère les infos de l'utilisateur connecté
     this.authService.me().subscribe({
       next: (user: User) => {
-
         this.userId = user.id;
-        this.userEmail = user.email;
-        
-
         this.articleForm.patchValue({
           username: user.user_name,
           email: user.email
@@ -46,96 +49,52 @@ export class MeComponent implements OnInit {
         console.error('Erreur lors du chargement des infos utilisateur :', err);
       }
     });
- 
   }
 
   loadSubscribedThemes(): void {
+    // Récupération parallèle de tous les thèmes et des abonnements de l’utilisateur
     forkJoin({
       allThemes: this.themeService.getThemes(),
       userSubscriptions: this.subscriptionService.getUserSubscriptions()
     }).subscribe({
       next: ({ allThemes, userSubscriptions }) => {
-      //  console.log('Structure de allThemes:', allThemes);
-        console.log('allThemes est un tableau ?', Array.isArray(allThemes));
-        console.log('allThemes reçu complet:', JSON.stringify(allThemes, null, 2));
-        //console.log('Structure de userSubscriptions:', userSubscriptions);
-        
-        // Vérifier si les tableaux sont bien définis et non vides
-        if (!Array.isArray(allThemes) || allThemes.length === 0) {
-          console.warn('allThemes n\'est pas un tableau ou est vide');
-        }
-        
-        if (!Array.isArray(userSubscriptions) || userSubscriptions.length === 0) {
-          console.warn('userSubscriptions n\'est pas un tableau ou est vide');
-          return;
-        }
-        
-        // Vérifier les types des IDs
-        console.log('Type de ID du premier thème:', typeof allThemes[0]?.id);
-        console.log('Type de theme_id du premier abonnement:', typeof userSubscriptions[0]?.theme_id);
-        
-        const themesArray: Theme[] = Array.isArray(allThemes) ? allThemes : [];
-        const subscribedThemeIds = userSubscriptions.map(sub => sub.theme_id);
-        
-        // Tester explicitement l'inclusion
-        this.themes = themesArray.filter(theme => {
-          const isIncluded = subscribedThemeIds.includes(theme.id);
-          console.log(`Thème ID ${theme.id} (${theme.name_theme}) inclus dans ${JSON.stringify(subscribedThemeIds)}: ${isIncluded}`);
-          return isIncluded;
-        });
-        
-        console.log('Nombre de thèmes filtrés:', this.themes.length);
-        console.log('Thèmes abonnés filtrés détail:', JSON.stringify(this.themes));
-        
-        // Vérification si Angular détecte le changement
-        setTimeout(() => {
-          console.log('Après détection des changements, taille de this.themes:', this.themes.length);
-        }, 0);
+        const subscribedIds = userSubscriptions.map(s => s.theme_id);
+        this.themes = allThemes.filter((theme: Theme) =>
+          subscribedIds.includes(theme.id)
+        );
       },
       error: (err) => {
         console.error('Erreur lors du chargement des thèmes abonnés :', err);
       }
     });
   }
-  
-  
-  
-
-  public onLogout(): void {
-    // 1. Retirer le token du localStorage
-   // localStorage.removeItem('token');
-
-    // 2. Rediriger l’utilisateur vers la page home (ou login, etc.)
-    //this.router.navigate(['/']);
-  }
-
 
   updateUser(): void {
+    // On vérifie que le formulaire est valide et qu’on a un userId
     if (this.articleForm.valid && this.userId) {
-  
-      const formValues = this.articleForm.value;
-  
-      // Préparer les données à envoyer
-      const updatedData: Partial<User> = { user_name: formValues.username, email: formValues.email };
-  
-      // N'inclure le mot de passe que s'il est renseigné (non vide)
-      if (formValues.password && formValues.password.trim() !== '') {
-        updatedData.password = formValues.password;
+      const { username, email, password } = this.articleForm.value;
+      // On prépare les données
+      const updatedData: Partial<User> = { 
+        user_name: username, 
+        email 
+      };
+      // On n’inclut le mot de passe que s’il est renseigné
+      if (password && password.trim()) {
+        updatedData.password = password;
       }
-  
+      // Appel de la méthode updateUser() du service
       this.userService.updateUser(this.userId, updatedData).subscribe({
-        next: (userUpdated) => {
-          console.log('Utilisateur mis à jour avec succès:', userUpdated);
-          this.articleForm.get('password')!.reset(); // réinitialiser le champ mot de passe après succès
+        next: (updatedUser) => {
+          console.log('Utilisateur mis à jour:', updatedUser);
+          // On peut éventuellement réinitialiser le champ password
+          this.articleForm.get('password')?.reset();
         },
         error: (err) => {
           console.error('Erreur lors de la mise à jour utilisateur :', err);
         }
       });
-  
     } else {
-      console.error('Formulaire invalide ou ID utilisateur non défini.');
+      console.error('Formulaire invalide ou userId manquant.');
     }
-   
   }
 }

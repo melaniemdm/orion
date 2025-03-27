@@ -2,29 +2,24 @@
 <app-header></app-header>
 
 <h2 class="profil">Profil utilisateur</h2>
+
 <div id="containerUser">
- <!--    <form>
-   <app-form classInput="purple" classInput="purple" titleForm="Profil utilisateur" action="Sauvegarder" label="" [showBackArrow]="false" classInput="purple" ></app-form>
-</form>-->
-<form [formGroup]="articleForm" (ngSubmit)="updateUser()">
-   <div id="containerupdate">
-    <input placeholder="username" formControlName="username">
-    <input placeholder="email" formControlName="email">
-    <input placeholder="mot de passe" formControlName="password" type="password"></div>
+  <form [formGroup]="articleForm" (ngSubmit)="updateUser()">
+    <div id="containerupdate">
+      <input placeholder="username" formControlName="username" />
+      <input placeholder="email" formControlName="email" />
+      <input placeholder="mot de passe" formControlName="password" type="password" />
+    </div>
     <app-button action="Sauvegarder"></app-button>
-</form>
-
-
+  </form>
 </div>
+
 <div class="profil">Abonnements</div>
 <div id="containerTheme">
-   <app-theme
-   *ngFor="let theme of themes"
-   [theme]="theme"
-   context="me">
- </app-theme>
-   
-    <div *ngIf="!themes || themes.length === 0">
-      Aucun abonnement trouvé.
-    </div>
+  <app-theme *ngFor="let theme of themes" [theme]="theme" context="me">
+  </app-theme>
+
+  <div *ngIf="!themes || themes.length === 0">
+    Aucun abonnement trouvé.
+  </div>
 </div>
