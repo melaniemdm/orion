@@ -1,5 +1,4 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthSuccess } from 'src/app/interfaces/authAcces.interfaces';
 import { RegisterRequest } from 'src/app/interfaces/registerRequest.interfaces';
