@@ -10,7 +10,6 @@ import { ButtonComponent } from './components/button/button.component';
 
 import { SubscriptionComponent } from './pages/subscription/subscription.component';
 import { LoginComponent } from './pages/login/login.component';
-import { FormComponent } from './components/form/form.component';
 import { InputFormComponent } from './components/input-form/input-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ArticleComponent } from './components/article/article.component';
@@ -26,7 +25,7 @@ import { FormSubscribeComponent } from './components/form-subscribe/form-subscri
 import { FormloginComponent } from './components/form-login/formlogin.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, HeaderComponent, ButtonComponent, SubscriptionComponent, LoginComponent, FormComponent, InputFormComponent, ArticleComponent, ArticlesComponent, ThemesComponent, ThemeComponent, NewArticlesComponent, MeComponent, CommentComponent, ThemeListComponent, FormSubscribeComponent, FormloginComponent],
+  declarations: [AppComponent, HomeComponent, HeaderComponent, ButtonComponent, SubscriptionComponent, LoginComponent,  InputFormComponent, ArticleComponent, ArticlesComponent, ThemesComponent, ThemeComponent, NewArticlesComponent, MeComponent, CommentComponent, ThemeListComponent, FormSubscribeComponent, FormloginComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
