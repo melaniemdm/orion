@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, } from '@angular/common/http';
-import { catchError, map, Observable, throwError } from 'rxjs';
+import { catchError, map, Observable, switchMap, throwError } from 'rxjs';
 import { ArticleRequest, ArticleResponse, SingleArticleResponse } from '../interfaces/article.interfaces';
 import { AuthSuccess } from '../interfaces/authAcces.interfaces';
 import { ApiService } from '../interceptors/api.service';
+import { AuthService } from './auth.service';
+import { User } from '../interfaces/user.interfaces';
 
 
 @Injectable({
@@ -13,7 +15,7 @@ export class ArticleService {
   private readonly BASE_URL: string;
 
 
-  constructor(private http: HttpClient, private apiService: ApiService) {
+  constructor(private http: HttpClient, private apiService: ApiService, private authService : AuthService) {
     this.BASE_URL = this.apiService.getApiArticles();
   }
 
@@ -43,15 +45,20 @@ export class ArticleService {
   }
 
   postComment(articleId: string, comment: string): Observable<Comment> {
-    const body = {
-      article_id: articleId,
-      commentary: comment,
-      auteur_id: '17' // TODO: remplacer par l’ID utilisateur connecté dynamiquement
-    };
-
-    return this.http.post<Comment>(`${this.BASE_URL}/${articleId}/comment`, body, {
-      headers: this.apiService.getAuthHeaders()
-    }).pipe(
+    return this.authService.me().pipe(
+      switchMap((user: User) => {
+        const body = {
+          article_id: articleId,
+          commentary: comment,
+          auteur_id: user.id // On récupère l'id du user connecté
+        };
+  
+        return this.http.post<Comment>(
+          `${this.BASE_URL}/${articleId}/comment`,
+          body,
+          { headers: this.apiService.getAuthHeaders() }
+        );
+      }),
       catchError(this.handleError)
     );
   }
