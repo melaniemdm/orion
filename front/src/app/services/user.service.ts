@@ -36,7 +36,7 @@ export class UserService {
       headers: this.apiService.getAuthHeaders()
     }).pipe(
       tap(updatedUser => {
-        console.log('✅ Utilisateur mis à jour :', updatedUser);
+        console.log('Utilisateur mis à jour :', updatedUser);
       })
     );
   }

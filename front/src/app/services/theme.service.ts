@@ -23,7 +23,7 @@ export class ThemeService {
     return this.http.get<any>(this.BASE_URL, { headers: this.apiService.getAuthHeaders() })
       .pipe(
         map(response => {
-          console.log('Réponse API thèmes brute:', response);
+          
 
           if (response && Array.isArray(response.subject)) {
             // Retourne explicitement response.subject

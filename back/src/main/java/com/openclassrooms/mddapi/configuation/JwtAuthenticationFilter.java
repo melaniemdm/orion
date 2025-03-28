@@ -50,18 +50,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
      */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        System.out.println(" JwtAuthenticationFilter is running for request: " + request.getRequestURI());
 
-        // Affiche le token brut reçu dans l’en-tête Authorization
+
         String authHeader = request.getHeader("Authorization");
-        System.out.println("📢 Authorization header received: " + authHeader);
 
         // Extraction and validation of the JWT token
         extractToken(request)// Get the token from the Authorization header
                 .flatMap(this::getValidUsername)// Validates the token and extracts the username if valid
                 .filter(username -> SecurityContextHolder.getContext().getAuthentication() == null) // Checks that there is no active authentication in the context
                 .ifPresent(username -> {
-                    System.out.println("Authenticated user: " + username);
+
                     setAuthentication(username, request);
                 });
 
@@ -83,10 +81,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
-            System.out.println("📢 Token extrait: " + token);
+
             return Optional.of(token);
         }
-        System.out.println("❌ Aucun token trouvé dans l'en-tête Authorization.");
+        System.out.println("Aucun token trouvé dans l'en-tête Authorization.");
         return Optional.empty();
     }
 
@@ -104,7 +102,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String idUser = jwtService.getUsernameFromToken(token);
 
         if (idUser != null && jwtService.validateToken(token, idUser)) {
-            System.out.println("Token is valid for user: " + idUser);
+
             return Optional.of(idUser);
         }
         System.out.println(" Invalid Token");
@@ -126,8 +124,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         UsernamePasswordAuthenticationToken authentication =
                 new UsernamePasswordAuthenticationToken(username, null, null);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        System.out.println("🔒 Authentification définie pour l'utilisateur: " + username);
-    }
 
+    }
 
 }

@@ -1,11 +1,10 @@
 package com.openclassrooms.mddapi.configuation;
 
-import org.springframework.beans.factory.annotation.Configurable;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -51,7 +50,7 @@ public class SecurityConfig {
                 // Disable Cross-Site Request Forgery (CSRF) protection as this API uses stateless JWT authentication.
                 .csrf(csrf -> csrf.disable())
                 // Define authorization rules for endpoints.
-                .authorizeHttpRequests(auth -> auth.mvcMatchers("/auth/register", "/auth/login").permitAll() // ✅ Corrected requestMatchers
+                .authorizeHttpRequests(auth -> auth.mvcMatchers("/auth/register", "/auth/login").permitAll()
                         .mvcMatchers().authenticated()
                         // All other endpoints require authentication
                         .anyRequest().authenticated()).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
@@ -75,6 +74,7 @@ public class SecurityConfig {
         // Configure BCryptPasswordEncoder for encoding and validating passwords securely.
         return new BCryptPasswordEncoder();
     }
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();

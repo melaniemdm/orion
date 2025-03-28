@@ -85,7 +85,7 @@ export class MeComponent implements OnInit {
       // Appel de la méthode updateUser() du service
       this.userService.updateUser(this.userId, updatedData).subscribe({
         next: (updatedUser) => {
-          console.log('Utilisateur mis à jour:', updatedUser);
+         
           // Réinitialiser le champ password
           this.articleForm.get('password')?.reset();
         },

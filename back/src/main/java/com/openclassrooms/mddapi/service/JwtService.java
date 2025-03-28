@@ -1,8 +1,7 @@
 package com.openclassrooms.mddapi.service;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 
+import org.springframework.stereotype.Service;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
@@ -193,8 +192,7 @@ public class JwtService {
             String payloadJson = new String(Base64.getUrlDecoder().decode(parts[1]));
             Map<String, Object> payload = jsonToMap(payloadJson);
 
-            // Extraire l'ID utilisateur stocké dans le token
-            return Long.parseLong(payload.get("id").toString());
+           return Long.parseLong(payload.get("id").toString());
         } catch (Exception e) {
             return null;
         }
@@ -288,7 +286,7 @@ public class JwtService {
 
             // Ensure the token has exactly 3 parts: header, payload, signature
             if (parts.length != 3) {
-                System.out.println("❌ ERREUR: Token mal formé !");
+                System.out.println("ERREUR: Token mal formé !");
                 return false;
             }
 

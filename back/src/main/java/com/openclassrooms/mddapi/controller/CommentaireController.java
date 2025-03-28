@@ -20,11 +20,11 @@ public class CommentaireController {
     @Autowired
     private JwtService jwtService;
 
-    /// **
-    //     * Constructs the {@link CommentaireController} with the required service dependency.
-    //     *
-    //     * @param commentaireService The service responsible for handling comment operations.
-    //     */
+    /**
+         * Constructs the {@link CommentaireController} with the required service dependency.
+        *
+         * @param commentaireService The service responsible for handling comment operations.
+       */
     public CommentaireController(CommentaireService commentaireService) {
         this.commentaireService = commentaireService;
     }

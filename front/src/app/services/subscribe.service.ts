@@ -13,7 +13,7 @@ export class SubscriptionService {
 
 
   subscribeToTheme(themeId: number): Observable<any> {
-    console.log('Requête abonnement envoyée au serveur, themeId :', themeId);
+   
     return this.http.post(this.BASE_URL, { theme_id: themeId }, {
       headers: this.apiService.getAuthHeaders()
     })
@@ -27,7 +27,7 @@ export class SubscriptionService {
   }
 
   unsubscribeFromTheme(subscriptionId: number): Observable<any> {
-    console.log('[unsubscribeFromTheme] SubscriptionId :', subscriptionId);
+   
     return this.http.delete(`${this.BASE_URL}/${subscriptionId}`, {
       headers: this.apiService.getAuthHeaders()
     }).pipe(
@@ -46,7 +46,7 @@ export class SubscriptionService {
       headers: this.apiService.getAuthHeaders()
     }).pipe(
       map(response => {
-        console.log('Structure complète de la réponse:', response);
+        
         // Vérifiez la structure exacte de votre réponse
         if (response && response.subscribe && Array.isArray(response.subscribe)) {
           return response.subscribe;

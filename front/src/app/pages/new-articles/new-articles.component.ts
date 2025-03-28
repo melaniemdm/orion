@@ -36,32 +36,30 @@ export class NewArticlesComponent implements OnInit {
   }
 
   public onFormSubmit(form: FormGroup): void {
-    console.log("Formulaire reçu dans subscription.component.ts register:", form.value);
+
 
     if (form.valid) {
       const registerRequest = form.value as ArticleRequest;
-      //console.log("Tentative d'inscription (article) :", registerRequest);
+
 
       // Récupération des infos du user via authService.me()
       this.authService.me().subscribe({
         next: (user: User) => {
 
           registerRequest.auteur_id = user.id;
-          //console.log("user.id" + user.id)
 
-          //console.log('registerRequest final :', registerRequest);
 
           // Appel au service ArticleService pour créer l'article
           this.articleService.registerArticle(registerRequest).subscribe({
             next: (response: AuthSuccess) => {
-              
+
               if (response.token) {
                 localStorage.setItem('token', response.token);
               } else {
                 console.warn("Aucun token renvoyé lors de la création d'article, on ne modifie pas le localStorage.");
               }
+
               
-              //console.log("Redirection vers /articles...");
               this.router.navigate(['/articles']).then(success => {
                 if (success) {
                   console.log("Redirection réussie !");

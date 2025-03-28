@@ -25,8 +25,6 @@ export class SubscriptionComponent implements OnInit {
 
   // Méthode pour gérer le submit du formulaire
   onFormSubmit(formValue: { user_name: string, email: string, password: string }): void {
-    //console.log("Formulaire reçu dans subscription.component.ts register:", formValue);
-
     const registerRequest: RegisterRequest = {
       user_name: formValue.user_name,
       email: formValue.email,

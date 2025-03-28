@@ -25,16 +25,16 @@ export class CommentComponent implements OnInit {
   ngOnInit(): void {
     //Récupération de l'ID dans l'URL
     this.articleId = this.route.snapshot.params['id'];
-    //console.log("Article ID récupéré depuis l'URL :", this.articleId);
+    
     if (!this.articleId) {
-      // console.error("Erreur : Aucun article ID trouvé dans l'URL !");
+    
     }
     // Appel articleService pour récupérer l'article correspondant
     this.articleService.getArticleById(this.articleId).subscribe({
       next: (response) => {
 
         this.articleSelected = response.post;
-        // console.log('Article récupéré :', this.articleSelected);
+        
 
       },
       error: (err) => {
@@ -50,7 +50,7 @@ export class CommentComponent implements OnInit {
   loadUsers(): void {
     this.articleService.getUsers().subscribe({
       next: (response: any) => { 
-        //console.log('Réponse utilisateurs avant stockage :', response);
+       
 
         if (response && Array.isArray(response.user)) {
           this.users = response.user; // Extraire le tableau correct
@@ -59,7 +59,7 @@ export class CommentComponent implements OnInit {
           this.users = [];
         }
 
-        //console.log('Utilisateurs chargés :', this.users);
+        
       },
       error: (err) => {
         console.error("Erreur lors du chargement des utilisateurs :", err);
@@ -73,7 +73,7 @@ export class CommentComponent implements OnInit {
     }
 
     const user = this.users.find(u => u.id === Number(auteurId));
-    //console.log("Utilisateur trouvé :", user);
+    
 
     return user ? user.user_name : 'Utilisateur inconnu';
   }
@@ -81,12 +81,11 @@ export class CommentComponent implements OnInit {
   loadComments(): void {
     this.articleService.getComments(this.articleId).subscribe({
       next: (response: any) => {
-        console.log("Commentaires bruts récupérés :", response); // <-- Ajout du log
-
+        
         if (Array.isArray(response)) {
           // Vérification des dates
           response.forEach(comment => {
-            console.log(`Commentaire: ${comment.commentary}, Date: ${comment.created_date}`);
+          
           });
 
           // Tri des commentaires par date décroissante
@@ -94,7 +93,7 @@ export class CommentComponent implements OnInit {
             new Date(b.created_date).getTime() - new Date(a.created_date).getTime()
           );
 
-          console.log("Commentaires triés :", this.comments); // <-- Vérification après tri
+         
         } else {
           console.error("Erreur : la réponse des commentaires n'est pas un tableau", response);
           this.comments = [];
@@ -116,7 +115,7 @@ export class CommentComponent implements OnInit {
 
     this.articleService.postComment(this.articleId, this.newComment).subscribe({
       next: (response: any) => {
-        //console.log('Commentaire envoyé avec succès :', response);
+       
         this.message = "Commentaire envoyé avec succès !";
         this.isSuccess = true;
         this.newComment = '';  // Réinitialise le champ après l'envoi
@@ -145,15 +144,15 @@ export class CommentComponent implements OnInit {
   loadThemes(): void {
     this.articleService.getThemes().subscribe({
       next: (response) => {
-        // console.log("Réponse brute des thèmes :", response);
+       
         if (response && Array.isArray(response.subject)) {
           this.themes = response.subject; // Utiliser 'subject' au lieu de 'themes'
         } else {
-          //console.error(" Erreur : la réponse des thèmes n'est pas un tableau", response);
+       
           this.themes = [];
         }
 
-        //console.log(" Thèmes chargés :", this.themes);
+       
 
       },
       error: (err) => {
@@ -169,10 +168,9 @@ export class CommentComponent implements OnInit {
       return 'Thème inconnu';
     }
 
-    //console.log(" Liste des thèmes :", this.themes);
-
+    
     if (!Array.isArray(this.themes)) {
-      // console.error(" Erreur : this.themes n'est pas un tableau", this.themes);
+      
       return 'Thème inconnu';
     }
 
