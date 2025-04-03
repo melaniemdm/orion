@@ -31,7 +31,7 @@ export class FormloginComponent implements OnInit {
       return;
     }
 
-    console.log('Données envoyées :', this.subscriptionForm.value);
+   
     this.formSubmitted.emit(this.subscriptionForm);
   }
 }

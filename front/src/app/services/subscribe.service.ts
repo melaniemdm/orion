@@ -18,7 +18,7 @@ export class SubscriptionService {
       headers: this.apiService.getAuthHeaders()
     })
       .pipe(
-        tap(res => console.log('Réponse abonnement serveur :', res)),
+        
         catchError(err => {
           console.error('Erreur HTTP abonnement serveur :', err);
           return throwError(() => err);

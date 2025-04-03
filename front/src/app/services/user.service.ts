@@ -34,10 +34,6 @@ export class UserService {
   updateUser(id: number, data: Partial<User>): Observable<User> {
     return this.httpClient.put<User>(`${this.BASE_URL}/${id}`, data, {
       headers: this.apiService.getAuthHeaders()
-    }).pipe(
-      tap(updatedUser => {
-        console.log('Utilisateur mis à jour :', updatedUser);
-      })
-    );
+    })
   }
 }
