@@ -23,9 +23,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { ThemeListComponent } from './components/theme-list/theme-list.component';
 import { FormSubscribeComponent } from './components/form-subscribe/form-subscribe.component';
 import { FormloginComponent } from './components/form-login/formlogin.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, HeaderComponent, ButtonComponent, SubscriptionComponent, LoginComponent,  InputFormComponent, ArticleComponent, ArticlesComponent, ThemesComponent, ThemeComponent, NewArticlesComponent, MeComponent, CommentComponent, ThemeListComponent, FormSubscribeComponent, FormloginComponent],
+  declarations: [AppComponent, HomeComponent, HeaderComponent, ButtonComponent, SubscriptionComponent, LoginComponent,  InputFormComponent, ArticleComponent, ArticlesComponent, ThemesComponent, ThemeComponent, NewArticlesComponent, MeComponent, CommentComponent, ThemeListComponent, FormSubscribeComponent, FormloginComponent, NotFoundComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
