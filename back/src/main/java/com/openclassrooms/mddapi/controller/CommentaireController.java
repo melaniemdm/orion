@@ -37,8 +37,7 @@ public class CommentaireController {
      */
     @GetMapping
     public List<CommentaireDTO> getCommentairesByArticleId(@PathVariable Integer id) {
-        // Logs the article ID for debugging
-        System.out.println("L'ID de l'article est : " + id);
+    
         // Calls the service to retrieve comments for the article
         return commentaireService.getCommentairesByArticle(id);
     }

@@ -44,7 +44,7 @@ public class SecurityConfig {
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        System.out.println("✅ SecurityConfig LOADED !");
+        System.out.println("SecurityConfig LOADED !");
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 // Disable Cross-Site Request Forgery (CSRF) protection as this API uses stateless JWT authentication.
