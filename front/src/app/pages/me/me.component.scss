@@ -41,7 +41,11 @@ input {
   width: 100%;
   margin: 0 auto 20px;
 }
-
+.error {
+  color: red;
+  font-size: 13px;
+  margin-top: 5px;
+}
 @media (max-width: 768px) {
   #containerTheme {
     grid-template-columns: repeat(1, 1fr);

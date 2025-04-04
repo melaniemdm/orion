@@ -9,6 +9,10 @@
       <input placeholder="username" formControlName="username" />
       <input placeholder="email" formControlName="email" />
       <input placeholder="mot de passe" formControlName="password" type="password" />
+      <div class="error"
+        *ngIf="articleForm.get('password')?.errors?.['passwordInvalid'] && articleForm.get('password')?.touched">
+          Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.
+        </div>
     </div>
     <app-button action="Sauvegarder"></app-button>
   </form>

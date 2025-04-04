@@ -32,7 +32,7 @@ export class MeComponent implements OnInit {
     this.articleForm = this.fb.group({
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['']
+      password: ['', [Validators.required, this.authService.passwordValidator]]
     });
 
     // Récuperation des infos de l'utilisateur connecté
@@ -43,6 +43,7 @@ export class MeComponent implements OnInit {
           username: user.user_name,
           email: user.email
         });
+               
         this.loadSubscribedThemes();
       },
       error: (err) => {

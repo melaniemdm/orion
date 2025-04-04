@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-form-subscribe',
@@ -19,13 +20,15 @@ export class FormSubscribeComponent implements OnInit {
 
   public userForm!: FormGroup;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, 
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.userForm = this.fb.group({
       user_name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, passwordValidator]]
+      password: ['', [Validators.required, this.authService.passwordValidator]]
     });
   }
 
@@ -42,22 +45,3 @@ export class FormSubscribeComponent implements OnInit {
   }
 }
 
-// Personnalisation du mot de passe
-export function passwordValidator(control: AbstractControl): ValidationErrors | null {
-  const value = control.value || '';
-
-  const hasUpperCase = /[A-Z]/.test(value);
-  const hasLowerCase = /[a-z]/.test(value);
-  const hasNumber = /\d/.test(value);
-  const hasSpecialChar = /[^A-Za-z0-9]/.test(value);
-  const hasMinLength = value.length >= 8;
-
-  const isValid = hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar && hasMinLength;
-
-  return isValid
-    ? null
-    : {
-        passwordInvalid: true
-      };
-
-}

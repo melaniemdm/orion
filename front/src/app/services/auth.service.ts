@@ -6,6 +6,7 @@ import { LoginRequest } from '../interfaces/login.interfaces';
 import { RegisterRequest } from '../interfaces/registerRequest.interfaces';
 import { User } from '../interfaces/user.interfaces';
 import { ApiService } from '../interceptors/api.service';
+import { AbstractControl, ValidationErrors } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private apiService: ApiService
+    private apiService: ApiService, 
   ) {
     this.BASE_URL = this.apiService.getApiAuth();
   }
@@ -45,4 +46,24 @@ export class AuthService {
   getToken(): string {
     return localStorage.getItem('token') || '';
   }
+
+  // Personnalisation du mot de passe
+ passwordValidator(control: AbstractControl): ValidationErrors | null {
+  const value = control.value || '';
+
+  const hasUpperCase = /[A-Z]/.test(value);
+  const hasLowerCase = /[a-z]/.test(value);
+  const hasNumber = /\d/.test(value);
+  const hasSpecialChar = /[^A-Za-z0-9]/.test(value);
+  const hasMinLength = value.length >= 8;
+
+  const isValid = hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar && hasMinLength;
+
+  return isValid
+    ? null
+    : {
+        passwordInvalid: true
+      };
+
+}
 }
