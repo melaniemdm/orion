@@ -1,42 +1,39 @@
 <!DOCTYPE html>
 
-<div id="title-container">
-    <div class="left-arrow" *ngIf="showBackArrow">
-      
-      <div id="containerArrow_back">
-        <span class="material-icons arrow_back" [routerLink]="'/home'">
-            arrow_back
-          </span></div>
+<div id="title-containerSub">
+  <div id="containerArrow_back">
+  <span *ngIf="showBackArrow" class="material-icons arrow_back" [routerLink]="'/home'">
+    arrow_back
+  </span></div>
+<div id="title">{{ titleForm }}</div>
+</div>
+
+
+
+<div id="blocForm">
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+
+    <div class="form-field">
+      <label for="user_name">Nom utilisateur :</label>
+      <input id="user_name" placeholder="Nom d'utilisateur" formControlName="user_name" type="text">
     </div>
-    
-    <div id="title">{{ titleForm }}</div>
-  </div>
-  
-  <div id="blocForm">
-    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
-    
-      <div class="form-field">
-        <label for="user_name">Nom utilisateur :</label>
-        <input id="user_name" placeholder="Nom d'utilisateur" formControlName="user_name" type="text">
-      </div>
-        
-      <div class="form-field">
-        <label for="email">Email :</label>
-        <input id="email" placeholder="Adresse e-mail" formControlName="email" type="email">
-      </div>
-        
-      <div class="form-field">
-        <label for="password">Mot de passe :</label>
-        <input id="password" placeholder="Mot de passe" formControlName="password" type="password">
-        <div class="error"
+
+    <div class="form-field">
+      <label for="email">Email :</label>
+      <input id="email" placeholder="Adresse e-mail" formControlName="email" type="email">
+    </div>
+
+    <div class="form-field">
+      <label for="password">Mot de passe :</label>
+      <input id="password" placeholder="Mot de passe" formControlName="password" type="password">
+      <div class="error"
         *ngIf="userForm.get('password')?.errors?.['passwordInvalid'] && userForm.get('password')?.touched">
-          Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.
-        </div>
+        Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère
+        spécial.
       </div>
-        
-      <app-button id="button"  [action]="action" (buttonClick)="onSubmit()"></app-button>
-        
-    </form>
-  </div>
-  
-  
+    </div>
+
+    <app-button id="button" [action]="action" (buttonClick)="onSubmit()"></app-button>
+
+  </form>
+</div>

@@ -2,13 +2,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 60px;
+  height: 70px;
   position: relative;
 }
 
 .arrow_back {
   position: absolute;
-  left: 0;
+  left: 10px;
   font-size: 39px;
   cursor: pointer;
 }
@@ -17,6 +17,7 @@
   font-size: 24px;
   height: 44px;
   text-align: center;
+  margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -58,4 +59,10 @@ input {
   color: red;
   font-size: 13px;
   margin-top: 5px;
+}
+@media screen and (max-width: 768px) {
+  .arrow_back {
+    position: relative;
+    top: -150px;
+  }
 }
