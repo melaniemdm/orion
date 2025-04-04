@@ -94,8 +94,8 @@ public class UserController {
 
         // Check if the user exists
         if (userOpt.isPresent()) {
-
-            return ResponseEntity.ok(Map.of("userName", userOpt.get().getUser_name()));
+            System.out.println(ResponseEntity.ok(Map.of("user_name", userOpt.get().getUser_name())));
+            return ResponseEntity.ok(Map.of("user_name", userOpt.get().getUser_name()));
         } else {
             // Return a 404 response if the user is not found
             return ResponseEntity.notFound().build();

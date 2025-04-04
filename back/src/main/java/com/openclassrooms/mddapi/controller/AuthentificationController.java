@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -161,7 +162,7 @@ public class AuthentificationController {
         // Construct the response body with the user details
         Map<String, Object> response = new HashMap<>();
         response.put("id", userDTO.get().getId());
-        response.put("userName", userDTO.get().getUser_name());
+        response.put("user_name", userDTO.get().getUser_name());
         response.put("email", userDTO.get().getEmail());
 
         // Return the user details in the response
