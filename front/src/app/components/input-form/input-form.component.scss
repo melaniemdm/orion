@@ -1,5 +1,5 @@
 .input-wrapper {
-  margin: 8px auto;
+  margin-bottom: 8px ;
   display: flex;
   flex-direction: column;
   width: fit-content;
@@ -9,10 +9,15 @@ input {
   width: 245px;
   height: 45px;
   border-radius: 8px;
-  padding: 0 10px;
   box-sizing: border-box;
 }
 
 .purple {
   border: 1px solid #7763c5;
+}
+.input-wrapper input::placeholder {
+  color: rgb(104, 103, 103);
+  font-family: Arial, Helvetica, sans-serif;
+  opacity: 1;
+  font-size: 15px;      
 }

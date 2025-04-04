@@ -17,8 +17,8 @@
 
         <app-input-form classInput="purple" formControlName="title" type="text" placeholder="Titre de l'article"
             [formGroup]="articleForm" ngDefaultControl></app-input-form>
-        <app-input-form classInput="purple" formControlName="description" type="text" placeholder="Résumé de l'article"
-            [formGroup]="articleForm" ngDefaultControl></app-input-form>
+        <textarea classInput="purple" formControlName="description" type="text" placeholder="Résumé de l'article"
+            [formGroup]="articleForm" ngDefaultControl></textarea>
         <app-button action="Créer" type="submit"></app-button>
 
 

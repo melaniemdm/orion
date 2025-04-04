@@ -24,20 +24,32 @@
   margin-top: 20px;
 }
 #summary {
-  border: 1px solid #7763C5;
-  }
-#listTheme{
-margin-bottom: 15px;
+  border: 1px solid #7763c5;
+}
+#listTheme {
+  margin-bottom: 15px;
 }
 
-.arrow_back{
- font-size:  39px;
+.arrow_back {
+  font-size: 39px;
 }
-  @media (max-width: 768px) {
-    #flecheGauche {
-      z-index: 0;
-      position: relative;
-      padding-left: 30px;
-    }
+@media (max-width: 768px) {
+  #flecheGauche {
+    z-index: 0;
+    position: relative;
+    padding-left: 30px;
   }
- 
+}
+textarea {
+  height: 250px;
+  border: 1px solid #7763c5;
+  border-radius: 8px;
+  width: 240px;
+}
+
+textarea::placeholder {
+  color: rgb(104, 103, 103);
+  font-family: Arial, Helvetica, sans-serif;
+  opacity: 1;
+  font-size: 15px;
+}
