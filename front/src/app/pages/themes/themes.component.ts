@@ -8,7 +8,7 @@ import { ThemeService } from 'src/app/services/theme.service';
   styleUrls: ['./themes.component.scss']
 })
 export class ThemesComponent implements OnInit {
-  themes: Theme[] = [];  // tableau pour stocker les thèmes
+  themes: Theme[] = [];
 
 
   constructor(private themeService: ThemeService) { }
@@ -16,8 +16,8 @@ export class ThemesComponent implements OnInit {
   ngOnInit(): void {
     // Subscription à l'observable renvoyée par getThemes() pour récupérer la liste des thèmes
     this.themeService.getThemes().subscribe((themes: Theme[]) => {
-      this.themes = themes; 
-     
+      this.themes = themes;
+
     });
   }
 

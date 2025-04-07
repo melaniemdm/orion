@@ -10,6 +10,7 @@ import { SubscriptionService } from 'src/app/services/subscribe.service';
 export class ThemeComponent implements OnInit {
   @Input() theme!: Theme;
   @Input() context: 'default' | 'me' = 'default';
+  @Input() allowUnsubscribe: boolean = true;
 
   subscribed = false;
   subscriptions: { id: number; theme_id: number; user_id: number }[] = [];
@@ -19,7 +20,7 @@ export class ThemeComponent implements OnInit {
     return this.subscribed ? 'Déjà abonné' : 'S’abonner';
   }
 
-  constructor(private subscriptionService: SubscriptionService) {}
+  constructor(private subscriptionService: SubscriptionService) { }
 
   ngOnInit(): void {
     this.loadSubscriptions();
@@ -37,17 +38,20 @@ export class ThemeComponent implements OnInit {
         error: err => console.error('Erreur abonnement :', err)
       });
     } else {
-      const subscription = this.subscriptions.find(sub => sub.theme_id === themeId);
-      if (!subscription) return;
+      if (this.allowUnsubscribe) {
+        const subscription = this.subscriptions.find(sub => sub.theme_id === themeId);
+        if (!subscription) return;
 
-      this.subscriptionService.unsubscribeFromTheme(subscription.id).subscribe({
-        next: () => {
-          this.subscribed = false;
-          this.loadSubscriptions();
-          window.location.reload(); 
-        },
-        error: err => console.error('Erreur désabonnement :', err)
-      });
+        this.subscriptionService.unsubscribeFromTheme(subscription.id).subscribe({
+          next: () => {
+            this.subscribed = false;
+            this.loadSubscriptions();
+            window.location.reload();
+          },
+          error: err => console.error('Erreur désabonnement :', err)
+        });
+      }
+
     }
   }
 
