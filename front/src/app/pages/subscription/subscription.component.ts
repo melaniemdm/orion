@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthSuccess } from 'src/app/interfaces/authAcces.interfaces';
 import { RegisterRequest } from 'src/app/interfaces/registerRequest.interfaces';
@@ -17,31 +18,40 @@ export class SubscriptionComponent implements OnInit {
   // Input pour le titre du formulaire
   @Input('title-form') titleForm: string = '';
 
+  public form: FormGroup = this.fb.group({
+    user_name: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(8)]],
+  });
 
   constructor(private authService: AuthService,
-    private router: Router) { }
+    private router: Router, private fb: FormBuilder) { }
 
   ngOnInit(): void { }
 
   // Méthode pour gérer le submit du formulaire
-  onFormSubmit(formValue: { user_name: string, email: string, password: string }): void {
-    const registerRequest: RegisterRequest = {
-      user_name: formValue.user_name,
-      email: formValue.email,
-      password: formValue.password
-    };
-    // Appel au service d'authentification pour l'inscription
-    this.authService.register(registerRequest).subscribe(
-      (response: AuthSuccess) => {
-        localStorage.setItem('token', response.token);
-        setTimeout(() => { // petite temporisation pour être certain du stockage
-          this.router.navigate(['/articles']);
-        }, 100);
-      },
-      (error) => {
-        console.error("Erreur inscription :", error);
-        this.onError = true;
-      }
-    );
+  onFormSubmit(form: FormGroup): void {
+    if (form.valid) {
+      const registerRequest: RegisterRequest = form.value;
+
+      // Ici, on utilise bien 'register' pour l'inscription
+      this.authService.register(registerRequest).subscribe(
+        (response: AuthSuccess) => {
+          localStorage.setItem('token', response.token);
+          console.log('token', response.token || "pas de token");
+          setTimeout(() => {
+            this.router.navigate(['/articles']);
+          }, 100);
+
+        },
+        error => {
+          console.error("Erreur lors de l'inscription :", error);
+          this.onError = true;
+        }
+      );
+    } else {
+      console.warn("Formulaire invalide :", form.errors);
+      form.markAllAsTouched();
+    }
   }
 }

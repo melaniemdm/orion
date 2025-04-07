@@ -12,13 +12,9 @@ export class FormSubscribeComponent implements OnInit {
   @Input() action: string = '';
   @Input() showBackArrow: boolean = true;
 
-  @Output() formSubmitted = new EventEmitter<{
-    user_name: string;
-    email: string;
-    password: string;
-  }>();
+  @Output() formSubmitted = new EventEmitter<FormGroup>();
 
-  public userForm!: FormGroup;
+  userForm!: FormGroup;
 
   constructor(private fb: FormBuilder, 
     private authService: AuthService
@@ -34,14 +30,13 @@ export class FormSubscribeComponent implements OnInit {
 
   onSubmit(): void {
     if (this.userForm.invalid) {
-      this.userForm.markAllAsTouched(); // Active les erreurs visuelles dans le template
-      console.warn('Formulaire invalide :', this.userForm.errors);
+      console.warn('Formulaire invalide :', this.userForm.value);
+      this.userForm.markAllAsTouched();
       return;
     }
 
-    const payload = this.userForm.value;
-    console.log('Formulaire valide, payload envoyé :', payload);
-    this.formSubmitted.emit(payload);
+   
+    this.formSubmitted.emit(this.userForm);
   }
 }
 
