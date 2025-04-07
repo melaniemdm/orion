@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <app-header></app-header>
-
+<div id="commentPage">
 <div class="comment-header">
     <span class="material-icons arrow_back" [routerLink]="'/articles'">arrow_back</span>
     <div class="article-title">{{ articleSelected?.title }}</div>
@@ -14,17 +14,21 @@
 
 <div class="article-content">{{ articleSelected?.description }}</div>
 
-<h3>Commentaires</h3>
 
-<ul *ngIf="comments.length > 0">
-    <li *ngFor="let comment of comments">
-        <strong>{{ getUserName(comment.auteur_id) }}</strong> : {{ comment.commentary }}
-    </li>
-</ul>
+<h3>Commentaires</h3>
+<div id="containerComment">
+    <div *ngIf="comments.length > 0">
+        <div class="comment-item" *ngFor="let comment of comments">
+            <div class="username">{{ getUserName(comment.auteur_id) }}</div>
+            
+            <div class="comment-text">{{ comment.commentary }}</div>
+        </div>
+    </div>
+</div>
 
 <div class="comment-form">
     <input [(ngModel)]="newComment" placeholder="Écrire un commentaire..." />
     <span class="material-icons send" (click)="sendComment()">send</span>
 </div>
 
-<p *ngIf="message" [ngClass]="{ success: isSuccess, error: !isSuccess }">{{ message }}</p>
+<p *ngIf="message" [ngClass]="{ success: isSuccess, error: !isSuccess }">{{ message }}</p></div>
