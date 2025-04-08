@@ -5,7 +5,7 @@
     <span class="material-icons arrow_back" [routerLink]="'/articles'">arrow_back</span>
     <div class="article-title">{{ articleSelected?.title }}</div>
 </div>
-
+<div class="wrapper">
 <div class="article-info">
     <div>{{ articleSelected?.created_date | date: 'dd/MM/yyyy' }}</div>
     <div>{{ getArticleAuthorName() }}</div>
@@ -15,7 +15,7 @@
 <div class="article-content">{{ articleSelected?.description }}</div>
 
 
-<h3>Commentaires</h3>
+<h3>Commentaires</h3></div>
 <div id="containerComment">
     <div *ngIf="comments.length > 0">
         <div class="comment-item" *ngFor="let comment of comments">
