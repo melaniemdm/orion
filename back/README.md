@@ -44,12 +44,12 @@ Install the project dependencies:
 ```
 2. Créez une base de données pour l'application :
 ```sql
-CREATE DATABASE test;
+CREATE DATABASE oriondb;
 ```
 3. Importez le script SQL de structure et de données initiales depuis le fichier `script.sql` dans le dossier
    `ressources/sql` :
 ```bash
-  mysql -u root -p test < ressources/sql/script.sql
+  mysql -u root -p oriondb < resources/sql/script.sql
 ```
    
 4. Assurez-vous que le serveur MySQL est en cours d'exécution.
