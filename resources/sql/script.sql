@@ -43,4 +43,4 @@ ALTER TABLE `COMMENTAIRES` ADD FOREIGN KEY (`auteur_id`) REFERENCES `USERS` (`id
 ALTER TABLE `COMMENTAIRES` ADD FOREIGN KEY (`article_id`) REFERENCES `ARTICLES` (`id`);
 
 INSERT INTO USERS (user_name, admin, email, password)
-VALUES ('Admin', true, 'mdd@orion.com', '123456');
+VALUES ('Admin', true, 'mdd@orion.com', 'Admin!12');
