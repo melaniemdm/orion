@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -15,7 +15,7 @@ export class FormloginComponent implements OnInit {
 
   subscriptionForm!: FormGroup;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.subscriptionForm = this.fb.group({
@@ -31,7 +31,7 @@ export class FormloginComponent implements OnInit {
       return;
     }
 
-   
+
     this.formSubmitted.emit(this.subscriptionForm);
   }
 }

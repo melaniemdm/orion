@@ -34,7 +34,6 @@ export class SubscriptionComponent implements OnInit {
     if (form.valid) {
       const registerRequest: RegisterRequest = form.value;
 
-      // Ici, on utilise bien 'register' pour l'inscription
       this.authService.register(registerRequest).subscribe(
         (response: AuthSuccess) => {
           localStorage.setItem('token', response.token);

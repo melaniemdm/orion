@@ -27,19 +27,24 @@ export class ThemeComponent implements OnInit {
   }
 
   toggleSubscription(): void {
+    // Récupère l'id du thème
     const themeId = this.theme.id;
-
+    // Si l'user n'est pas encore abonné au thème
     if (!this.subscribed) {
       this.subscriptionService.subscribeToTheme(themeId).subscribe({
         next: () => {
           this.subscribed = true;
+          // recharge la liste des abonnements
           this.loadSubscriptions();
         },
         error: err => console.error('Erreur abonnement :', err)
       });
     } else {
+      // Si l'utilisateur est déjà abonné et que le désabonnement est autorisé
       if (this.allowUnsubscribe) {
+        // Cherche l'abonnement correspondant au thème
         const subscription = this.subscriptions.find(sub => sub.theme_id === themeId);
+        //Si aucun abonnement trouvé on ne fait rien
         if (!subscription) return;
 
         this.subscriptionService.unsubscribeFromTheme(subscription.id).subscribe({

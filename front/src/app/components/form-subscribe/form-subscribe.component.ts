@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -16,9 +16,9 @@ export class FormSubscribeComponent implements OnInit {
 
   userForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, 
+  constructor(private fb: FormBuilder,
     private authService: AuthService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.userForm = this.fb.group({
@@ -35,7 +35,7 @@ export class FormSubscribeComponent implements OnInit {
       return;
     }
 
-   
+
     this.formSubmitted.emit(this.userForm);
   }
 }

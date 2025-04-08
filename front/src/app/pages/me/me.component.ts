@@ -25,7 +25,7 @@ export class MeComponent implements OnInit {
     private userService: UserService,
     private themeService: ThemeService,
     private subscriptionService: SubscriptionService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     // Initialisation du formulaire
@@ -43,7 +43,7 @@ export class MeComponent implements OnInit {
           username: user.user_name,
           email: user.email
         });
-               
+
         this.loadSubscribedThemes();
       },
       error: (err) => {
@@ -75,9 +75,9 @@ export class MeComponent implements OnInit {
     if (this.articleForm.valid && this.userId) {
       const { username, email, password } = this.articleForm.value;
       // Préparation des données
-      const updatedData: Partial<User> = { 
-        user_name: username, 
-        email 
+      const updatedData: Partial<User> = {
+        user_name: username,
+        email
       };
       // Inclut le mot de passe que s’il est renseigné
       if (password && password.trim()) {
@@ -86,7 +86,7 @@ export class MeComponent implements OnInit {
       // Appel de la méthode updateUser() du service
       this.userService.updateUser(this.userId, updatedData).subscribe({
         next: (updatedUser) => {
-         
+
           // Réinitialiser le champ password
           this.articleForm.get('password')?.reset();
         },
