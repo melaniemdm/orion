@@ -1,5 +1,5 @@
 .container_connexion {
- height: 100vh;
+  height: 60%;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -20,11 +20,9 @@
   //background-color: yellow;
 }
 
-
-
-@media (min-width: 768px) {
-  #button-container {
-    flex-direction: row;
-    gap: 2rem;
-  }
-  }
+  @media (max-width: 768px) {
+   
+    img{
+      width: 225px;
+    }
+    }
