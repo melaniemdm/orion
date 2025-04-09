@@ -20,7 +20,7 @@ export class FormloginComponent implements OnInit {
   ngOnInit(): void {
     this.subscriptionForm = this.fb.group({
       email: ['', Validators.required], // peut contenir un email ou un username
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', [Validators.required]],
     });
   }
 

@@ -63,12 +63,6 @@ public class AuthentificationController {
         UserDTO createdDTO = userService.saveUser(userDTO);
         // Generate a JWT token for the user
         String token = JwtService.generateToken(createdDTO.getId(), createdDTO.getEmail());
-        System.out.println("token" + token);
-
-        // Prepare the response body with the generated token and user information
-        Map<String, Object> response = new HashMap<>();
-        response.put("token", token);
-        response.put("user", createdDTO);
 
         // Return the token in the response body as a JSON object
         return ResponseEntity.ok().body("{ \"token\": \"" + token + "\" }");
@@ -113,11 +107,6 @@ public class AuthentificationController {
         // Generate a JWT token for the user upon successful login
         String token = JwtService.generateToken(userDTO.getId(), userDTO.getEmail());
         logger.info(" Connexion réussie pour l'utilisateur: {}", loginRequest.getEmail());
-
-        // Prepare the response body with the generated token and user information
-        Map<String, Object> response = new HashMap<>();
-        response.put("token", token);
-        response.put("user", userDTO);
 
         // Return the token in the response body as a JSON object
         return ResponseEntity.ok("{ \"token\": \"" + token + "\" }");
