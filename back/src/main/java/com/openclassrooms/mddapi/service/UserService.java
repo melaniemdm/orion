@@ -145,7 +145,7 @@ public class UserService {
         Optional<User> user = userRepository.findByEmail(emailOrUsername);
 
         if (user.isEmpty()) {
-            user = userRepository.findByUsername(emailOrUsername); // <-- corrigé ici
+            user = userRepository.findByUsername(emailOrUsername);
         }
 
         if (user.isPresent()) {

@@ -22,10 +22,10 @@ export class HeaderComponent implements OnInit {
     this.isMenuOpen = !this.isMenuOpen;
   }
   public onLogout(): void {
-    // 1. Retirer le token du localStorage
+    // Retirer le token du localStorage
     localStorage.removeItem('token');
 
-    // 2. Rediriger l’utilisateur vers la page home (ou login, etc.)
+    // Rediriger l’utilisateur vers la page home (ou login, etc.)
     this.router.navigate(['/']);
   }
 }
